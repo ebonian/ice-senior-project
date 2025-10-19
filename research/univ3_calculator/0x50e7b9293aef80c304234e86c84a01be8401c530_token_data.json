@@ -1,0 +1,24 @@
+{
+  "token0": {
+    "decimals": "18",
+    "id": "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8",
+    "name": "Pendle",
+    "symbol": "PENDLE",
+    "totalValueLockedUSD": "14212174.1906861964417131420549924",
+    "volumeUSD": "4115548306.383905985065058927093049",
+    "priceUSD": "4.481300765824082699022083296295975"
+  },
+  "token1": {
+    "decimals": "6",
+    "id": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+    "name": "Tether USD",
+    "symbol": "USDT",
+    "totalValueLockedUSD": "26971675.86580776250396911878146459",
+    "volumeUSD": "54229228119.30887492718858840242493",
+    "priceUSD": "0.9980562359554823637602454090827078"
+  },
+  "pool": {
+    "id": "0x50e7b9293aef80c304234e86c84a01be8401c530",
+    "feeTier": "3000"
+  }
+}

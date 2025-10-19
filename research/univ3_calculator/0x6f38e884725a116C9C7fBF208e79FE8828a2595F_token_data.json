@@ -1,0 +1,24 @@
+{
+  "token0": {
+    "decimals": "18",
+    "id": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+    "name": "Wrapped Ethereum",
+    "symbol": "WETH",
+    "totalValueLockedUSD": "221987624.958637334377230346351755",
+    "volumeUSD": "278485700682.115282345727918653708",
+    "priceUSD": "3585.907410241279818245044577376271"
+  },
+  "token1": {
+    "decimals": "6",
+    "id": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "totalValueLockedUSD": "91182905.43700105293159542403795224",
+    "volumeUSD": "104104938386.6246971702234523599271",
+    "priceUSD": "0.9976162519674225418877454899462801"
+  },
+  "pool": {
+    "id": "0x6f38e884725a116c9c7fbf208e79fe8828a2595f",
+    "feeTier": "100"
+  }
+}

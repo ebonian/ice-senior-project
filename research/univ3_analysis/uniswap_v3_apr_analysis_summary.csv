@@ -1,0 +1,2 @@
+analysis_date,capital_usd,fee_tier,data_period_days,follow_best_range,follow_best_net_apr,follow_best_rebalances_per_month,fixed_best_range,fixed_best_net_apr,fixed_best_rebalances_per_month,recommended_strategy,recommended_range,recommended_net_apr,recommended_daily_fees
+2025-07-04 16:41:02,8000,0.0005,365.0416666666667,±12.2%,3.668090738754289,0.9040063919643876,±14.5%,0.1899038840654896,0.8218239926948978,follow,±12.2%,3.668090738754289,1.045033464616101

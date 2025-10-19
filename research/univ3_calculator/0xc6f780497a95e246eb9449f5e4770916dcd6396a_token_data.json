@@ -1,0 +1,24 @@
+{
+  "token0": {
+    "decimals": "18",
+    "id": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+    "name": "Wrapped Ethereum",
+    "symbol": "WETH",
+    "totalValueLockedUSD": "221946020.9486952751988854839786061",
+    "volumeUSD": "278485802721.4122253923851007297147",
+    "priceUSD": "3585.907410241279818245044577376271"
+  },
+  "token1": {
+    "decimals": "18",
+    "id": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+    "name": "Arbitrum",
+    "symbol": "ARB",
+    "totalValueLockedUSD": "13995535.19122941971271948023603393",
+    "volumeUSD": "31283919491.62557079236063884061789",
+    "priceUSD": "0.4697384648513804092031763169360062"
+  },
+  "pool": {
+    "id": "0xc6f780497a95e246eb9449f5e4770916dcd6396a",
+    "feeTier": "500"
+  }
+}
