@@ -1,0 +1,24 @@
+{
+  "token0": {
+    "decimals": "18",
+    "id": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+    "name": "Arbitrum",
+    "symbol": "ARB",
+    "totalValueLockedUSD": "13985595.51446699145370725241591626",
+    "volumeUSD": "31283939809.09974727582369187996525",
+    "priceUSD": "0.4701089580750069173836999754267416"
+  },
+  "token1": {
+    "decimals": "6",
+    "id": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "totalValueLockedUSD": "30848133.44003985738625180099220491",
+    "volumeUSD": "69380737082.55938009157482313226869",
+    "priceUSD": "0.9974779644661554261735671296188717"
+  },
+  "pool": {
+    "id": "0xcda53b1f66614552f834ceef361a8d12a0b8dad8",
+    "feeTier": "500"
+  }
+}
