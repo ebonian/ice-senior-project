@@ -1,5 +1,5 @@
 {
-  description = "ICE Senior Project";
+  description = "Python environment for Jupyter notebooks";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,73 +14,31 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
-
-        # Python with required packages
-        pythonEnv = pkgs.python3.withPackages (ps:
-          with ps; [
-            # Data analysis
-            pandas
-            numpy
-
-            # Visualization
-            matplotlib
-
-            # HTTP requests
-            requests
-
-            # Jupyter
-            jupyter
-            notebook
-            ipython
-            ipykernel
-
-            # Additional useful packages
-            jupyter-client
-            jupyter-core
-            nbconvert
-            nbformat
-          ]);
+        python = pkgs.python311;
+        pythonPackages = python.pkgs;
       in {
-        # Development shell
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            pythonEnv
+            python
+            pythonPackages.pandas
+            pythonPackages.numpy
+            pythonPackages.matplotlib
+            pythonPackages.jupyter
+            pythonPackages.ipython
+            pythonPackages.notebook
           ];
 
           shellHook = ''
-            echo "🚀 ICE Senior Project development environment"
-            echo ""
-            echo "Available commands:"
-            echo "  jupyter notebook     - Start Jupyter Notebook server"
-            echo "  jupyter lab          - Start JupyterLab server"
-            echo "  python               - Python interpreter"
-            echo ""
-            echo "Python version: $(python --version)"
-            echo "Jupyter version: $(jupyter --version | head -n 1)"
-            echo ""
+            # Create a stable Python symlink for VSCode
+            mkdir -p .direnv/python-default/bin
+            ln -sf ${python}/bin/python .direnv/python-default/bin/python
+            ln -sf ${python}/bin/python3 .direnv/python-default/bin/python3
+
+            echo "Python environment ready!"
+            echo "Run 'jupyter notebook' to start the Jupyter server"
+            echo "Or 'jupyter lab' for JupyterLab"
           '';
         };
-
-        # Apps for easy access
-        apps = {
-          notebook = {
-            type = "app";
-            program = "${pythonEnv}/bin/jupyter-notebook";
-          };
-
-          lab = {
-            type = "app";
-            program = "${pythonEnv}/bin/jupyter-lab";
-          };
-
-          python = {
-            type = "app";
-            program = "${pythonEnv}/bin/python";
-          };
-        };
-
-        # Default app
-        apps.default = self.apps.${system}.notebook;
       }
     );
 }

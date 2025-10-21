@@ -1,0 +1,5 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.direnv/python-default/bin/python",
+    "jupyter.kernels.filter": [],
+    "jupyter.notebookFileRoot": "${workspaceFolder}"
+}
