@@ -45,7 +45,7 @@ All non-HOLD actions center the LP range at the current price. No directional of
 
 ---
 
-## Unified State Space (All Models — 36 dimensions)
+## Unified State Space (All Models — 38 dimensions)
 
 **Technical indicators (31 features):**
 
@@ -83,15 +83,17 @@ All non-HOLD actions center the LP range at the current price. No directional of
 | 30 | trend_strength_24h | |return_24h| |
 | 31 | trend_strength_7d | |return_7d| |
 
-**Position features (5 features):**
+**Position features (7 features):**
 
 | # | Feature | Description |
 |---|---|---|
-| 32 | cash_ratio | cash / initial_capital |
-| 33 | width_normalized | position_width / max_width |
+| 32 | cash_ratio | cash / initial_capital (1.0 if no position, 0.0 if deployed) |
+| 33 | width_normalized | position_width / max_width(40) |
 | 34 | in_range | 1.0 if price in LP range, else 0.0 |
 | 35 | position_value_ratio | position_value / initial_capital |
 | 36 | price_momentum | (price - prev_price) / prev_price |
+| 37 | dist_to_boundary | normalized distance to nearest LP range edge (0-1) |
+| 38 | hours_since_rebalance | min(hours_since_entry / 24, 1.0), saturates at 1.0 |
 
 ---
 
@@ -100,7 +102,7 @@ All non-HOLD actions center the LP range at the current price. No directional of
 ### Network Architecture
 
 ```
-Input (36) → Linear(64) → ReLU → Linear(64) → ReLU
+Input (38) → Linear(128) → ReLU → Linear(128) → ReLU
                                        ↓
                               ┌────────┴────────┐
                               ↓                  ↓
@@ -132,13 +134,13 @@ Input (36) → Linear(64) → ReLU → Linear(64) → ReLU
 
 ### Input
 
-Same 36 features as DQN, but processed as a **sequence of 24 hourly states**.
-Input shape: `(24, 36)` — 24 hours of history, 36 features each.
+Same 38 features as DQN, but processed as a **sequence of 24 hourly states**.
+Input shape: `(24, 38)` — 24 hours of history, 38 features each.
 
 ### Network Architecture
 
 ```
-Input (24, 36) → LSTM(hidden=64, layers=1) → last hidden state (64)
+Input (24, 38) → LSTM(hidden=64, layers=1) → last hidden state (64)
                                                       ↓
                                               Linear(64) → ReLU
                                                       ↓
@@ -170,7 +172,7 @@ Input (24, 36) → LSTM(hidden=64, layers=1) → last hidden state (64)
 ### Network Architecture
 
 ```
-Input (36) → Linear(64) → ReLU → Linear(64) → ReLU
+Input (38) → Linear(128) → ReLU → Linear(128) → ReLU
                                        ↓
                               ┌────────┴────────┐
                               ↓                  ↓
@@ -201,7 +203,7 @@ Input (36) → Linear(64) → ReLU → Linear(64) → ReLU
 
 | Aspect | DQN | LSTM DQN | PPO |
 |---|---|---|---|
-| **State dim** | 36 | 36 × 24 = 864 | 36 |
+| **State dim** | 38 | 38 × 24 = 912 | 38 |
 | **Action dim** | 7 | 7 | 7 |
 | **Temporal** | No (single state) | Yes (24h sequence) | No (single state) |
 | **Algorithm** | Off-policy (replay buffer) | Off-policy (sequence replay) | On-policy |
