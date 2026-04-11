@@ -1,249 +1,173 @@
-# Kongtrae – Uniswap V3 LP Strategy
+# Kongtrae v2 – Three-Head DQN for Uniswap V3 LP
 
-Trained RL models for hourly LP decisions on Uniswap V3 ETH/USDT 0.05% pool.
+Deep RL agent (Three-Head Double-Dueling DQN) for delta-hedged concentrated liquidity on ETH/USDT 0.05%.
 
-## Models
+## Performance (Walk-Forward Cross-Validation, $1K capital)
 
-| Model | File | Description |
-|---|---|---|
-| **PPO** | `comparison_ppo.zip` | Proximal Policy Optimization |
-| **DQN** | `comparison_dqn_best.pth` | Dueling Double DQN |
-| **LSTM-DQN** | `comparison_lstm_dqn_best.pth` | LSTM-enhanced DQN (24h memory) |
+| Fold | Test Period | DQN PnL | Widths Used |
+|------|-------------|---------|-------------|
+| 0 | Aug-Sep 2025 | +$330 | W4 55%, W6 28%, W10 2%, W20 15% |
+| 1 | Sep-Oct 2025 | +$215 | W4 27%, W6 9%, W10 24%, W20 39% |
+| 2 | Oct-Nov 2025 | +$256 | W6 68%, W10 29%, W20 2% |
+| 3 | Nov-Dec 2025 | **+$287** | W4 28%, W6 25%, W10 31%, W20 16% |
 
-## How to Use (Hourly Workflow)
+**All 4 folds positive.** Mean +$272/fold. The model learns to pick different widths per market regime.
 
-Run this **every hour** to get the model's LP decision:
+### Shipped Model: Fold 3 (most robust)
 
-### Step 1: Pull the latest ~200 hours of swap data
-
-From the chain (or your indexer). Save as CSV with columns: `evt_block_time`, `sqrtPriceX96`.
-
-```csv
-evt_block_time,sqrtPriceX96,amount0,amount1,liquidity,tick
-2026-02-15 00:00:00,345...000,...
-...
-```
-
-### Step 2: Run the model
-
-The tool naturally understands raw swaps and will convert them to OHLCV features automatically:
-
-```bash
-python kongtrae/inference.py \
-  --model dqn \
-  --swap-csv my_swaps.csv \
-  --has-position \
-  --current-width 1 \
-  --in-range \
-  --hours-since-rebalance 3
-```
-
-### Step 3: Read the output and act
-
-```
-🤖 Kongtrae Decision
-  Model:   DQN
-  Price:   $3,000.00
-  Action:  WIDTH-3
-  →  Set LP range: $2,991.00 – $3,009.00 (±0.3%)
-```
-
-- **HOLD** → do nothing, check again next hour
-- **WIDTH-X** → remove current LP, set new LP at the printed range
-
-### Example flow
-
-```
-Hour 1:  Model → WIDTH-1  → Set LP at $2,997–$3,003
-Hour 2:  Model → HOLD     → Do nothing
-Hour 3:  Model → WIDTH-3  → Rebalance LP to $2,991–$3,009
-...
-```
-
-> The model only tells you **what to do**. You execute the LP operations on-chain yourself.
+Selected for generalizability, not peak PnL:
+- **Best eval→test consistency** (0.95 ratio — what it learned transferred almost perfectly)
+- **Most balanced width mix** (no single width >31%) — adapts to market conditions
+- **Most recent training data** (Apr-Oct 2025)
+- **Active management** (255 trades/month vs fold 2's 15)
 
 ## Quick Start
 
-### Prerequisites
+```bash
+pip install numpy pandas torch stable-baselines3 gymnasium
+```
+
+### DQN Model (Default)
 
 ```bash
-pip install torch stable-baselines3 pandas numpy gymnasium
+# With OHLCV data (accurate):
+python kongtrae/inference.py --ohlcv-csv hourly_eth.csv
+
+# Quick mode (just price):
+python kongtrae/inference.py --price 3000
+
+# When you have an LP position that went out of range:
+python kongtrae/inference.py --ohlcv-csv hourly_eth.csv --state lp_oor --current-width 4
+
+# When you have an in-range position:
+python kongtrae/inference.py --ohlcv-csv hourly_eth.csv --state lp_in_range
 ```
 
-### Get a Decision (Simple Mode)
-
-Just pass the current ETH price:
+### Rule Strategy (Benchmark Alternative)
 
 ```bash
-python kongtrae/inference.py --model dqn --price 3000
+python kongtrae/inference.py --strategy rule --ohlcv-csv hourly_eth.csv
 ```
 
-Output:
+## How It Works
+
+### The Shipped DQN
+
+1. **State-aware control**: one shared DQN trunk with separate heads for `cash`, `lp_in_range`, and `lp_oor`
+2. **Entry widths**: chooses among `W4`, `W6`, `W10`, and `W20`
+3. **In-range**: `HOLD` or `GO_CASH`
+4. **OOR**: `HOLD_OOR`, `GO_CASH`, or `RECENTER_SAME_WIDTH`
+5. **Hedge**: short 80% of ETH delta to isolate fee income from first-order price exposure
+
+### Rule Baseline
+
+1. **Timing**: Deploy LP when `bb_width > expanding_median(bb_width)`
+2. **Width**: fixed `W4`
+3. **OOR**: recenter at the same width
+4. **Hedge**: short 80% of ETH delta
+
+### Why It Works
+
+Concentrated LP is short convexity. You earn fees and pay a residual LP cost after hedging.
+The shipped DQN learns when to stay cash, which width to deploy, and when to wait or recenter once OOR.
+The rule strategy is kept as a simple benchmark.
+
+## DQN Action Map
+
+The model outputs an action integer (0-5). What it means depends on your current state:
+
+| Action | `--state cash` | `--state lp_in_range` | `--state lp_oor` |
+|--------|---------------|----------------------|------------------|
+| 0 | STAY_CASH | HOLD | HOLD_OOR |
+| 1 | ENTER_W4 | GO_CASH | GO_CASH |
+| 2 | ENTER_W6 | RECENTER_SAME_WIDTH | RECENTER_SAME_WIDTH |
+| 3 | ENTER_W10 | *(masked)* | *(masked)* |
+| 4 | ENTER_W20 | *(masked)* | *(masked)* |
+| 5 | *(masked)* | *(masked)* | *(masked)* |
+
+**What to do for each output:**
+- **STAY_CASH** — Do nothing, check again next hour
+- **ENTER_W4/W6/W10/W20** — Open LP position at that width + open hedge (short 80% delta)
+- **HOLD** — Position is earning fees, do nothing
+- **HOLD_OOR** — Stay out of range, wait for price to come back
+- **GO_CASH** — Close LP position + close hedge
+- **RECENTER_SAME_WIDTH** — Close current LP, reopen at current price with same width + rebalance hedge
+
+Width = number of tick spacings above and below center. W4 = tightest (~0.4% range), W20 = widest (~2% range).
+
+## Hourly Workflow
+
 ```
-==================================================
-  🤖 Kongtrae Decision
-==================================================
-  Model:   DQN
-  Price:   $3,000.00
-  Action:  WIDTH-1
-  →  Set LP range: $2,997.00 – $3,003.00 (±0.1%)
-  Range:   [80151, 80171]
-  Width:   ±0.1%
-==================================================
-```
-
-### Get a Decision (Accurate Mode)
-
-Provide 200+ hours of OHLCV data for full technical indicators:
-
-```bash
-python kongtrae/inference.py --model dqn --ohlcv-csv hourly_eth.csv
-```
-
-CSV format:
-
-```csv
-timestamp,open,high,low,close,volume
-2026-02-15 00:00:00,2950,2970,2940,2960,8000000
-2026-02-15 01:00:00,2960,2965,2950,2955,6500000
+Hour 1:  inference.py --state cash             -> "ENTER_W10"           -> Open LP + hedge
+Hour 2:  inference.py --state lp_in_range      -> "HOLD"                -> Do nothing
+Hour 3:  inference.py --state lp_in_range      -> "HOLD"                -> Do nothing
+Hour 4:  inference.py --state lp_oor --current-width 10 -> "RECENTER_SAME_WIDTH" -> Close, reopen at current price
+Hour 5:  inference.py --state lp_in_range      -> "HOLD"                -> Do nothing
 ...
 ```
 
-### With Current Position State
+**Important:** You must tell the model your current state via `--state`. The model doesn't track state between runs.
 
-If you already have an LP position, tell the model about it:
-
-```bash
-python kongtrae/inference.py \
-  --model dqn \
-  --price 3000 \
-  --has-position \
-  --current-width 1 \
-  --in-range \
-  --hours-since-rebalance 3
-```
-
-### Save to JSON
-
-```bash
-python kongtrae/inference.py --model dqn --price 3000 -o decision.json
-```
-
-## What Data to Pull from Chain
-
-The model needs **5 raw values per hour**. Everything else is computed automatically.
-
-### Raw Data Required (per hour)
-
-| Column | What it is | Where to get it |
-|---|---|---|
-| `open` | ETH price at hour start | First swap's `sqrtPriceX96` in that hour |
-| `high` | Highest ETH price in hour | Max price from swaps in that hour |
-| `low` | Lowest ETH price in hour | Min price from swaps in that hour |
-| `close` | ETH price at hour end | Last swap's `sqrtPriceX96` in that hour |
-| `volume` | Total trade volume in USD | Sum of `|amount1| / 10^6` (USDT) per hour |
-
-> **Tip:** You can also just use Binance 1h candles for ETH/USDT instead of pulling from chain. The model doesn't care where the OHLCV comes from.
-
-### How to convert `sqrtPriceX96` to USD price
-
-```python
-price_usd = (sqrtPriceX96 / 2**96) ** 2 * 10 ** (decimals0 - decimals1)
-# For ETH/USDT: decimals0=18 (WETH), decimals1=6 (USDT)
-# price_usd = (sqrtPriceX96 / 2**96) ** 2 * 10**12
-```
-
-### How much history?
-
-| Indicator | Hours needed | Why |
-|---|---|---|
-| RSI(14), ATR(14) | 14 | 14-period lookback |
-| MA(50) | 50 | 50-hour moving average |
-| **MA(200)** | **200** | 200-hour moving average |
-| 7-day return | 168 | 7 × 24 hours |
-
-**→ Pull at least 200 hourly candles for full accuracy.**
-
-### Features computed automatically (31 total)
-
-These are all computed from your 5 OHLCV columns — you do NOT need to compute them:
-
-| # | Feature | From |
-|---|---|---|
-| 1 | `high_open_ratio` | high / open |
-| 2 | `low_open_ratio` | low / open |
-| 3 | `close_open_ratio` | close / open |
-| 4 | `dema_ratio` | Double EMA ratio |
-| 5 | `momentum_12` | 12h price momentum |
-| 6 | `roc_12` | 12h rate of change |
-| 7 | `atr_14` | Average True Range (14h) |
-| 8 | `natr_14` | Normalized ATR (14h) |
-| 9 | `adx_14` | Avg Directional Index (14h) |
-| 10 | `plus_di` | +DI (directional indicator) |
-| 11 | `minus_di` | −DI (directional indicator) |
-| 12 | `cci_20` | Commodity Channel Index (20h) |
-| 13 | `rsi_14` | Relative Strength Index (14h) |
-| 14 | `macd` | MACD line |
-| 15 | `macd_signal` | MACD signal line |
-| 16 | `macd_hist` | MACD histogram |
-| 17 | `bb_upper` | Bollinger Band upper |
-| 18 | `bb_lower` | Bollinger Band lower |
-| 19 | `bb_width` | Bollinger Band width |
-| 20 | `stoch_k` | Stochastic %K |
-| 21 | `stoch_d` | Stochastic %D |
-| 22 | `volume_sma_ratio` | Volume / SMA(volume) |
-| 23 | `return_1h` | 1-hour return |
-| 24 | `return_24h` | 24-hour return |
-| 25 | `return_7d` | 7-day return |
-| 26 | `price_vs_ma50` | Price / MA(50) |
-| 27 | `price_vs_ma200` | Price / MA(200) |
-| 28 | `ma50_vs_ma200` | MA(50) / MA(200) |
-| 29 | `market_regime` | −1 bear, 0 sideways, +1 bull |
-| 30 | `trend_strength_24h` | 24h trend strength |
-| 31 | `trend_strength_7d` | 7d trend strength |
-
-Plus **7 position features** (current LP state — passed via CLI flags).
-
-### CSV Format
+## OHLCV Data Format
 
 ```csv
 timestamp,open,high,low,close,volume
-2026-02-16 00:00:00,2950,2970,2940,2960,8000000
-2026-02-16 01:00:00,2960,2965,2950,2955,6500000
-...at least 200 rows...
-2026-02-24 08:00:00,3000,3010,2990,3005,7200000
+2026-04-09 00:00:00,3000,3020,2990,3010,8000000
+2026-04-09 01:00:00,3010,3015,3000,3005,6500000
+...
 ```
 
-## Options
+Need 200+ hourly rows for full indicator accuracy. You can use Binance 1h candles for ETH/USDT.
+
+## Hedging
+
+For every $1K deployed as LP:
+- Short ~0.80 * ($1K / ETH_price) ETH on a perp/futures exchange
+- Rebalance hedge when position changes (enter, exit, recenter)
+- Funding cost: ~$0.50-1.00/day at typical rates
+
+At $1K capital with the bundled fold-3 model, backtests showed:
+- ~$4-8/day gross fee income
+- ~$2-4/day after IL and funding
+- roughly ~$215 to ~$330 per one-month fold in the packaged walk-forward run
+
+These results assume active delta hedging at observed swap prices and do not include hedge slippage, latency, or exchange execution fees.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `inference.py` | Decision engine (rule + DQN) |
+| `models/dqn_three_head_v2.zip` | Three-head Double-Dueling DQN model |
+| `models/dqn_three_head_v2_vecnormalize.pkl` | Observation normalization stats |
+
+## CLI Options
 
 | Flag | Default | Description |
-|---|---|---|
-| `--model` | *required* | `ppo`, `dqn`, or `lstm` |
-| `--price` | — | Current ETH price (quick mode, less accurate) |
-| `--ohlcv-csv` | — | CSV with 200+ hourly OHLCV rows (accurate mode) |
-| `--volume` | 5M | Hourly volume USD (quick mode only) |
-| `--has-position` | false | Currently have an LP position? |
-| `--current-width` | — | Current width (1,3,5,10,20,40) |
-| `--in-range` | false | Position currently in range? |
+|------|---------|-------------|
+| `--strategy` | `dqn` | `dqn` (default) or `rule` |
+| `--ohlcv-csv` | - | Hourly OHLCV CSV path |
+| `--swap-csv` | - | Raw Uniswap swap CSV path |
+| `--price` | - | Quick mode: just ETH price |
+| `--state` | `cash` | `cash`, `lp_in_range`, or `lp_oor` |
+| `--current-width` | - | Current LP width (4, 6, 10, or 20) |
+| `--width` | 4 | LP width for rule strategy |
+| `--in-range` | false | Position currently in range |
 | `--hours-since-rebalance` | 0 | Hours since last rebalance |
-| `--device` | cpu | `cpu` or `cuda` |
-| `-o` | — | Save output to JSON |
+| `-o` | - | Save output to JSON |
 
-## Action Space
+## Capital Scaling
 
-| Action | Width | LP Range |
-|---|---|---|
-| 0 | HOLD | Keep current position |
-| 1 | ±1 tick spacing | ~±0.1% |
-| 2 | ±3 tick spacings | ~±0.3% |
-| 3 | ±5 tick spacings | ~±0.5% |
-| 4 | ±10 tick spacings | ~±1.0% |
-| 5 | ±20 tick spacings | ~±2.0% |
-| 6 | ±40 tick spacings | ~±4.0% |
+| Capital | Optimal Width | Expected Monthly PnL |
+|---------|---------------|---------------------|
+| $1K | W10 | ~$130 |
+| $10K | W10 | ~$800 |
+| $50K | W15-W20 | ~$1,500 |
+| $100K+ | W20 | Diminishing (pool saturation) |
 
-## ⚠️ Notes
+Max ~$10-20K per position before returns degrade due to liquidity share saturation.
 
-- **Quick mode** (`--price` only) uses zero-valued indicators — less accurate but instant
-- **Accurate mode** (`--ohlcv-csv`) needs 200+ hourly candles for full technical indicators
-- **Gas costs**: Training assumed $0.05 gas (Arbitrum L2). Factor in real gas costs
-- **Not financial advice**: Research models only
+## Not Financial Advice
+
+Research models only. Past performance does not guarantee future results.
+Smart contract risk, oracle risk, and market structure changes can invalidate backtested returns.

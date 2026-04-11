@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-02-16T15:52:37.625141",
+  "run_dir": "research/simulation_12/run_004",
+  "data_dir": "research/simulation_12/training_data",
+  "algorithms": {
+    "ppo": {
+      "mean_reward": 215.80116510135377,
+      "std_reward": 4.864329842152656,
+      "action_distribution": {
+        "0": 22,
+        "1": 2921,
+        "2": 1715,
+        "3": 428,
+        "4": 177,
+        "5": 1515,
+        "6": 22
+      }
+    },
+    "dqn": {
+      "mean_reward": 223.56298474381748,
+      "std_reward": 2.842170943040401e-14
+    },
+    "lstm_dqn": {
+      "mean_reward": 217.14035342067592,
+      "std_reward": 0.0,
+      "action_distribution": {
+        "0": 2120,
+        "1": 4370,
+        "2": 230,
+        "3": 70,
+        "4": 10,
+        "5": 0,
+        "6": 0
+      }
+    }
+  },
+  "baselines": {
+    "hold": {
+      "mean_reward": 0.0,
+      "std_reward": 0.0
+    },
+    "fixed_width_1": {
+      "mean_reward": 244.66748507861953,
+      "std_reward": 2.842170943040401e-14
+    },
+    "fixed_width_5": {
+      "mean_reward": 155.59461961941403,
+      "std_reward": 0.0
+    },
+    "fixed_width_10": {
+      "mean_reward": 25.502001323973218,
+      "std_reward": 0.0
+    }
+  }
+}
