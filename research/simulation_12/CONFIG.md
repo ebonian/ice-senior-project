@@ -10,7 +10,7 @@
 | Fee calculation | Exact per-swap | Iterates every swap, paper Eq 5-6 |
 | LVR calculation | Exact per-swap | Iterates every swap |
 | Data split | 80/10/10 | Train / Eval / Test |
-| Pool | ETH/USDT 0.05% fee tier | tick_spacing = 10 |
+| Pool | ETH/USDC 0.05% fee tier | tick_spacing = 10 |
 
 ### Reward Function
 | Component | Formula | Notes |

@@ -39,7 +39,7 @@ from uniswap_v3_dqn_paper import (
     sqrt_price_x96_to_price,
 )
 
-# ─── Pool Config (ETH/USDT 0.05%) ────────────────────────────────────────────
+# ─── Pool Config (ETH/USDC 0.05%) ────────────────────────────────────────────
 POOL_FEE = 500  # 1/1_000_000
 DEC0, DEC1 = 18, 6
 TICK_SPACING = 10
@@ -47,7 +47,7 @@ Q96 = 2**96
 
 
 def sqrt_price_x96_to_price_simple(sqrt_price_x96) -> float:
-    """Convert sqrtPriceX96 to USD price (ETH/USDT)."""
+    """Convert sqrtPriceX96 to USD price (ETH/USDC)."""
     p = float(sqrt_price_x96) / Q96
     return (p * p) * (10 ** (DEC0 - DEC1))
 

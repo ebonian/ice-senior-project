@@ -8,20 +8,20 @@ def check_fees():
     data_dir = 'training_data'
     
     # Load config and files
-    swaps_files = glob.glob(os.path.join(data_dir, 'swaps_*_eth_usdt_0p3.csv'))
+    swaps_files = glob.glob(os.path.join(data_dir, 'swaps_*_eth_usdc_0p05.csv'))
     if not swaps_files:
         print("No swap files found")
         return
 
     swaps = pd.read_csv(swaps_files[0], low_memory=False)
-    pool_cfg = pd.read_csv(os.path.join(data_dir, 'pool_config_eth_usdt_0p3.csv'))
-    tokens = pd.read_csv(os.path.join(data_dir, 'token_metadata_eth_usdt_0p3.csv'))
+    pool_cfg = pd.read_csv(os.path.join(data_dir, 'pool_config_eth_usdc_0p05.csv'))
+    tokens = pd.read_csv(os.path.join(data_dir, 'token_metadata_eth_usdc_0p05.csv'))
 
     tokens['contract_address'] = tokens['contract_address'].str.lower()
     t0 = pool_cfg.loc[0, 'token0'].lower()
     t1 = pool_cfg.loc[0, 'token1'].lower()
     d0 = int(tokens.set_index('contract_address').loc[t0, 'decimals']) # 18 (WETH)
-    d1 = int(tokens.set_index('contract_address').loc[t1, 'decimals']) # 6 (USDT)
+    d1 = int(tokens.set_index('contract_address').loc[t1, 'decimals']) # 6 (USDC)
 
     # Calculate Hourly Volume and Fees
     swaps['evt_block_time'] = pd.to_datetime(swaps['evt_block_time'], utc=True)

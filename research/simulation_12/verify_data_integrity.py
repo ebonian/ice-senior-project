@@ -6,7 +6,7 @@ Checks:
 1. CSV schema compatibility with simulation code
 2. No NaN/null in critical columns
 3. Date range coverage and continuity
-4. sqrtPriceX96 → price conversion produces valid ETH/USDT prices
+4. sqrtPriceX96 → price conversion produces valid ETH/USDC prices
 5. Pool config and token metadata correctness
 6. Statistics: row count, avg swaps/hour, price range
 
@@ -61,8 +61,8 @@ def check_data_integrity():
     print("\n🔍 1. Checking file existence...")
     
     required_files = {
-        "pool_config": "pool_config_eth_usdt_0p3.csv",
-        "token_metadata": "token_metadata_eth_usdt_0p3.csv",
+        "pool_config": "pool_config_eth_usdc_0p05.csv",
+        "token_metadata": "token_metadata_eth_usdc_0p05.csv",
     }
     
     for name, filename in required_files.items():
@@ -74,13 +74,13 @@ def check_data_integrity():
             errors.append(f"Missing required file: {filename}")
             print(f"   ❌ {filename} — MISSING")
     
-    swaps_files = glob.glob(os.path.join(DATA_DIR, "swaps_*_eth_usdt_0p3.csv"))
+    swaps_files = glob.glob(os.path.join(DATA_DIR, "swaps_*_eth_usdc_0p05.csv"))
     if swaps_files:
         for sf in swaps_files:
             size_mb = os.path.getsize(sf) / 1_000_000
             print(f"   ✅ {os.path.basename(sf)} ({size_mb:.1f} MB)")
     else:
-        errors.append("Missing swaps_*_eth_usdt_0p3.csv")
+        errors.append("Missing swaps_*_eth_usdc_0p05.csv")
         print("   ❌ swaps CSV — MISSING")
     
     if errors:
@@ -94,7 +94,7 @@ def check_data_integrity():
     # =========================================================================
     print("\n🔍 2. Verifying pool config...")
     
-    pool_cfg = pd.read_csv(os.path.join(DATA_DIR, "pool_config_eth_usdt_0p3.csv"))
+    pool_cfg = pd.read_csv(os.path.join(DATA_DIR, "pool_config_eth_usdc_0p05.csv"))
     fee = int(pool_cfg.loc[0, 'fee'])
     tick_spacing = int(pool_cfg.loc[0, 'tickSpacing'])
     token0_addr = pool_cfg.loc[0, 'token0']
@@ -128,7 +128,7 @@ def check_data_integrity():
     # =========================================================================
     print("\n🔍 3. Verifying token metadata...")
     
-    tokens = pd.read_csv(os.path.join(DATA_DIR, "token_metadata_eth_usdt_0p3.csv"))
+    tokens = pd.read_csv(os.path.join(DATA_DIR, "token_metadata_eth_usdc_0p05.csv"))
     tokens['contract_address'] = tokens['contract_address'].str.lower()
     
     for _, row in tokens.iterrows():
@@ -152,7 +152,7 @@ def check_data_integrity():
     if decimals0 != 18:
         warnings.append(f"Token0 decimals is {decimals0}, expected 18 (WETH)")
     if decimals1 != 6:
-        warnings.append(f"Token1 decimals is {decimals1}, expected 6 (USDT)")
+        warnings.append(f"Token1 decimals is {decimals1}, expected 6 (USDC)")
     
     # =========================================================================
     # 4. Load and verify swap data
@@ -238,12 +238,12 @@ def check_data_integrity():
     print(f"   Price range (sample of 1000): ${min_price:.2f} — ${max_price:.2f}")
     print(f"   Mean price: ${mean_price:.2f}")
     
-    # Sanity check: ETH/USDT should be roughly $1,000 - $10,000
+    # Sanity check: ETH/USDC should be roughly $1,000 - $10,000
     if min_price < 100 or max_price > 50000:
         warnings.append(f"Price range seems unusual: ${min_price:.2f} — ${max_price:.2f}")
-        print(f"   ⚠️  Price range may be unusual for ETH/USDT")
+        print(f"   ⚠️  Price range may be unusual for ETH/USDC")
     else:
-        print(f"   ✅ Price range looks reasonable for ETH/USDT")
+        print(f"   ✅ Price range looks reasonable for ETH/USDC")
     
     # Check for negative or zero prices
     zero_prices = (prices <= 0).sum()
@@ -363,7 +363,7 @@ def audit_code_correctness():
     print("\n📐 Test 1: sqrtPriceX96 → price conversion")
     
     # Known value: ETH ≈ $3,364 corresponds to sqrtPriceX96 ≈ 3.39e24
-    # Token0 = WETH (18 dec), Token1 = USDT (6 dec)
+    # Token0 = WETH (18 dec), Token1 = USDC (6 dec)
     test_sqrt = 3391687544375824514757915  # From actual data
     d0, d1 = 18, 6
     price = sqrt_price_x96_to_price(test_sqrt, d0, d1)
@@ -381,9 +381,9 @@ def audit_code_correctness():
         print(f"   ❌ Mismatch: {price} vs {manual_price}")
     
     if 1000 < price < 10000:
-        print(f"   ✅ Price is in expected ETH/USDT range")
+        print(f"   ✅ Price is in expected ETH/USDC range")
     else:
-        errors.append(f"Price {price} outside expected ETH/USDT range")
+        errors.append(f"Price {price} outside expected ETH/USDC range")
     
     # =========================================================================
     # Test 2: tick ↔ price conversion
@@ -438,7 +438,7 @@ def audit_code_correctness():
     
     print(f"   L={L}, p={p}, p_l={p_l}, p_u={p_u}")
     print(f"   Token X (WETH): {x:.6f}")
-    print(f"   Token Y (USDT): {y:.2f}")
+    print(f"   Token Y (USDC): {y:.2f}")
     print(f"   V (from tokens x*p+y): {V_from_tokens:.6f}")
     print(f"   V (from formula):      {V_from_formula:.6f}")
     
@@ -458,7 +458,7 @@ def audit_code_correctness():
     p_above = 4500.0
     y_above = L * (sqrt_pu - sqrt_pl)
     V_above = y_above
-    print(f"   Above range (p={p_above}): V = {V_above:.2f} (all in USDT)")
+    print(f"   Above range (p={p_above}): V = {V_above:.2f} (all in USDC)")
     
     # =========================================================================
     # Test 4: Liquidity from capital

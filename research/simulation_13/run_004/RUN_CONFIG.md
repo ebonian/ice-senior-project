@@ -30,7 +30,7 @@
 - **Fee model**: Exact per-swap (paper method)
 - **Gas cost**: $0.02 per rebalance (Arbitrum L2)
 - **Initial position**: 2.0 ETH
-- **Pool**: ETH/USDT 0.3% (tick_spacing=10)
+- **Pool**: ETH/USDC 0.05% (tick_spacing=10)
 
 ## Results
 

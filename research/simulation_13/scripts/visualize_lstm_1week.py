@@ -176,7 +176,7 @@ def plot_lstm_1week(lstm_data: dict, save_path: str, title_suffix: str = ""):
 
     # Panel 1: Price + LP windows
     ax1 = axes[0]
-    ax1.plot(timestamps, prices, "b-", linewidth=1.5, label="ETH/USDT price", zorder=10)
+    ax1.plot(timestamps, prices, "b-", linewidth=1.5, label="ETH/USDC price", zorder=10)
     for start, end, lower, upper in lstm_data["lp_windows"]:
         ax1.fill_between([start, end], [lower, lower], [upper, upper],
                          alpha=0.35, color="purple", edgecolor="darkviolet", linewidth=1, zorder=5)

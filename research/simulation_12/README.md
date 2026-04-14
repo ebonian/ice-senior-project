@@ -6,15 +6,15 @@
 - **Data range**: May 4, 2025 → Feb 12, 2026 (vs Nov 3, 2025 → Feb 3, 2026 in Sim 11)
 - **Data source**: B2 pipeline (daily parquet → consolidated CSV)
 - **Initial capital**: $1,000 USD
-- **Pool**: ETH/USDT 0.05% fee tier (fee=500, tickSpacing=10) — same pool
+- **Pool**: ETH/USDC 0.05% fee tier (fee=500, tickSpacing=10) — same pool
 
 ## Training Data
 
 | File | Description |
 |---|---|
-| `swaps_20250504_to_20260212_eth_usdt_0p3.csv` | ~1.2 GB swap data (~285 days) |
-| `pool_config_eth_usdt_0p3.csv` | Fee=500 (0.05%), tickSpacing=10 |
-| `token_metadata_eth_usdt_0p3.csv` | WETH (18 dec) / USDT (6 dec) |
+| `swaps_20250504_to_20260212_eth_usdc_0p05.csv` | ~1.2 GB swap data (~285 days) |
+| `pool_config_eth_usdc_0p05.csv` | Fee=500 (0.05%), tickSpacing=10 |
+| `token_metadata_eth_usdc_0p05.csv` | WETH (18 dec) / USDC (6 dec) |
 
 ## How to Run
 

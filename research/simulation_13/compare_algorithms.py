@@ -591,7 +591,7 @@ def plot_lstm_decisions(lstm_data: Dict, save_path: str = "visualizations/test_l
     
     # --- Plot 1: LSTM with LP Windows ---
     ax1 = axes[0]
-    ax1.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDT Price', zorder=10)
+    ax1.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDC Price', zorder=10)
     
     # Draw LP windows
     for start, end, lower, upper in lstm_data["lp_windows"]:
@@ -605,7 +605,7 @@ def plot_lstm_decisions(lstm_data: Dict, save_path: str = "visualizations/test_l
     ax1.grid(True, alpha=0.3)
     
     legend_elements = [
-        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDT Price'),
+        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDC Price'),
         Patch(facecolor='purple', alpha=0.4, edgecolor='darkviolet', label='LP Range'),
     ]
     ax1.legend(handles=legend_elements, loc='upper right')
@@ -648,7 +648,7 @@ def plot_decisions(ppo_data: Dict, dqn_data: Dict, save_path: str = "visualizati
     
     # --- Plot 1: PPO with LP Windows ---
     ax1 = axes[0]
-    ax1.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDT Price', zorder=10)
+    ax1.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDC Price', zorder=10)
     
     # Draw PPO LP windows as colored rectangles
     for i, (start, end, lower, upper) in enumerate(ppo_data["lp_windows"]):
@@ -662,14 +662,14 @@ def plot_decisions(ppo_data: Dict, dqn_data: Dict, save_path: str = "visualizati
     ax1.grid(True, alpha=0.3)
     
     legend_elements = [
-        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDT Price'),
+        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDC Price'),
         Patch(facecolor='green', alpha=0.4, edgecolor='darkgreen', label='LP Range (in position)'),
     ]
     ax1.legend(handles=legend_elements, loc='upper right')
     
     # --- Plot 2: DQN with LP Windows ---
     ax2 = axes[1]
-    ax2.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDT Price', zorder=10)
+    ax2.plot(timestamps, prices, 'b-', linewidth=1.5, label='ETH/USDC Price', zorder=10)
     
     # Draw DQN LP windows as colored rectangles
     for i, (start, end, lower, upper) in enumerate(dqn_data["lp_windows"]):
@@ -687,7 +687,7 @@ def plot_decisions(ppo_data: Dict, dqn_data: Dict, save_path: str = "visualizati
     ax2.grid(True, alpha=0.3)
     
     legend_elements = [
-        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDT Price'),
+        Line2D([0], [0], color='b', linewidth=1.5, label='ETH/USDC Price'),
     ]
     if dqn_data["lp_windows"]:
         legend_elements.append(Patch(facecolor='orange', alpha=0.4, edgecolor='darkorange', label='LP Range (in position)'))
@@ -924,7 +924,7 @@ def generate_run_config(run_dir: str, args, results: dict, trajectory_data: dict
 - **Fee model**: Exact per-swap (paper method)
 - **Gas cost**: $0.02 per rebalance (Arbitrum L2)
 - **Initial position**: 2.0 ETH
-- **Pool**: ETH/USDT 0.3% (tick_spacing=10)
+- **Pool**: ETH/USDC 0.05% (tick_spacing=10)
 
 ## Results
 

@@ -87,7 +87,7 @@ class HourlyData:
     ma_168h: Dict[pd.Timestamp, float]  # 168-hour (1 week) moving average
     decimals0: int
     decimals1: int
-    pool_fee: float  # δ in paper (e.g. 0.003 for 0.3%)
+    pool_fee: float  # δ in paper (e.g. 0.0005 for 0.05%)
     tick_spacing: int
     # Per-swap prices and pool liquidity for each hour (fee share = agent_L / pool_L).
     swap_prices_per_hour: Optional[Dict[pd.Timestamp, np.ndarray]] = None
@@ -102,12 +102,12 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
     print("🔄 Preparing hourly data (paper methodology)...")
     
     # Load data files
-    pool_cfg = pd.read_csv(os.path.join(data_dir, "pool_config_eth_usdt_0p3.csv"))
-    tokens = pd.read_csv(os.path.join(data_dir, "token_metadata_eth_usdt_0p3.csv"))
-    swaps_files = glob.glob(os.path.join(data_dir, "swaps_*_eth_usdt_0p3.csv"))
+    pool_cfg = pd.read_csv(os.path.join(data_dir, "pool_config_eth_usdc_0p05.csv"))
+    tokens = pd.read_csv(os.path.join(data_dir, "token_metadata_eth_usdc_0p05.csv"))
+    swaps_files = glob.glob(os.path.join(data_dir, "swaps_*_eth_usdc_0p05.csv"))
     
     if not swaps_files:
-        raise FileNotFoundError(f"Missing swaps_*_eth_usdt_0p3.csv in {data_dir}")
+        raise FileNotFoundError(f"Missing swaps_*_eth_usdc_0p05.csv in {data_dir}")
     
     swaps = pd.read_csv(swaps_files[0], low_memory=False)
     
@@ -122,7 +122,7 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
     
     # Pool parameters
     pool_fee_bps = int(pool_cfg.loc[0, 'fee'])
-    pool_fee = pool_fee_bps / 1_000_000  # e.g. 3000 -> 0.003 (0.3%)
+    pool_fee = pool_fee_bps / 1_000_000  # e.g. 500 -> 0.0005 (0.05%)
     tick_spacing = int(pool_cfg.loc[0, 'tickSpacing'])
     
     print(f"  Pool fee: {pool_fee*100:.2f}% ({pool_fee_bps} bps)")
@@ -1049,7 +1049,7 @@ if __name__ == "__main__":
             os.path.join(os.path.dirname(script_dir), "simulation_6", "training_data"),
             cwd,
         ]
-        required = "pool_config_eth_usdt_0p3.csv"
+        required = "pool_config_eth_usdc_0p05.csv"
         for d in candidates:
             if d and os.path.isfile(os.path.join(d, required)):
                 args.data_dir = os.path.abspath(d)

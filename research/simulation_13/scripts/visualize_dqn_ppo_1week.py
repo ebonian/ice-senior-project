@@ -229,7 +229,7 @@ def plot_1week(data: dict, save_path: str, model_name: str, title_suffix: str = 
     fig.suptitle(f"{model_name} – Model decisions over 1 week{title_suffix}", fontsize=14, fontweight="bold", y=1.02)
 
     ax1 = axes[0]
-    ax1.plot(timestamps, prices, "b-", linewidth=1.5, label="ETH/USDT price", zorder=10)
+    ax1.plot(timestamps, prices, "b-", linewidth=1.5, label="ETH/USDC price", zorder=10)
     for start, end, lower, upper in data["lp_windows"]:
         ax1.fill_between([start, end], [lower, lower], [upper, upper],
                          alpha=0.35, color="purple", edgecolor="darkviolet", linewidth=1, zorder=5)

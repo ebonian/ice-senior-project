@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Concat all daily swap CSVs from downloaded_data_csv/daily/swaps into a single
-swaps_YYYYMMDD_to_YYYYMMDD_eth_usdt_0p3.csv in simulation_13/training_data.
+swaps_YYYYMMDD_to_YYYYMMDD_eth_usdc_0p05.csv in simulation_13/training_data.
 
 Output format matches simulation_12: evt_block_time, sqrtPriceX96, amount0, amount1, liquidity, tick.
 """
@@ -43,7 +43,7 @@ def main():
     basenames = [os.path.basename(f).replace(".csv", "") for f in files]
     start_date = basenames[0].replace("-", "")
     end_date = basenames[-1].replace("-", "")
-    out_name = f"swaps_{start_date}_to_{end_date}_eth_usdt_0p3.csv"
+    out_name = f"swaps_{start_date}_to_{end_date}_eth_usdc_0p05.csv"
     out_path = os.path.join(args.out_dir, out_name)
     os.makedirs(args.out_dir, exist_ok=True)
 

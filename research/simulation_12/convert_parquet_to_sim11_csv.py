@@ -27,12 +27,12 @@ def convert_parquet_to_csv():
         return
 
     # Determine output filename upfront
-    # Naming convention: swaps_START_to_END_eth_usdt_0p3.csv
+    # Naming convention: swaps_START_to_END_eth_usdc_0p05.csv
     # We need start/end dates. Let's peek at first and last file dates.
     # Assuming file names are YYYY-MM-DD.parquet
     start_date = os.path.basename(files[0]).replace(".parquet", "").replace("-", "")
     end_date = os.path.basename(files[-1]).replace(".parquet", "").replace("-", "")
-    csv_filename = f"swaps_{start_date}_to_{end_date}_eth_usdt_0p3.csv"
+    csv_filename = f"swaps_{start_date}_to_{end_date}_eth_usdc_0p05.csv"
     output_path = os.path.join(target_dir, csv_filename)
     
     print(f"Target CSV: {output_path}")
@@ -91,8 +91,8 @@ def convert_parquet_to_csv():
     states_dir = os.path.join(source_dir, "states") # or state
     state_files = sorted(glob.glob(os.path.join(states_dir, "*.parquet")))
     
-    fee_tier = 3000 # default 0.3%
-    tick_spacing = 60
+    fee_tier = 500  # default 0.05%
+    tick_spacing = 10
     
     if state_files:
         try:
@@ -110,12 +110,12 @@ def convert_parquet_to_csv():
     pool_config = pd.DataFrame([{
         'fee': fee_tier, 
         'tickSpacing': tick_spacing,
-        'token0': '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', # WETH
-        'token1': '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        'token0': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',  # WETH (Arbitrum)
+        'token1': '0xaf88d065e77c8cc2239327c5edb3a432268e5831'   # USDC (Arbitrum)
     }])
     
-    pool_config.to_csv(os.path.join(target_dir, "pool_config_eth_usdt_0p3.csv"), index=False)
-    print(f"Saved pool_config_eth_usdt_0p3.csv (Fee={fee_tier})")
+    pool_config.to_csv(os.path.join(target_dir, "pool_config_eth_usdc_0p05.csv"), index=False)
+    print(f"Saved pool_config_eth_usdc_0p05.csv (Fee={fee_tier})")
 
 
     # =========================================================================
@@ -123,11 +123,11 @@ def convert_parquet_to_csv():
     # =========================================================================
     print("Creating token metadata...")
     tokens = pd.DataFrame([
-        {'contract_address': '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 'symbol': 'WETH', 'decimals': 18},
-        {'contract_address': '0xdAC17F958D2ee523a2206206994597C13D831ec7', 'symbol': 'USDT', 'decimals': 6}
+        {'contract_address': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', 'symbol': 'WETH', 'decimals': 18},
+        {'contract_address': '0xaf88d065e77c8cc2239327c5edb3a432268e5831', 'symbol': 'USDC', 'decimals': 6}
     ])
-    tokens.to_csv(os.path.join(target_dir, "token_metadata_eth_usdt_0p3.csv"), index=False)
-    print("Saved token_metadata_eth_usdt_0p3.csv")
+    tokens.to_csv(os.path.join(target_dir, "token_metadata_eth_usdc_0p05.csv"), index=False)
+    print("Saved token_metadata_eth_usdc_0p05.csv")
 
     print("\nConversion complete!")
 
