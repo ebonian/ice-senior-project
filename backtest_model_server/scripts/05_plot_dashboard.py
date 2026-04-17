@@ -21,7 +21,6 @@ import logging
 import argparse
 from pathlib import Path
 
-import yaml
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -46,8 +45,37 @@ log = logging.getLogger(__name__)
 
 
 def load_config(path: Path) -> dict:
+    try:
+        import yaml  # type: ignore
+    except ImportError:
+        yaml = None
+
     with open(path, encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        text = f.read()
+    if yaml is not None:
+        return yaml.safe_load(text)
+
+    cfg = {}
+    for raw_line in text.splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line or ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        value = value.strip()
+        if value.startswith(("\"", "'")) and value.endswith(("\"", "'")):
+            parsed = value[1:-1]
+        elif value.lower() in {"true", "false"}:
+            parsed = value.lower() == "true"
+        else:
+            try:
+                parsed = int(value)
+            except ValueError:
+                try:
+                    parsed = float(value)
+                except ValueError:
+                    parsed = value
+        cfg[key.strip()] = parsed
+    return cfg
 
 
 # ---------------------------------------------------------------------------
@@ -66,6 +94,21 @@ def _save(fig, path: Path, show: bool):
     if show:
         plt.show()
     plt.close(fig)
+
+
+def load_trace(results_dir: Path) -> pd.DataFrame:
+    parquet_path = results_dir / "trace_df.parquet"
+    csv_path = results_dir / "local_kongtrae_trace.csv"
+    if parquet_path.exists():
+        return pd.read_parquet(parquet_path)
+    if csv_path.exists():
+        return pd.read_csv(csv_path)
+    log.error(
+        "No trace found. Expected %s or %s — run 03_run_infer_backtest.py or 09_run_local_kongtrae_backtest.py first",
+        parquet_path,
+        csv_path,
+    )
+    sys.exit(1)
 
 
 # ---------------------------------------------------------------------------
@@ -386,10 +429,14 @@ def plot_market_context(trace_df: pd.DataFrame, out_path: Path, show: bool):
         ax.scatter(ts[enter_mask].values, price[enter_mask].values,
                    marker="^", color="green", s=40, zorder=6, label="Enter", alpha=0.8)
 
-    recenter_mask = trace_df["effective_action"].fillna("hold").str.startswith("recenter_w")
+    recenter_mask = trace_df["effective_action"].fillna("hold").str.startswith("recenter")
     if recenter_mask.any():
         ax.scatter(ts[recenter_mask].values, price[recenter_mask].values,
                    marker="o", color="orange", s=25, zorder=6, label="Recenter", alpha=0.8)
+    exit_mask = trace_df["effective_action"].fillna("hold").eq("exit_to_cash")
+    if exit_mask.any():
+        ax.scatter(ts[exit_mask].values, price[exit_mask].values,
+                   marker="v", color="red", s=35, zorder=6, label="Exit", alpha=0.8)
 
     ax.set_ylabel("Price (USD)")
     ax.yaxis.set_major_formatter(USD_FMT)
@@ -483,7 +530,7 @@ def plot_market_wallet_overlay(
         ax_price.fill_between([t_start, t_end], [pl, pl], [pu, pu], color=color, alpha=0.16, linewidth=0)
 
     # Price line (left axis)
-    ax_price.plot(ts, price, color="black", linewidth=1.2, label="ETH/USDC Price", zorder=6)
+    ax_price.plot(ts, price, color="black", linewidth=1.2, label="ETH/USDT Price", zorder=6)
     ax_price.set_ylabel("Price (USD)")
     ax_price.yaxis.set_major_formatter(USD_FMT)
 
@@ -501,10 +548,14 @@ def plot_market_wallet_overlay(
     if enter_mask.any():
         ax_price.scatter(ts[enter_mask].values, price[enter_mask].values,
                          marker="^", color="green", s=35, zorder=8, label="Enter")
-    recenter_mask = trace_df["effective_action"].fillna("hold").str.startswith("recenter_w")
+    recenter_mask = trace_df["effective_action"].fillna("hold").str.startswith("recenter")
     if recenter_mask.any():
         ax_price.scatter(ts[recenter_mask].values, price[recenter_mask].values,
                          marker="o", color="orange", s=24, zorder=8, label="Recenter")
+    exit_mask = trace_df["effective_action"].fillna("hold").eq("exit_to_cash")
+    if exit_mask.any():
+        ax_price.scatter(ts[exit_mask].values, price[exit_mask].values,
+                         marker="v", color="red", s=32, zorder=8, label="Exit")
 
     # Combined legend
     h1, l1 = ax_price.get_legend_handles_labels()
@@ -541,15 +592,10 @@ def main():
     # ------------------------------------------------------------------
     # Load data
     # ------------------------------------------------------------------
-    trace_path = results_dir / "trace_df.parquet"
     log_path   = results_dir / "inference_log.csv"
     metrics_path = results_dir / "metrics.json"
 
-    if not trace_path.exists():
-        log.error("trace_df.parquet not found — run 03_run_infer_backtest.py first")
-        sys.exit(1)
-
-    trace_df = pd.read_parquet(trace_path)
+    trace_df = load_trace(results_dir)
     log.info("Loaded trace_df: %d rows", len(trace_df))
 
     log_df = pd.read_csv(log_path) if log_path.exists() else pd.DataFrame()

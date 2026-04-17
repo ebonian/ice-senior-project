@@ -128,7 +128,7 @@ The model outputs an action integer (0-5). What it means depends on your current
 - **GO_CASH** — Close LP position + close hedge
 - **RECENTER_SAME_WIDTH** — Close current LP, reopen at current price with same width + rebalance hedge
 
-Width = number of tick spacings above and below center. W4 = tightest (~0.4% range), W20 = widest (~2% range).
+Width = total tick-spacings across the LP interval. W4 is centered at roughly +/-2 tick-spacings (~0.4% total range), and W20 is roughly +/-10 tick-spacings (~2% total range).
 
 ## Bar Workflow
 

@@ -483,12 +483,15 @@ def onchain_tick_to_price(tick: int) -> float:
 def compute_lp_range(price: float, width: int) -> dict:
     """Compute on-chain LP range for given width (in tick spacings).
 
-    Ticks are aligned to TICK_SPACING (10) as required by Uniswap V3.
+    The training/evaluation env treats W4 as a total 4-spacing interval
+    centered on price, not +/- 4 spacings. Keep deployment range semantics
+    identical to the env.
     """
     tick = price_to_onchain_tick(price)
     center_tick = (tick // TICK_SPACING) * TICK_SPACING
-    lower_tick = center_tick - width * TICK_SPACING
-    upper_tick = center_tick + width * TICK_SPACING
+    half_width_ticks = int(width) * TICK_SPACING // 2
+    lower_tick = center_tick - half_width_ticks
+    upper_tick = center_tick + half_width_ticks
     p_lower = onchain_tick_to_price(lower_tick)
     p_upper = onchain_tick_to_price(upper_tick)
     return {
@@ -496,9 +499,9 @@ def compute_lp_range(price: float, width: int) -> dict:
         "center_tick": center_tick,
         "lower_tick": lower_tick,
         "upper_tick": upper_tick,
-        "price_lower": round(p_lower, 2),
-        "price_upper": round(p_upper, 2),
-        "range_pct": round((p_upper / p_lower - 1) * 100, 2),
+        "price_lower": p_lower,
+        "price_upper": p_upper,
+        "range_pct": (p_upper / p_lower - 1) * 100,
     }
 
 
@@ -681,7 +684,10 @@ def load_dqn_model(
     model_version: str = "auto",
 ):
     """Load three-head DQN model + VecNormalize stats."""
-    from kongtrae.training.three_head_dueling_dqn import ThreeHeadDoubleDuelingDQN
+    try:
+        from simulation_14.training.three_head_dueling_dqn import ThreeHeadDoubleDuelingDQN
+    except ImportError:
+        from kongtrae.training.three_head_dueling_dqn import ThreeHeadDoubleDuelingDQN
 
     model_prefix = resolve_model_prefix(timeframe, model_version)
     model_path = os.path.join(model_dir, f"{model_prefix}.zip")

@@ -2,7 +2,7 @@
 Phase 1b-1c — Concatenate daily OHLCV parquet files pulled from B2, then validate against Binance.
 
 Previously this step rebuilt hourly OHLCV from raw swaps via the POC helpers.
-The B2 pipeline now publishes `eth_usdc_0p05/daily/ohlcv/{date}.parquet` — the
+The B2 pipeline now publishes `eth_usdt_0p05/daily/ohlcv/{date}.parquet` — the
 same file the model server consumes in prod (see `model/app/services/b2_data.py`
 and `pipeline/consolidator/ohlcv.go`). Using it directly removes a divergence
 risk between this harness and the live service.
@@ -205,7 +205,7 @@ def main():
         plot_candles(
             hourly,
             output_png=ohlcv_dir / "ohlcv_candles.png",
-            title=f"ETH/USDC Hourly OHLCV ({start_date} → {end_date})",
+            title=f"ETH/USDT Hourly OHLCV ({start_date} → {end_date})",
             tz_label="UTC",
             show_popup=args.show_plots,
         )

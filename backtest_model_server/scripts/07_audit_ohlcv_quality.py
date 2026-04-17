@@ -47,7 +47,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-POOL_PREFIX = "eth_usdc_0p05"
+POOL_PREFIX = "eth_usdt_0p05"
 
 
 # ---------------------------------------------------------------------------

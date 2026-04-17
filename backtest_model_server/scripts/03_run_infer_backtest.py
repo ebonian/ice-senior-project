@@ -34,6 +34,7 @@ import csv
 import json
 import time
 import math
+import re
 import logging
 import argparse
 from pathlib import Path
@@ -199,6 +200,68 @@ def compute_swap_fraction(price: float, old_lower: float, old_upper: float,
     old_xf = x_frac(old_lower, old_upper)
     new_xf = x_frac(new_lower, new_upper)
     return abs(new_xf - old_xf)
+
+
+def compute_lp_range_from_width(price: float, width: int, tick_spacing: int = 10) -> dict:
+    """Compute the canonical training-env LP range for a width decision.
+
+    Widths are total tick-spacings across the interval: W4 means center +/-2
+    tick-spacings, matching UniswapV3PaperEnv._compute_position_bounds.
+    """
+    tick = price_to_tick(price)
+    center_tick = (tick // tick_spacing) * tick_spacing
+    half_width_ticks = int(width) * tick_spacing // 2
+    lower_tick = center_tick - half_width_ticks
+    upper_tick = center_tick + half_width_ticks
+    price_lower = tick_to_price(lower_tick)
+    price_upper = tick_to_price(upper_tick)
+    return {
+        "width": int(width),
+        "center_tick": int(center_tick),
+        "lower_tick": int(lower_tick),
+        "upper_tick": int(upper_tick),
+        "price_lower": float(price_lower),
+        "price_upper": float(price_upper),
+        "range_pct": float((price_upper / price_lower - 1.0) * 100.0),
+    }
+
+
+def infer_width_from_state(state: dict, tick_spacing: int = 10) -> Optional[int]:
+    """Best-effort recovery of current W label from stored human tick bounds."""
+    lower_tick = state.get("lower_tick")
+    upper_tick = state.get("upper_tick")
+    if lower_tick is None or upper_tick is None:
+        return None
+    try:
+        width = int(round((int(upper_tick) - int(lower_tick)) / float(tick_spacing)))
+    except (TypeError, ValueError, ZeroDivisionError):
+        return None
+    return width if width > 0 else None
+
+
+def normalize_action_label(
+    raw_action_label: Optional[str],
+    current_width: Optional[int] = None,
+) -> tuple[str, Optional[int]]:
+    """Normalize server/Kongtrae action dialects to HOLD, EXIT, WIDTH-n."""
+    raw = str(raw_action_label or "HOLD").strip().upper()
+    compact = raw.replace("-", "_").replace(" ", "_")
+
+    if compact in {"HOLD", "STAY_CASH", "HOLD_OOR", "MASKED"}:
+        return "HOLD", None
+    if compact in {"GO_CASH", "EXIT", "EXIT_TO_CASH", "CLOSE_POSITION", "CLOSE"}:
+        return "EXIT", None
+    if compact == "RECENTER_SAME_WIDTH":
+        if current_width:
+            return f"WIDTH-{int(current_width)}", int(current_width)
+        return "HOLD", None
+
+    match = re.search(r"(?:WIDTH|ENTER_W|DEPLOY_W|RECENTER_W|W)[_-]?(\d+)$", compact)
+    if match:
+        width = int(match.group(1))
+        return f"WIDTH-{width}", width
+
+    return "HOLD", None
 
 
 # ===========================================================================
@@ -719,6 +782,7 @@ def simulate_step(
                 capital_before_cost, swap_frac, pool_fee, gas_cost_usd, mev_slippage_pct
             )
             s["has_position"]          = False
+            s["width"]                 = None
             s["lower_tick"]            = None
             s["upper_tick"]            = None
             s["price_lower"]           = None
@@ -765,6 +829,7 @@ def simulate_step(
         new_L = compute_liquidity_from_capital(deployable_capital, current_price, new_pl, new_pu)
 
         s["has_position"]          = True
+        s["width"]                 = int(lp_range.get("width", int(width_str)))
         s["lower_tick"]            = lp_range["lower_tick"]
         s["upper_tick"]            = lp_range["upper_tick"]
         s["price_lower"]           = new_pl
@@ -829,6 +894,7 @@ def simulate_step(
         "raw_boundary_il_usd":     0.0,
         "hedge_accounting_mode":   hedge_mode,
         "has_position":            int(s.get("has_position", False)),
+        "width":                   s.get("width"),
         "lower_tick":              s.get("lower_tick"),
         "upper_tick":              s.get("upper_tick"),
         "price_lower":             s.get("price_lower"),
@@ -1040,6 +1106,7 @@ def main():
         last = existing_trace_rows[-1]
         state = {
             "has_position":          bool(last.get("has_position", False)),
+            "width":                 last.get("width"),
             "lower_tick":            last.get("lower_tick"),
             "upper_tick":            last.get("upper_tick"),
             "price_lower":           last.get("price_lower"),
@@ -1055,9 +1122,12 @@ def main():
             "cumulative_hedge_pnl":  0.0,
             "cumulative_funding":    0.0,
         }
+        if state["width"] is None and state["has_position"]:
+            state["width"] = infer_width_from_state(state, cfg.get("tick_spacing", 10))
     else:
         state = {
             "has_position":          False,
+            "width":                 None,
             "lower_tick":            None,
             "upper_tick":            None,
             "price_lower":           None,
@@ -1083,7 +1153,7 @@ def main():
     # ------------------------------------------------------------------
     LOG_FIELDS = [
         "step", "timestamp", "reference_date", "status_code", "latency_ms",
-        "retry_count", "error_detail", "action", "action_label",
+        "retry_count", "error_detail", "action", "raw_action_label", "action_label",
         "current_price", "price_source", "data_age_seconds", "data_latest_utc",
         "ohlcv_rows", "lp_range_json",
     ]
@@ -1136,6 +1206,7 @@ def main():
                 "initial_capital_usd":   state["initial_capital_usd"],
                 "hours_since_rebalance": state["hours_since_rebalance"],
                 "reference_date":        reference_date,
+                "current_width":         state.get("width"),
                 "net_carry_ratio":       ncr,
                 "time_in_range":         tir,
             }
@@ -1165,7 +1236,11 @@ def main():
                 "retry_count":     retry_count,
                 "error_detail":    error_detail or "",
                 "action":          resp_data.get("action")          if resp_data else None,
-                "action_label":    resp_data.get("action_label")    if resp_data else None,
+                "raw_action_label":(
+                    (resp_data.get("action_label") or resp_data.get("action"))
+                    if resp_data else None
+                ),
+                "action_label":    None,
                 "current_price":   resp_data.get("current_price")   if resp_data else None,
                 "price_source":    resp_data.get("price_source")    if resp_data else None,
                 "data_age_seconds":resp_data.get("data_age_seconds")if resp_data else None,
@@ -1173,9 +1248,6 @@ def main():
                 "ohlcv_rows":      resp_data.get("ohlcv_rows")      if resp_data else None,
                 "lp_range_json":   json.dumps(resp_data.get("lp_range")) if resp_data else None,
             }
-            log_writer.writerow(log_row)
-            log_rows.append(log_row)
-
             if resp_data is None:
                 log.error("Step %d [%s] FAILED: HTTP %s — %s", step_idx, ts, status_code, error_detail)
                 if status_code in (400, 401, 404, 422):
@@ -1193,6 +1265,8 @@ def main():
                 # On failure: treat as HOLD (no position change)
                 action_label = "HOLD"
                 lp_range     = None
+                log_row["action_label"] = action_label
+                log_row["lp_range_json"] = None
                 if prev_price > 0:
                     current_price = prev_price
                 else:
@@ -1203,15 +1277,36 @@ def main():
                     fatal_error = True
                     break
             else:
-                action_label  = resp_data["action_label"]
-                lp_range      = resp_data.get("lp_range")
+                raw_action_label = resp_data.get("action_label") or resp_data.get("action") or "HOLD"
                 current_price = resp_data["current_price"]
+                current_width = state.get("width") or infer_width_from_state(
+                    state, cfg.get("tick_spacing", 10)
+                )
+                action_label, requested_width = normalize_action_label(
+                    raw_action_label,
+                    current_width=current_width,
+                )
+                lp_range = (
+                    compute_lp_range_from_width(
+                        current_price,
+                        requested_width,
+                        cfg.get("tick_spacing", 10),
+                    )
+                    if requested_width
+                    else None
+                )
+                log_row["action_label"] = action_label
+                log_row["lp_range_json"] = json.dumps(lp_range) if lp_range else None
 
                 log.info(
-                    "Step %4d [%s] → %-10s  price=$%.2f  latency=%.0fms  pv=$%.2f",
+                    "Step %4d [%s] → %-10s  raw=%-18s price=$%.2f  latency=%.0fms  pv=$%.2f",
                     step_idx, ts.strftime("%Y-%m-%d %H:00"),
-                    action_label, current_price, latency_ms, state["portfolio_value_usd"],
+                    action_label, raw_action_label, current_price, latency_ms,
+                    state["portfolio_value_usd"],
                 )
+
+            log_writer.writerow(log_row)
+            log_rows.append(log_row)
 
             # Simulate portfolio step
             state, step_record = simulate_step(

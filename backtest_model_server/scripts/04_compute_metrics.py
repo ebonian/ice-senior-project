@@ -70,7 +70,7 @@ def trace_metrics(trace_df: pd.DataFrame) -> dict:
 
     ea = trace_df["effective_action"]
     enter_count   = int(ea.str.startswith("enter_w").sum())
-    recenter_count= int(ea.str.startswith("recenter_w").sum())
+    recenter_count= int(ea.str.startswith("recenter").sum())
     exit_count    = int((ea == "exit_to_cash").sum())
     trade_count   = enter_count + recenter_count + exit_count
 
@@ -147,7 +147,7 @@ def win_rate(trace_df: pd.DataFrame) -> float:
     if "raw_swing_pnl_usd" not in trace_df.columns:
         return float("nan")
     # Mark trade boundaries: any rebalance or exit action
-    is_trade_close = trace_df["effective_action"].str.startswith(("recenter_w", "exit_to_cash"))
+    is_trade_close = trace_df["effective_action"].str.startswith(("recenter", "exit_to_cash"))
     trades = trace_df.loc[is_trade_close, "raw_swing_pnl_usd"]
     if trades.empty:
         return float("nan")
@@ -163,7 +163,7 @@ def avg_trade_duration(trace_df: pd.DataFrame) -> float:
         return float("nan")
     # Each rebalance resets hours_since_rebalance to 0; the max just before
     # next rebalance is the trade duration.
-    rebalance_steps = trace_df["effective_action"].str.startswith(("recenter_w", "exit_to_cash"))
+    rebalance_steps = trace_df["effective_action"].str.startswith(("recenter", "exit_to_cash"))
     durations = trace_df.loc[rebalance_steps, "hours_since_rebalance"]
     if durations.empty:
         return float("nan")
@@ -257,6 +257,21 @@ def _sanitize_for_json(value):
     return value
 
 
+def load_trace(results_dir: Path) -> pd.DataFrame:
+    parquet_path = results_dir / "trace_df.parquet"
+    csv_path = results_dir / "local_kongtrae_trace.csv"
+    if parquet_path.exists():
+        return pd.read_parquet(parquet_path)
+    if csv_path.exists():
+        return pd.read_csv(csv_path)
+    log.error(
+        "No trace found. Expected %s or %s — run 03_run_infer_backtest.py or 09_run_local_kongtrae_backtest.py first",
+        parquet_path,
+        csv_path,
+    )
+    sys.exit(1)
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -270,12 +285,7 @@ def main():
     initial_cap = cfg.get("initial_capital_usd", 1000.0)
     results_dir = BASE_DIR / cfg.get("output_dir", "results")
 
-    trace_path = results_dir / "trace_df.parquet"
-    if not trace_path.exists():
-        log.error("trace_df.parquet not found at %s — run 03_run_infer_backtest.py first", trace_path)
-        sys.exit(1)
-
-    trace_df = pd.read_parquet(trace_path)
+    trace_df = load_trace(results_dir)
     log.info("Loaded trace_df: %d rows", len(trace_df))
 
     if trace_df.empty:

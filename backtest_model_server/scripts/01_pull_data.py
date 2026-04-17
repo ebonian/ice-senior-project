@@ -109,7 +109,6 @@ def main():
             create_b2_client,
             list_all_raw_files,
             filter_files_by_date_range,
-            download_raw_files,
             print_summary,
             DATA_TYPES,
         )
@@ -146,7 +145,9 @@ def main():
         )
         sys.exit(1)
 
-    all_raw_files = list_all_raw_files(bucket, pool_prefix="eth_usdc_0p05") if raw_types else {}
+    pool_prefix = cfg.get("pool_prefix", "eth_usdt_0p05")
+    log.info("Pool prefix: %s", pool_prefix)
+    all_raw_files = list_all_raw_files(bucket, pool_prefix=pool_prefix) if raw_types else {}
 
     if args.list:
         for dtype in raw_types:
@@ -158,10 +159,10 @@ def main():
             if len(filtered) > 5:
                 print(f"  ... and {len(filtered) - 5} more")
         if ohlcv_requested:
-            ohlcv_dates = _list_daily_ohlcv_dates(bucket, start_date, end_date)
+            ohlcv_dates = _list_daily_ohlcv_dates(bucket, start_date, end_date, pool_prefix)
             log.info("[daily ohlcv] %d files available in range", len(ohlcv_dates))
             for d in ohlcv_dates[:5]:
-                print(f"  eth_usdc_0p05/daily/ohlcv/{d}.parquet")
+                print(f"  {pool_prefix}/daily/ohlcv/{d}.parquet")
             if len(ohlcv_dates) > 5:
                 print(f"  ... and {len(ohlcv_dates) - 5} more")
         return
@@ -170,18 +171,35 @@ def main():
     downloaded: dict = {}
 
     if raw_types:
-        raw_downloaded = download_raw_files(
-            bucket,
-            start_date=start_date,
-            end_date=end_date,
-            data_types=raw_types,
-            output_dir=output_dir,
-        )
+        raw_downloaded = {dtype: [] for dtype in raw_types}
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for dtype in raw_types:
+            files = all_raw_files.get(dtype, [])
+            filtered = filter_files_by_date_range(files, start_date, end_date, is_daily=False)
+            if not filtered:
+                log.warning("[%s] no files found in range for pool_prefix=%s", dtype, pool_prefix)
+                continue
+
+            log.info("[%s] downloading %d files", dtype, len(filtered))
+            for remote_path in filtered:
+                parts = remote_path.split("/")
+                if len(parts) < 7:
+                    log.warning("Skipping unexpected B2 path shape: %s", remote_path)
+                    continue
+                date_path = f"{parts[3]}-{parts[4]}-{parts[5]}"
+                filename = parts[-1]
+                local_path = output_dir / "raw" / dtype / date_path / filename
+                try:
+                    local_path.parent.mkdir(parents=True, exist_ok=True)
+                    bucket.download_file_by_name(remote_path).save_to(str(local_path))
+                    raw_downloaded[dtype].append(local_path)
+                except Exception as e:
+                    log.warning("Error downloading %s: %s", remote_path, e)
         downloaded.update(raw_downloaded)
 
     if ohlcv_requested:
         ohlcv_downloaded = _download_daily_ohlcv(
-            bucket, start_date, end_date, output_dir=output_dir,
+            bucket, start_date, end_date, output_dir=output_dir, pool_prefix=pool_prefix,
         )
         downloaded["ohlcv"] = ohlcv_downloaded
 
@@ -191,9 +209,9 @@ def main():
     log.info("Done. Downloaded %d files to %s", total, output_dir)
 
 
-def _list_daily_ohlcv_dates(bucket, start_date, end_date,
-                            prefix: str = "eth_usdc_0p05/daily/ohlcv/") -> list[str]:
+def _list_daily_ohlcv_dates(bucket, start_date, end_date, pool_prefix: str) -> list[str]:
     """Return sorted list of YYYY-MM-DD strings available in the daily/ohlcv/ prefix, inclusive of range."""
+    prefix = f"{pool_prefix}/daily/ohlcv/"
     dates: list[str] = []
     for file_version, _ in bucket.ls(folder_to_list=prefix, recursive=True):
         name = file_version.file_name
@@ -211,9 +229,10 @@ def _list_daily_ohlcv_dates(bucket, start_date, end_date,
 
 def _download_daily_ohlcv(bucket, start_date, end_date,
                           output_dir: Path,
-                          prefix: str = "eth_usdc_0p05/daily/ohlcv/") -> list[Path]:
+                          pool_prefix: str) -> list[Path]:
     """Download all daily OHLCV parquet files in range to {output_dir}/daily/ohlcv/."""
-    dates = _list_daily_ohlcv_dates(bucket, start_date, end_date, prefix=prefix)
+    prefix = f"{pool_prefix}/daily/ohlcv/"
+    dates = _list_daily_ohlcv_dates(bucket, start_date, end_date, pool_prefix)
     if not dates:
         log.warning("No daily/ohlcv files found in %s → %s",
                     start_date.date().isoformat(), end_date.date().isoformat())

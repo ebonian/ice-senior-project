@@ -417,14 +417,16 @@ def prepare_interval_data(data_dir: str, timeframe: str = "1h") -> HourlyData:
     print(f"🔄 Preparing {timeframe} data (paper methodology)...")
     
     # Load data files
-    pool_cfg = pd.read_csv(os.path.join(data_dir, "pool_config_eth_usdc_0p05.csv"))
-    tokens = pd.read_csv(os.path.join(data_dir, "token_metadata_eth_usdc_0p05.csv"))
-    swaps_files = glob.glob(os.path.join(data_dir, "swaps_*_eth_usdc_0p05.csv"))
-
-    if not swaps_files:
-        raise FileNotFoundError(f"Missing swaps_*_eth_usdc_0p05.csv in {data_dir}")
+    pool_cfg = pd.read_csv(os.path.join(data_dir, "pool_config_eth_usdt_0p05.csv"))
+    tokens = pd.read_csv(os.path.join(data_dir, "token_metadata_eth_usdt_0p05.csv"))
+    swaps_files = glob.glob(os.path.join(data_dir, "swaps_*_eth_usdt_0p05.csv"))
     
-    swaps = pd.read_csv(swaps_files[0], low_memory=False)
+    if not swaps_files:
+        raise FileNotFoundError(f"Missing swaps_*_eth_usdt_0p05.csv in {data_dir}")
+    
+    swaps_path = sorted(swaps_files)[-1]
+    print(f"  Swap file: {os.path.basename(swaps_path)}")
+    swaps = pd.read_csv(swaps_path, low_memory=False)
     
     # Get token decimals
     tokens['contract_address'] = tokens['contract_address'].str.lower()
@@ -2159,7 +2161,7 @@ if __name__ == "__main__":
             os.path.join(os.path.dirname(script_dir), "simulation_6", "training_data"),
             cwd,
         ]
-        required = "pool_config_eth_usdc_0p05.csv"
+        required = "pool_config_eth_usdt_0p05.csv"
         for d in candidates:
             if d and os.path.isfile(os.path.join(d, required)):
                 args.data_dir = os.path.abspath(d)

@@ -17,12 +17,13 @@ initial_capital_usd: 1000.0
 
 # --- Simulation (realistic, ported from simulation_14) ---
 cadence_hours: 1 # inference frequency (hours between steps)
-tick_spacing: 10 # Uniswap V3 tick spacing for ETH/USDC 0.05%
+tick_spacing: 10 # Uniswap V3 tick spacing for ETH/USDT 0.05%
 
-# Pool & position economics (matches simulation_14 defaults)
+# Pool & position economics (matches Kongtrae v3 training/eval defaults)
+pool_prefix: "eth_usdt_0p05" # B2 prefix. Must match the model/eval pool, not just a similar ETH stablecoin pool.
 pool_fee: 0.0005 # 0.05% fee tier
 decimals0: 18 # WETH decimals
-decimals1: 6 # USDC decimals
+decimals1: 6 # USDT decimals
 
 # Transaction costs
 gas_cost_usd: 0.03 # gas per trade
