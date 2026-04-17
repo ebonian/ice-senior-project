@@ -1,5 +1,5 @@
 """
-Kongtrae v2 – Hedged LP Decision Engine
+Kongtrae v3 – Hedged LP Decision Engine
 ========================================
 Three-head DQN with continuous delta hedging for Uniswap V3 ETH/USDT 0.05%.
 
@@ -8,8 +8,11 @@ Two modes:
   --strategy rule   Benchmark bb_width threshold rule
 
 Usage:
-    # DQN model (default):
+    # DQN model (default, hourly bars):
     python inference.py --ohlcv-csv hourly_eth.csv --state cash
+
+    # Lower-timeframe model:
+    python inference.py --timeframe 5min --ohlcv-csv eth_5min.csv --state cash
 
     # Rule baseline:
     python inference.py --strategy rule --ohlcv-csv hourly_eth.csv
@@ -43,6 +46,7 @@ TICK_SPACING = 10
 POOL_FEE = 0.0005  # 0.05%
 DEC0, DEC1 = 18, 6  # WETH, USDT
 TICK_OFFSET = int(round((DEC0 - DEC1) * math.log(10) / math.log(1.0001)))
+SECONDS_PER_HOUR = 3600.0
 
 # ─── Feature columns (must match training) ──────────────────────────────────
 FEATURE_COLS = [
@@ -70,6 +74,13 @@ VOL_FEATURE_INDICES = [
 
 # Three-head action mapping for the shipped W4/W6/W10/W20 model
 ACTION_WIDTHS = (4, 6, 10, 20)
+
+MODEL_VERSION_PREFIXES = {
+    "v2": "dqn_three_head_v2",
+    "v3_1h": "dqn_three_head_v3_1h",
+    "v3_15min": "dqn_three_head_v3_15min",
+    "v3_5min": "dqn_three_head_v3_5min",
+}
 NUM_ACTIONS = 2 + len(ACTION_WIDTHS)  # 6: stay/exit + 4 widths
 ACTIONS = {
     "cash": {
@@ -99,6 +110,110 @@ ACTIONS = {
 }
 
 
+def normalize_timeframe(timeframe: str) -> str:
+    """Return a pandas-compatible fixed-frequency alias for model bars."""
+    raw = str(timeframe or "1h").strip().lower().replace(" ", "")
+    aliases = {
+        "h": "1h",
+        "1hr": "1h",
+        "1hour": "1h",
+        "hour": "1h",
+        "hourly": "1h",
+        "5m": "5min",
+        "5min": "5min",
+        "5mins": "5min",
+        "5minute": "5min",
+        "5minutes": "5min",
+        "15m": "15min",
+        "15min": "15min",
+        "15mins": "15min",
+        "15minute": "15min",
+        "15minutes": "15min",
+    }
+    freq = aliases.get(raw, raw)
+    seconds = pd.Timedelta(freq).total_seconds()
+    if seconds <= 0 or SECONDS_PER_HOUR % seconds != 0:
+        raise ValueError(
+            f"timeframe must evenly divide 1 hour, got {timeframe!r} ({seconds}s)"
+        )
+    return freq
+
+
+def timeframe_seconds(timeframe: str) -> float:
+    return float(pd.Timedelta(normalize_timeframe(timeframe)).total_seconds())
+
+
+def timeframe_periods_per_hour(timeframe: str) -> float:
+    return SECONDS_PER_HOUR / timeframe_seconds(timeframe)
+
+
+def _window_steps(hours: float, periods_per_hour: float) -> int:
+    return max(int(round(float(hours) * float(periods_per_hour))), 1)
+
+
+def parse_action_widths(widths_arg: str) -> tuple[int, ...]:
+    widths = tuple(int(w.strip()) for w in str(widths_arg).split(",") if w.strip())
+    if not widths:
+        raise ValueError("--action-widths must contain at least one width")
+    return widths
+
+
+def action_label_for(
+    state: str,
+    action_int: int,
+    action_widths: tuple[int, ...],
+    full_recenter_actions: bool = False,
+) -> str:
+    """Match the shipped state-aware action semantics by default.
+
+    The v3 aliases keep the mask-fixed action contract: width choices for cash
+    entries, hold/go-cash while in-range, and same-width recenter while OOR.
+    Full recenter width actions can be enabled for future models trained with
+    that action contract.
+    """
+    n_widths = len(action_widths)
+    num_actions = 2 + n_widths
+    if action_int < 0 or action_int >= num_actions:
+        return f"UNKNOWN_{action_int}"
+
+    if state == "cash":
+        if action_int == 0:
+            return "STAY_CASH"
+        if 1 <= action_int <= n_widths:
+            return f"ENTER_W{action_widths[action_int - 1]}"
+        return "MASKED"
+
+    if state == "lp_in_range":
+        if action_int == 0:
+            return "HOLD"
+        if action_int == 1:
+            return "GO_CASH"
+        if not full_recenter_actions:
+            return "MASKED"
+        return f"RECENTER_W{action_widths[action_int - 2]}"
+
+    if state == "lp_oor":
+        if action_int == 0:
+            return "HOLD_OOR"
+        if action_int == 1:
+            return "GO_CASH"
+        if not full_recenter_actions:
+            return "RECENTER_SAME_WIDTH" if action_int == 2 else "MASKED"
+        return f"RECENTER_W{action_widths[action_int - 2]}"
+
+    return f"UNKNOWN_{action_int}"
+
+
+def width_from_action_label(action_label: str) -> Optional[int]:
+    """Extract the W-width suffix from ENTER_W*/RECENTER_W*/DEPLOY_W* labels."""
+    if "_W" not in action_label:
+        return None
+    try:
+        return int(action_label.rsplit("_W", 1)[1])
+    except ValueError:
+        return None
+
+
 # ─── Technical indicator computation ────────────────────────────────────────
 
 def _ema(data: np.ndarray, period: int) -> np.ndarray:
@@ -110,8 +225,16 @@ def _ema(data: np.ndarray, period: int) -> np.ndarray:
     return result
 
 
-def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    """Compute 33 technical indicators from OHLCV data."""
+def compute_technical_indicators(
+    df: pd.DataFrame,
+    periods_per_hour: float = 1.0,
+) -> pd.DataFrame:
+    """Compute 33 technical indicators from OHLCV data.
+
+    Bar-native indicators stay bar-native for model compatibility, while
+    explicitly named wall-clock features (1h/24h/7d and MA50/MA200 hours) scale
+    with the requested timeframe.
+    """
     if 'close' not in df.columns:
         return df
 
@@ -122,6 +245,11 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
     volume = df['volume'].values.astype(float) if 'volume' in df.columns else np.ones_like(close)
 
     n = len(close)
+    steps_1h = _window_steps(1, periods_per_hour)
+    steps_24h = _window_steps(24, periods_per_hour)
+    steps_7d = _window_steps(168, periods_per_hour)
+    steps_ma50h = _window_steps(50, periods_per_hour)
+    steps_ma200h = _window_steps(200, periods_per_hour)
 
     df['high_open_ratio'] = high / np.maximum(open_price, 1e-10)
     df['low_open_ratio'] = low / np.maximum(open_price, 1e-10)
@@ -199,27 +327,36 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return_1h = np.zeros(n)
-    return_1h[1:] = (close[1:] - close[:-1]) / np.maximum(close[:-1], 1e-10)
+    if n > steps_1h:
+        return_1h[steps_1h:] = (
+            close[steps_1h:] - close[:-steps_1h]
+        ) / np.maximum(close[:-steps_1h], 1e-10)
     df['return_1h'] = return_1h
 
     return_24h = np.zeros(n)
-    return_24h[24:] = (close[24:] - close[:-24]) / np.maximum(close[:-24], 1e-10)
+    if n > steps_24h:
+        return_24h[steps_24h:] = (
+            close[steps_24h:] - close[:-steps_24h]
+        ) / np.maximum(close[:-steps_24h], 1e-10)
     df['return_24h'] = return_24h
 
     return_7d = np.zeros(n)
-    return_7d[168:] = (close[168:] - close[:-168]) / np.maximum(close[:-168], 1e-10)
+    if n > steps_7d:
+        return_7d[steps_7d:] = (
+            close[steps_7d:] - close[:-steps_7d]
+        ) / np.maximum(close[:-steps_7d], 1e-10)
     df['return_7d'] = return_7d
 
-    ma_50 = pd.Series(close).rolling(50, min_periods=1).mean().values
-    ma_200 = pd.Series(close).rolling(200, min_periods=1).mean().values
+    ma_50 = pd.Series(close).rolling(steps_ma50h, min_periods=1).mean().values
+    ma_200 = pd.Series(close).rolling(steps_ma200h, min_periods=1).mean().values
     df['price_vs_ma50'] = (close - ma_50) / np.maximum(ma_50, 1e-10)
     df['price_vs_ma200'] = (close - ma_200) / np.maximum(ma_200, 1e-10)
     df['ma50_vs_ma200'] = (ma_50 - ma_200) / np.maximum(ma_200, 1e-10)
 
     regime = np.zeros(n)
-    for i in range(168, n):
-        denom = max(close[i - 168], 1e-10)
-        ret_7d = (close[i] - close[i - 168]) / denom
+    for i in range(steps_7d, n):
+        denom = max(close[i - steps_7d], 1e-10)
+        ret_7d = (close[i] - close[i - steps_7d]) / denom
         if ret_7d > 0.03:
             regime[i] = 1.0
         elif ret_7d < -0.03:
@@ -230,9 +367,9 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df['trend_strength_7d'] = np.abs(df['return_7d'])
 
     regime_fast = np.zeros(n)
-    for i in range(24, n):
-        denom = max(close[i - 24], 1e-10)
-        ret_24h = (close[i] - close[i - 24]) / denom
+    for i in range(steps_24h, n):
+        denom = max(close[i - steps_24h], 1e-10)
+        ret_24h = (close[i] - close[i - steps_24h]) / denom
         if ret_24h > 0.015:
             regime_fast[i] = 1.0
         elif ret_24h < -0.015:
@@ -256,8 +393,9 @@ def load_ohlcv(path: str) -> pd.DataFrame:
     return df
 
 
-def load_swap_csv(path: str) -> pd.DataFrame:
-    """Load raw Uniswap V3 swap CSV and convert to hourly OHLCV."""
+def load_swap_csv(path: str, timeframe: str = "1h") -> pd.DataFrame:
+    """Load raw Uniswap V3 swap CSV and convert to interval OHLCV."""
+    timeframe = normalize_timeframe(timeframe)
     df = pd.read_csv(path, low_memory=False)
     df.columns = [c.strip() for c in df.columns]
     required = ['evt_block_time', 'sqrtPriceX96']
@@ -289,24 +427,32 @@ def load_swap_csv(path: str) -> pd.DataFrame:
         df['volume_usd'] = 0.0
 
     df.set_index('evt_block_time', inplace=True)
-    hourly = df['price'].resample('h').ohlc()
-    hourly['volume'] = df['volume_usd'].resample('h').sum()
-    hourly['close'] = hourly['close'].ffill()
-    hourly['open'] = hourly['open'].fillna(hourly['close'])
-    hourly['high'] = hourly['high'].fillna(hourly['close'])
-    hourly['low'] = hourly['low'].fillna(hourly['close'])
-    hourly['volume'] = hourly['volume'].fillna(0)
-    hourly.columns = ['open', 'high', 'low', 'close', 'volume']
-    return hourly
+    interval = df['price'].resample(timeframe).ohlc()
+    interval['volume'] = df['volume_usd'].resample(timeframe).sum()
+    interval['close'] = interval['close'].ffill()
+    interval['open'] = interval['open'].fillna(interval['close'])
+    interval['high'] = interval['high'].fillna(interval['close'])
+    interval['low'] = interval['low'].fillna(interval['close'])
+    interval['volume'] = interval['volume'].fillna(0)
+    interval.columns = ['open', 'high', 'low', 'close', 'volume']
+    return interval
 
 
-def make_dummy_ohlcv(price: float, volume: float = 5_000_000) -> pd.DataFrame:
+def make_dummy_ohlcv(
+    price: float,
+    volume: float = 5_000_000,
+    timeframe: str = "1h",
+) -> pd.DataFrame:
     """Create minimal OHLCV DataFrame for price-only mode."""
-    dates = pd.date_range(end=datetime.now(tz=timezone.utc), periods=200, freq='h')
+    timeframe = normalize_timeframe(timeframe)
+    periods_per_hour = timeframe_periods_per_hour(timeframe)
+    periods = max(_window_steps(200, periods_per_hour), 200)
+    period_hours = timeframe_seconds(timeframe) / SECONDS_PER_HOUR
+    dates = pd.date_range(end=datetime.now(tz=timezone.utc), periods=periods, freq=timeframe)
     return pd.DataFrame({
         'open': price, 'high': price,
         'low': price, 'close': price,
-        'volume': volume,
+        'volume': volume * period_hours,
     }, index=dates)
 
 
@@ -370,6 +516,7 @@ def rule_strategy(
     df: pd.DataFrame,
     width: int = 10,
     state: str = "cash",
+    timeframe: str = "1h",
 ) -> dict:
     """
     bb_width threshold rule: deploy when bb_width > expanding median.
@@ -377,7 +524,8 @@ def rule_strategy(
     Walk-forward validated: 10/10 folds positive, mean +$130/month on $1K.
     Beats all DQN variants tested.
     """
-    df = compute_technical_indicators(df.copy())
+    periods_per_hour = timeframe_periods_per_hour(timeframe)
+    df = compute_technical_indicators(df.copy(), periods_per_hour=periods_per_hour)
     bb_values = df['bb_width'].values.astype(np.float32)
     medians = expanding_median(bb_values)
 
@@ -419,20 +567,22 @@ def _projected_entry_features(
     natr_14: float,
     volume_sma_ratio: float,
     width: int,
+    period_hours: float = 1.0,
 ) -> tuple[float, float]:
     """Compute hours_to_oor and fee_il_ratio for a candidate width."""
-    sigma_hourly = max(natr_14, 1e-6)
+    sigma_period = max(natr_14, 1e-6)
     width_normalized = max(float(width) / 40.0, 0.01)
     half_width_ticks = (float(width) * TICK_SPACING) / 2.0
     half_width_frac = math.exp(half_width_ticks * math.log(1.0001)) - 1.0
-    sigma_actual = sigma_hourly / 1.3
+    sigma_actual = sigma_period / 1.3
+    periods_to_oor = (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12)
     hours_to_oor = min(
-        (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12),
+        periods_to_oor * period_hours,
         500.0,
     )
     fee_il_ratio = min(
         10.0,
-        volume_sma_ratio * POOL_FEE / max(sigma_hourly ** 2 * width_normalized, 1e-10),
+        volume_sma_ratio * POOL_FEE / max(sigma_period ** 2 * width_normalized, 1e-10),
     )
     return hours_to_oor / 100.0, fee_il_ratio
 
@@ -454,8 +604,10 @@ def build_dqn_observation(
     net_carry_ratio: float = 0.0,
     time_in_range: float = 0.0,
     is_cash: float = 1.0,
+    action_widths: tuple[int, ...] = ACTION_WIDTHS,
+    period_hours: float = 1.0,
 ) -> np.ndarray:
-    """Build 31-dim observation for the shipped three-head DQN."""
+    """Build the dynamic three-head observation used by the DQN."""
     # 1) State one-hot [3]
     state_map = {"cash": 0, "lp_in_range": 1, "lp_oor": 2}
     one_hot = np.zeros(3, dtype=np.float32)
@@ -469,12 +621,12 @@ def build_dqn_observation(
     bb_signal = 1.0 if current_bb > current_median else 0.0
     paper_features = np.array([bb_ratio, bb_signal], dtype=np.float32)
 
-    # 3) Candidate entry features [8] (W4, W6, W10, W20)
+    # 3) Candidate entry features [2 * len(action_widths)]
     natr_14 = float(features_33[FEATURE_COLS.index("natr_14")])
     vol_sma = float(features_33[FEATURE_COLS.index("volume_sma_ratio")])
     candidate_features = []
-    for w in ACTION_WIDTHS:
-        h, f = _projected_entry_features(natr_14, vol_sma, w)
+    for w in action_widths:
+        h, f = _projected_entry_features(natr_14, vol_sma, w, period_hours=period_hours)
         candidate_features.extend([h, f])
     candidate_features = np.array(candidate_features, dtype=np.float32)
 
@@ -503,12 +655,37 @@ def build_dqn_observation(
     return np.concatenate([one_hot, paper_features, candidate_features, vol_features, position_features])
 
 
-def load_dqn_model(model_dir: str, device: str = "cpu"):
+def resolve_model_prefix(timeframe: str, model_version: str = "auto") -> str:
+    """Resolve a model-version alias to the saved model filename prefix."""
+    model_version = str(model_version or "auto").strip()
+    if model_version == "auto":
+        tf = normalize_timeframe(timeframe)
+        if tf == "1h":
+            return MODEL_VERSION_PREFIXES["v3_1h"]
+        if tf == "15min":
+            return MODEL_VERSION_PREFIXES["v3_15min"]
+        if tf == "5min":
+            return MODEL_VERSION_PREFIXES["v3_5min"]
+        raise ValueError(
+            "No default v3 alias is saved for timeframe "
+            f"{tf!r}. Use --timeframe 1h, --timeframe 15min, --timeframe 5min, "
+            "or pass --model-version with an explicit saved model prefix."
+        )
+    return MODEL_VERSION_PREFIXES.get(model_version, model_version)
+
+
+def load_dqn_model(
+    model_dir: str,
+    device: str = "cpu",
+    timeframe: str = "1h",
+    model_version: str = "auto",
+):
     """Load three-head DQN model + VecNormalize stats."""
     from kongtrae.training.three_head_dueling_dqn import ThreeHeadDoubleDuelingDQN
 
-    model_path = os.path.join(model_dir, "dqn_three_head_v2.zip")
-    vec_path = os.path.join(model_dir, "dqn_three_head_v2_vecnormalize.pkl")
+    model_prefix = resolve_model_prefix(timeframe, model_version)
+    model_path = os.path.join(model_dir, f"{model_prefix}.zip")
+    vec_path = os.path.join(model_dir, f"{model_prefix}_vecnormalize.pkl")
 
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model not found: {model_path}")
@@ -520,7 +697,7 @@ def load_dqn_model(model_dir: str, device: str = "cpu"):
     with open(vec_path, "rb") as f:
         vec_normalize = pickle.load(f)
 
-    return model, vec_normalize
+    return model, vec_normalize, model_path, vec_path
 
 
 def dqn_strategy(
@@ -530,12 +707,24 @@ def dqn_strategy(
     device: str = "cpu",
     current_width: Optional[int] = None,
     in_range: bool = False,
-    hours_since_rebalance: int = 0,
+    hours_since_rebalance: float = 0.0,
+    timeframe: str = "1h",
+    model_version: str = "auto",
+    action_widths: tuple[int, ...] = ACTION_WIDTHS,
+    full_recenter_actions: bool = False,
 ) -> dict:
     """Run three-head DQN model for LP decision."""
-    model, vec_normalize = load_dqn_model(model_dir, device)
+    timeframe = normalize_timeframe(timeframe)
+    periods_per_hour = timeframe_periods_per_hour(timeframe)
+    period_hours = timeframe_seconds(timeframe) / SECONDS_PER_HOUR
+    model, vec_normalize, model_path, vec_path = load_dqn_model(
+        model_dir,
+        device,
+        timeframe=timeframe,
+        model_version=model_version,
+    )
 
-    df = compute_technical_indicators(df.copy())
+    df = compute_technical_indicators(df.copy(), periods_per_hour=periods_per_hour)
     features_33 = df[FEATURE_COLS].iloc[-1].values.astype(np.float32)
     features_33 = np.nan_to_num(features_33, nan=0.0, posinf=0.0, neginf=0.0)
 
@@ -552,7 +741,8 @@ def dqn_strategy(
         half_ticks = (current_width * TICK_SPACING) / 2.0
         half_frac = math.exp(half_ticks * math.log(1.0001)) - 1.0
         sigma_actual = natr_14 / 1.3
-        exp_hours = min((half_frac ** 2) / max(sigma_actual ** 2, 1e-12), 500.0)
+        exp_periods = (half_frac ** 2) / max(sigma_actual ** 2, 1e-12)
+        exp_hours = min(exp_periods * period_hours, 500.0)
         vol_sma = float(features_33[FEATURE_COLS.index("volume_sma_ratio")])
         fil_ratio = min(10.0, vol_sma * POOL_FEE / max(natr_14 ** 2 * max(width_norm, 0.01), 1e-10))
     else:
@@ -561,8 +751,10 @@ def dqn_strategy(
 
     # Compute realized vol from close prices
     closes = df['close'].values.astype(float)
-    if len(closes) >= 7:
-        rets = np.diff(closes[-7:]) / np.maximum(closes[-7:-1], 1e-10)
+    steps_6h = _window_steps(6, periods_per_hour)
+    if len(closes) > steps_6h:
+        recent = closes[-(steps_6h + 1):]
+        rets = np.diff(recent) / np.maximum(recent[:-1], 1e-10)
         rvol_6h = float(np.std(rets))
     else:
         rvol_6h = 0.0
@@ -590,6 +782,8 @@ def dqn_strategy(
         intra_hour_rvol=intra_rvol,
         book_capital_ratio=1.0,
         is_cash=is_cash,
+        action_widths=action_widths,
+        period_hours=period_hours,
     )
 
     # Apply VecNormalize
@@ -600,26 +794,44 @@ def dqn_strategy(
     action, _ = model.predict(obs_normalized, deterministic=True)
     action_int = int(action[0]) if hasattr(action, '__len__') else int(action)
 
-    action_label = ACTIONS.get(state, {}).get(action_int, f"UNKNOWN_{action_int}")
+    action_label = action_label_for(
+        state,
+        action_int,
+        action_widths,
+        full_recenter_actions=full_recenter_actions,
+    )
 
     # Fallback: if model picks a masked action, use sensible default
     if action_label == "MASKED":
         if state == "cash":
             action_int = 1  # default to first width
-            action_label = ACTIONS["cash"][1]
+            action_label = action_label_for(
+                state,
+                action_int,
+                action_widths,
+                full_recenter_actions=full_recenter_actions,
+            )
         elif state == "lp_oor":
             action_int = 2  # recenter
-            action_label = "RECENTER_SAME_WIDTH"
+            action_label = action_label_for(
+                state,
+                action_int,
+                action_widths,
+                full_recenter_actions=full_recenter_actions,
+            )
         else:
             action_int = 0
-            action_label = "HOLD"
+            action_label = action_label_for(
+                state,
+                action_int,
+                action_widths,
+                full_recenter_actions=full_recenter_actions,
+            )
 
     # Determine width from action
-    deployed_width = None
-    if state == "cash" and 1 <= action_int <= len(ACTION_WIDTHS):
-        deployed_width = ACTION_WIDTHS[action_int - 1]
-    elif state == "lp_oor" and action_int == 2:
-        deployed_width = current_width or ACTION_WIDTHS[0]
+    deployed_width = width_from_action_label(action_label)
+    if action_label == "RECENTER_SAME_WIDTH":
+        deployed_width = current_width or action_widths[0]
 
     recommendation = action_label
     if deployed_width:
@@ -630,6 +842,8 @@ def dqn_strategy(
         "action_int": action_int,
         "deployed_width": deployed_width,
         "recommendation": recommendation,
+        "model_path": model_path,
+        "vecnormalize_path": vec_path,
     }
 
 
@@ -637,13 +851,16 @@ def dqn_strategy(
 
 def decide(args):
     """Main entry point."""
+    timeframe = normalize_timeframe(args.timeframe)
+    action_widths = parse_action_widths(args.action_widths)
+
     # Load data
     if args.swap_csv:
-        df = load_swap_csv(args.swap_csv)
+        df = load_swap_csv(args.swap_csv, timeframe=timeframe)
     elif args.ohlcv_csv:
         df = load_ohlcv(args.ohlcv_csv)
     elif args.price:
-        df = make_dummy_ohlcv(args.price, args.volume)
+        df = make_dummy_ohlcv(args.price, args.volume, timeframe=timeframe)
         print("  Warning: price-only mode. Technical indicators will be approximate.")
     else:
         raise ValueError("Provide --swap-csv, --ohlcv-csv, or --price")
@@ -653,29 +870,26 @@ def decide(args):
 
     # Run strategy
     if args.strategy == "rule":
-        result = rule_strategy(df, width=args.width, state=args.state)
+        result = rule_strategy(df, width=args.width, state=args.state, timeframe=timeframe)
     else:
-        model_dir = os.path.join(SCRIPT_DIR, "models")
         result = dqn_strategy(
             df,
             state=args.state,
-            model_dir=model_dir,
+            model_dir=args.model_dir,
             device=args.device,
             current_width=args.current_width,
             in_range=args.in_range,
             hours_since_rebalance=args.hours_since_rebalance,
+            timeframe=timeframe,
+            model_version=args.model_version,
+            action_widths=action_widths,
+            full_recenter_actions=args.full_recenter_actions,
         )
 
     # Determine deployed width for range calculation
     action = result["action"]
-    deployed_width = None
-    if "W10" in action:
-        deployed_width = 10
-    elif "W20" in action:
-        deployed_width = 20
-    elif "DEPLOY_W" in action:
-        deployed_width = int(action.split("W")[1])
-    elif "RECENTER" in action and args.current_width:
+    deployed_width = width_from_action_label(action)
+    if deployed_width is None and "RECENTER" in action and args.current_width:
         deployed_width = args.current_width
     elif result.get("deployed_width"):
         deployed_width = result["deployed_width"]
@@ -690,6 +904,7 @@ def decide(args):
         "data_timestamp": str(last_ts),
         "current_price": round(current_price, 2),
         "strategy": args.strategy,
+        "timeframe": timeframe,
         "state": args.state,
         **result,
     }
@@ -702,7 +917,7 @@ def decide(args):
         do = "HOLD"
     elif action == "GO_CASH":
         do = "CLOSE_POSITION"
-    elif action.startswith("ENTER_") or action == "RECENTER_SAME_WIDTH":
+    elif action.startswith("ENTER_") or action.startswith("RECENTER_"):
         do = "OPEN_POSITION"
     else:
         do = "HOLD"
@@ -721,7 +936,7 @@ def decide(args):
     elif do == "CLOSE_POSITION":
         print(f"  -> Remove liquidity + collect fees")
     else:
-        print(f"  -> Check again next hour")
+        print(f"  -> Check again next {timeframe} bar")
     print(f"{'=' * 45}\n")
 
     if args.output:
@@ -734,7 +949,7 @@ def decide(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Kongtrae v2 - Hedged LP decision engine for Uniswap V3 ETH/USDT 0.05%"
+        description="Kongtrae v3 - Hedged LP decision engine for Uniswap V3 ETH/USDT 0.05%"
     )
 
     # Strategy
@@ -745,11 +960,13 @@ def main():
     parser.add_argument("--swap-csv", default=None,
                         help="Raw swap CSV (evt_block_time, sqrtPriceX96, amount0/1)")
     parser.add_argument("--ohlcv-csv", default=None,
-                        help="Hourly OHLCV CSV (200+ rows for accuracy)")
+                        help="OHLCV CSV at --timeframe cadence (200+ hours of rows preferred)")
+    parser.add_argument("--timeframe", default="1h",
+                        help="Model bar size: 1h, 15min, or 5min")
     parser.add_argument("--price", type=float, default=None,
                         help="Current ETH price (quick mode, less accurate)")
     parser.add_argument("--volume", type=float, default=5_000_000,
-                        help="Hourly volume USD (quick mode)")
+                        help="Hourly volume USD (quick mode; scaled to --timeframe internally)")
 
     # Position state
     parser.add_argument("--state", default="cash", choices=["cash", "lp_in_range", "lp_oor"],
@@ -758,14 +975,22 @@ def main():
                         help="Current LP width if in position (4, 6, 10, or 20)")
     parser.add_argument("--in-range", action="store_true",
                         help="Position is currently in range")
-    parser.add_argument("--hours-since-rebalance", type=int, default=0,
-                        help="Hours since last rebalance")
+    parser.add_argument("--hours-since-rebalance", type=float, default=0.0,
+                        help="Wall-clock hours since last rebalance")
 
     # Rule strategy options
     parser.add_argument("--width", type=int, default=4,
                         help="LP width for rule strategy (default: 4)")
 
     # Model options
+    parser.add_argument("--model-dir", default=os.path.join(SCRIPT_DIR, "models"),
+                        help="Directory containing Kongtrae model zip + VecNormalize pickle")
+    parser.add_argument("--model-version", default="auto",
+                        help="Model alias/prefix: auto, v3_1h, v3_15min, v3_5min, v2, or an explicit filename prefix")
+    parser.add_argument("--action-widths", default="4,6,10,20",
+                        help="Comma-separated widths used by the trained model")
+    parser.add_argument("--full-recenter-actions", action="store_true",
+                        help="Use only for models trained with full in-range/OOR width-recenter actions")
     parser.add_argument("--device", default="cpu", help="cpu or cuda")
 
     # Output

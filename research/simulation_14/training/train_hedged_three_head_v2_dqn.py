@@ -69,10 +69,11 @@ from kongtrae.training.uniswap_v3_hedged_hierarchical_env import (
     THREE_HEAD_CASH,
     THREE_HEAD_IN_RANGE,
     THREE_HEAD_OOR,
+    build_three_head_masks,
     three_head_num_actions_for_widths,
     UniswapV3HedgedThreeHeadEnv,
 )
-from kongtrae.training.uniswap_v3_ppo_paper import prepare_hourly_data
+from kongtrae.training.uniswap_v3_ppo_paper import prepare_interval_data
 
 # Observation layout constants (relative to state one-hot prefix)
 PAPER_RATIO_IDX = 3
@@ -80,14 +81,43 @@ PAPER_SIGNAL_IDX = 4
 CANDIDATE_FEATURE_START = 5
 
 
-def _v2_env_kwargs(action_widths):
+def _v2_env_kwargs(
+    action_widths,
+    recenter_cooldown_hours: float = 0.0,
+    recenter_emergency_oor_sigma: float = 2.5,
+    fee_haircut: float = 1.0,
+    active_liquidity_multiplier: float = 1.0,
+):
     """Build env kwargs for the given widths."""
     return dict(
         action_widths=tuple(action_widths),
         allow_in_range_recenter=False,
         oor_recenter_same_width_only=True,
+        recenter_cooldown_hours=float(recenter_cooldown_hours),
+        recenter_emergency_oor_sigma=float(recenter_emergency_oor_sigma),
+        fee_haircut=float(fee_haircut),
+        active_liquidity_multiplier=float(active_liquidity_multiplier),
         include_paper_signal_features=True,
     )
+
+
+def _v2_policy_state_action_masks(action_widths):
+    """Return policy masks matching the shipped v2 env action semantics."""
+    masks = build_three_head_masks(action_widths)
+    num_actions = masks.shape[1]
+
+    # v2 deliberately keeps LP decisions simple:
+    # in-range can only hold or exit; OOR can hold, exit, or recenter same width.
+    lp_in_range_mask = np.zeros(num_actions, dtype=np.bool_)
+    lp_in_range_mask[:2] = True
+
+    lp_oor_mask = np.zeros(num_actions, dtype=np.bool_)
+    lp_oor_mask[:2] = True
+    lp_oor_mask[2] = True
+
+    masks[1] = lp_in_range_mask
+    masks[2] = lp_oor_mask
+    return masks.tolist()
 
 
 def parse_action_widths(widths_arg: str):
@@ -136,8 +166,18 @@ def make_env(
     end_idx=None,
     training_reward_mode=TRAINING_REWARD_REALISTIC,
     reward_scale=1.0,
+    recenter_cooldown_hours=0.0,
+    recenter_emergency_oor_sigma=2.5,
+    fee_haircut=1.0,
+    active_liquidity_multiplier=1.0,
 ):
-    env_kwargs = _v2_env_kwargs(action_widths)
+    env_kwargs = _v2_env_kwargs(
+        action_widths,
+        recenter_cooldown_hours=recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=recenter_emergency_oor_sigma,
+        fee_haircut=fee_haircut,
+        active_liquidity_multiplier=active_liquidity_multiplier,
+    )
 
     def _init():
         env = UniswapV3HedgedThreeHeadEnv(
@@ -277,7 +317,13 @@ def prefill_three_head_v2_replay_buffer(
         hedge_accounting_mode=args.hedge_accounting_mode,
         training_reward_mode=args.training_reward_mode,
         reward_scale=args.reward_scale,
-        **_v2_env_kwargs(action_widths),
+        **_v2_env_kwargs(
+            action_widths,
+            recenter_cooldown_hours=args.recenter_cooldown_hours,
+            recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+            fee_haircut=args.fee_haircut,
+            active_liquidity_multiplier=args.active_liquidity_multiplier,
+        ),
     )
 
     added = 0
@@ -343,9 +389,19 @@ def build_policy(
     action_widths=(10, 20),
     start_idx=None,
     end_idx=None,
+    recenter_cooldown_hours=0.0,
+    recenter_emergency_oor_sigma=2.5,
+    fee_haircut=1.0,
+    active_liquidity_multiplier=1.0,
 ):
     num_actions = three_head_num_actions_for_widths(action_widths)
-    env_kwargs = _v2_env_kwargs(action_widths)
+    env_kwargs = _v2_env_kwargs(
+        action_widths,
+        recenter_cooldown_hours=recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=recenter_emergency_oor_sigma,
+        fee_haircut=fee_haircut,
+        active_liquidity_multiplier=active_liquidity_multiplier,
+    )
     return NormalizedDQNPolicy.load(
         model_path=model_path,
         vec_path=vec_path,
@@ -374,8 +430,18 @@ def score_checkpoint_windows(
     train_window: tuple[str, Optional[int], Optional[int]],
     eval_window: tuple[str, Optional[int], Optional[int]],
     test_window: tuple[str, Optional[int], Optional[int]],
+    recenter_cooldown_hours=0.0,
+    recenter_emergency_oor_sigma=2.5,
+    fee_haircut=1.0,
+    active_liquidity_multiplier=1.0,
 ):
-    env_kwargs = _v2_env_kwargs(action_widths)
+    env_kwargs = _v2_env_kwargs(
+        action_widths,
+        recenter_cooldown_hours=recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=recenter_emergency_oor_sigma,
+        fee_haircut=fee_haircut,
+        active_liquidity_multiplier=active_liquidity_multiplier,
+    )
     rows = {}
     for label, (mode, start_idx, end_idx) in {
         "train": train_window,
@@ -410,6 +476,10 @@ def score_saved_checkpoints(
     train_window: tuple[str, Optional[int], Optional[int]] = ("train", None, None),
     eval_window: tuple[str, Optional[int], Optional[int]] = ("eval", None, None),
     test_window: tuple[str, Optional[int], Optional[int]] = ("test", None, None),
+    recenter_cooldown_hours=0.0,
+    recenter_emergency_oor_sigma=2.5,
+    fee_haircut=1.0,
+    active_liquidity_multiplier=1.0,
 ):
     pairs = discover_checkpoint_pairs(f"checkpoints_{save_name}", save_name)
     best_dir_model = os.path.join(f"{save_name}_best", "best_model.zip")
@@ -427,6 +497,10 @@ def score_saved_checkpoints(
             mode="all" if train_window[1] is not None else "train",
             start_idx=train_window[1],
             end_idx=train_window[2],
+            recenter_cooldown_hours=recenter_cooldown_hours,
+            recenter_emergency_oor_sigma=recenter_emergency_oor_sigma,
+            fee_haircut=fee_haircut,
+            active_liquidity_multiplier=active_liquidity_multiplier,
         )
         row = score_checkpoint_windows(
             policy=policy,
@@ -436,6 +510,10 @@ def score_saved_checkpoints(
             train_window=train_window,
             eval_window=eval_window,
             test_window=test_window,
+            recenter_cooldown_hours=recenter_cooldown_hours,
+            recenter_emergency_oor_sigma=recenter_emergency_oor_sigma,
+            fee_haircut=fee_haircut,
+            active_liquidity_multiplier=active_liquidity_multiplier,
         )
         row["steps"] = int(steps)
         row["model_path"] = model_path
@@ -446,7 +524,7 @@ def score_saved_checkpoints(
 
 
 def train(args):
-    data = prepare_hourly_data(args.data_dir)
+    data = prepare_interval_data(args.data_dir, timeframe=args.timeframe)
     action_widths = parse_action_widths(args.action_widths)
     train_start_idx = getattr(args, "start_idx", None)
     train_end_idx = getattr(args, "end_idx", None)
@@ -484,6 +562,10 @@ def train(args):
                 end_idx=train_end_idx,
                 training_reward_mode=args.training_reward_mode,
                 reward_scale=args.reward_scale,
+                recenter_cooldown_hours=args.recenter_cooldown_hours,
+                recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+                fee_haircut=args.fee_haircut,
+                active_liquidity_multiplier=args.active_liquidity_multiplier,
             )
         ]
     )
@@ -510,6 +592,10 @@ def train(args):
                 end_idx=eval_end_idx,
                 training_reward_mode=args.training_reward_mode,
                 reward_scale=args.reward_scale,
+                recenter_cooldown_hours=args.recenter_cooldown_hours,
+                recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+                fee_haircut=args.fee_haircut,
+                active_liquidity_multiplier=args.active_liquidity_multiplier,
             )
         ]
     )
@@ -532,6 +618,7 @@ def train(args):
         exploration_final_eps=args.exploration_final_eps,
         policy_kwargs=dict(
             net_arch=args.net_arch,
+            state_action_masks=_v2_policy_state_action_masks(action_widths),
         ),
         verbose=1,
         seed=args.seed,
@@ -573,6 +660,21 @@ def train(args):
     print(f"  training_reward_mode={args.training_reward_mode}, reward_scale={args.reward_scale}")
     print(f"  hedge_accounting_mode={args.hedge_accounting_mode}")
     print(f"  action_widths={action_widths}")
+    print(f"  policy_state_action_masks={_v2_policy_state_action_masks(action_widths)}")
+    print(
+        "  recenter_cooldown="
+        f"{args.recenter_cooldown_hours:.2f}h, "
+        f"emergency_oor_sigma={args.recenter_emergency_oor_sigma:.2f}"
+    )
+    print(
+        "  fee_stress="
+        f"fee_haircut={args.fee_haircut:.3f}, "
+        f"active_liquidity_multiplier={args.active_liquidity_multiplier:.3f}"
+    )
+    print(
+        f"  timeframe={data.timeframe} "
+        f"({data.period_seconds:.0f}s bars, {data.periods_per_hour:.0f} bars/hour)"
+    )
     print(f"  episode_hours={args.min_episode_hours}-{args.max_episode_hours}")
     print(
         "  state_start_probs="
@@ -622,6 +724,10 @@ def train(args):
         train_window=train_window,
         eval_window=eval_window,
         test_window=test_window,
+        recenter_cooldown_hours=args.recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+        fee_haircut=args.fee_haircut,
+        active_liquidity_multiplier=args.active_liquidity_multiplier,
     )
     checkpoint_scores_path = os.path.join(
         "debug_outputs", f"{args.save_name}_checkpoint_scores.json"
@@ -649,6 +755,10 @@ def train(args):
         mode=test_window[0],
         start_idx=test_window[1],
         end_idx=test_window[2],
+        recenter_cooldown_hours=args.recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+        fee_haircut=args.fee_haircut,
+        active_liquidity_multiplier=args.active_liquidity_multiplier,
     )
     trace = run_three_head_policy_episode(
         data=data,
@@ -659,7 +769,13 @@ def train(args):
         action_widths=action_widths,
         start_idx=test_window[1],
         end_idx=test_window[2],
-        env_kwargs=_v2_env_kwargs(action_widths),
+        env_kwargs=_v2_env_kwargs(
+            action_widths,
+            recenter_cooldown_hours=args.recenter_cooldown_hours,
+            recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+            fee_haircut=args.fee_haircut,
+            active_liquidity_multiplier=args.active_liquidity_multiplier,
+        ),
     )
     print("\nThree-head v2 policy evaluation")
     print_metrics("ThreeHeadV2", trace)
@@ -672,6 +788,7 @@ def train(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train realistic 3-head Double+Dueling DQN v2")
     parser.add_argument("--data-dir", default="training_data")
+    parser.add_argument("--timeframe", default="1h", help="Model bar size: 1h, 15min, or 5min")
     parser.add_argument("--save-name", default="ddqn_dueling_hedged_three_head_v2")
     parser.add_argument("--tb-log", default="tb_hedged_three_head_v2")
     parser.add_argument("--start-idx", type=int, default=None)
@@ -709,6 +826,10 @@ if __name__ == "__main__":
     parser.add_argument("--hard-negative-margin-usd", type=float, default=0.0)
     parser.add_argument("--prefill-transitions", type=int, default=20000)
     parser.add_argument("--prefill-policies", default="paper_prior,always_cash")
+    parser.add_argument("--recenter-cooldown-hours", type=float, default=0.0)
+    parser.add_argument("--recenter-emergency-oor-sigma", type=float, default=2.5)
+    parser.add_argument("--fee-haircut", type=float, default=1.0)
+    parser.add_argument("--active-liquidity-multiplier", type=float, default=1.0)
     parser.add_argument(
         "--hedge-accounting-mode",
         default=HEDGE_ACCOUNTING_CONTINUOUS,

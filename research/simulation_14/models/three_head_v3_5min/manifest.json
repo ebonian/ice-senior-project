@@ -1,0 +1,50 @@
+{
+  "version": "three_head_v3_5min",
+  "timeframe": "5min",
+  "source_run": "walk_forward_three_head_v2_5min_maskfix_200k_s72",
+  "source_summary": "walk_forward_three_head_v2_5min_maskfix_200k_s72/wf_three_head_v2_5min_maskfix_200k_s72_walk_forward_summary.json",
+  "top_level_alias_model": "../dqn_three_head_v3_5min.zip",
+  "top_level_alias_vecnormalize": "../dqn_three_head_v3_5min_vecnormalize.pkl",
+  "alias_source_fold": 3,
+  "selection_rule": "latest chronological selected walk-forward fold for top-level alias; all selected folds preserved below",
+  "nominal_gate": {
+    "status": "comparison_candidate",
+    "mean_test_pnl_usd": 456.7525,
+    "median_test_pnl_usd": 469.125,
+    "beat_cash": "4/4",
+    "beat_paper": "0/4",
+    "invalid_actions": 0
+  },
+  "folds": [
+    {
+      "fold_id": 0,
+      "model_path": "fold0_model.zip",
+      "vecnormalize_path": "fold0_vecnormalize.pkl",
+      "checkpoint_steps": 200000,
+      "test_pnl_usd": 668.35
+    },
+    {
+      "fold_id": 1,
+      "model_path": "fold1_model.zip",
+      "vecnormalize_path": "fold1_vecnormalize.pkl",
+      "checkpoint_steps": 200000,
+      "test_pnl_usd": 220.41
+    },
+    {
+      "fold_id": 2,
+      "model_path": "fold2_model.zip",
+      "vecnormalize_path": "fold2_vecnormalize.pkl",
+      "checkpoint_steps": 200000,
+      "test_pnl_usd": 659.71
+    },
+    {
+      "fold_id": 3,
+      "model_path": "fold3_model.zip",
+      "vecnormalize_path": "fold3_vecnormalize.pkl",
+      "checkpoint_steps": 200000,
+      "test_pnl_usd": 278.54
+    }
+  ],
+  "action_widths": [4, 6, 10, 20],
+  "hedge_accounting_mode": "continuous_delta_hedged"
+}

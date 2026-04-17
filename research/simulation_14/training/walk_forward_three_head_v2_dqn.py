@@ -35,7 +35,7 @@ from kongtrae.training.train_hedged_three_head_v2_dqn import (
     score_saved_checkpoints,
     train as train_three_head_v2,
 )
-from kongtrae.training.uniswap_v3_ppo_paper import prepare_hourly_data
+from kongtrae.training.uniswap_v3_ppo_paper import prepare_interval_data
 
 
 WARMUP_HOURS = 200
@@ -62,14 +62,17 @@ def generate_fold_specs(
     eval_months: int,
     test_months: int,
     step_months: int,
+    periods_per_hour: float = 1.0,
+    start_offset_days: float = 0.0,
 ) -> List[FoldSpec]:
-    train_hours = int(train_months * HOURS_PER_MONTH)
-    eval_hours = int(eval_months * HOURS_PER_MONTH)
-    test_hours = int(test_months * HOURS_PER_MONTH)
-    step_hours = int(step_months * HOURS_PER_MONTH)
+    train_hours = int(train_months * HOURS_PER_MONTH * periods_per_hour)
+    eval_hours = int(eval_months * HOURS_PER_MONTH * periods_per_hour)
+    test_hours = int(test_months * HOURS_PER_MONTH * periods_per_hour)
+    step_hours = int(step_months * HOURS_PER_MONTH * periods_per_hour)
     n_total = len(timestamps)
     folds = []
-    fold_start = WARMUP_HOURS
+    offset_hours = max(float(start_offset_days), 0.0) * 24.0
+    fold_start = int((WARMUP_HOURS + offset_hours) * periods_per_hour)
     fold_id = 0
     while True:
         train_start = fold_start
@@ -127,6 +130,7 @@ def cleanup_prior_artifacts(save_name: str) -> None:
 def build_train_args(args, fold: FoldSpec, save_name: str) -> Namespace:
     return Namespace(
         data_dir=args.data_dir,
+        timeframe=args.timeframe,
         save_name=save_name,
         tb_log=os.path.join(args.tb_log_dir, save_name),
         start_idx=fold.train_start,
@@ -164,6 +168,10 @@ def build_train_args(args, fold: FoldSpec, save_name: str) -> Namespace:
         hard_negative_margin_usd=args.hard_negative_margin_usd,
         prefill_transitions=args.prefill_transitions,
         prefill_policies=args.prefill_policies,
+        recenter_cooldown_hours=args.recenter_cooldown_hours,
+        recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+        fee_haircut=args.fee_haircut,
+        active_liquidity_multiplier=args.active_liquidity_multiplier,
         hedge_accounting_mode=args.hedge_accounting_mode,
         training_reward_mode=args.training_reward_mode,
         reward_scale=args.reward_scale,
@@ -171,7 +179,7 @@ def build_train_args(args, fold: FoldSpec, save_name: str) -> Namespace:
 
 
 def run_walk_forward(args):
-    data = prepare_hourly_data(args.data_dir)
+    data = prepare_interval_data(args.data_dir, timeframe=args.timeframe)
     action_widths = parse_action_widths(args.action_widths)
     folds = generate_fold_specs(
         data.timestamps,
@@ -179,6 +187,8 @@ def run_walk_forward(args):
         eval_months=args.eval_months,
         test_months=args.test_months,
         step_months=args.step_months,
+        periods_per_hour=float(getattr(data, "periods_per_hour", 1.0)),
+        start_offset_days=args.start_offset_days,
     )
     if args.max_folds > 0:
         folds = folds[: args.max_folds]
@@ -186,7 +196,11 @@ def run_walk_forward(args):
     os.makedirs(args.tb_log_dir, exist_ok=True)
     summary_rows = []
 
-    print(f"Walk-forward three-head Double+Dueling DQN v2: {len(folds)} folds")
+    print(
+        f"Walk-forward three-head Double+Dueling DQN v2: {len(folds)} folds "
+        f"on {data.timeframe} bars"
+    )
+    print(f"  start_offset_days={args.start_offset_days:.2f}, seed={args.seed}")
     for fold in folds:
         save_name = f"{args.run_prefix}_fold{fold.fold_id}"
         cleanup_prior_artifacts(save_name)
@@ -208,6 +222,10 @@ def run_walk_forward(args):
             train_window=("all", fold.train_start, fold.train_end),
             eval_window=("all", fold.eval_start, fold.eval_end),
             test_window=("all", fold.test_start, fold.test_end),
+            recenter_cooldown_hours=args.recenter_cooldown_hours,
+            recenter_emergency_oor_sigma=args.recenter_emergency_oor_sigma,
+            fee_haircut=args.fee_haircut,
+            active_liquidity_multiplier=args.active_liquidity_multiplier,
         )
         for row in checkpoint_rows:
             row["robust_score"] = float(
@@ -240,6 +258,8 @@ def run_walk_forward(args):
             start_idx=fold.test_start,
             end_idx=fold.test_end,
             fixed_width=4,
+            fee_haircut=args.fee_haircut,
+            active_liquidity_multiplier=args.active_liquidity_multiplier,
         )
         always_cash_metrics = trace_metrics(always_cash_trace)
         paper_metrics = trace_metrics(paper_trace)
@@ -258,6 +278,9 @@ def run_walk_forward(args):
         summary_rows.append(
             {
                 "fold_id": fold.fold_id,
+                "timeframe": data.timeframe,
+                "seed": int(args.seed),
+                "start_offset_days": float(args.start_offset_days),
                 "train_range": fold.train_range,
                 "eval_range": fold.eval_range,
                 "test_range": fold.test_range,
@@ -287,6 +310,7 @@ def run_walk_forward(args):
     print(f"  median_test_pnl={median(model_test_pnls) if model_test_pnls else 0.0:.2f}")
     print(f"  folds_beating_cash={beat_cash}/{len(summary_rows)}")
     print(f"  folds_beating_paper={beat_paper}/{len(summary_rows)}")
+    return summary_rows
 
 
 if __name__ == "__main__":
@@ -294,6 +318,7 @@ if __name__ == "__main__":
         description="Walk-forward validate realistic three-head Double+Dueling DQN v2"
     )
     parser.add_argument("--data-dir", default="training_data")
+    parser.add_argument("--timeframe", default="1h", help="Model bar size: 1h, 15min, or 5min")
     parser.add_argument("--save-dir", default="walk_forward_three_head_v2")
     parser.add_argument("--tb-log-dir", default="tb_walk_forward_three_head_v2")
     parser.add_argument("--run-prefix", default="wf_three_head_v2")
@@ -326,10 +351,15 @@ if __name__ == "__main__":
     parser.add_argument("--hard-negative-margin-usd", type=float, default=0.0)
     parser.add_argument("--prefill-transitions", type=int, default=20000)
     parser.add_argument("--prefill-policies", default="paper_prior,always_cash")
+    parser.add_argument("--recenter-cooldown-hours", type=float, default=0.0)
+    parser.add_argument("--recenter-emergency-oor-sigma", type=float, default=2.5)
+    parser.add_argument("--fee-haircut", type=float, default=1.0)
+    parser.add_argument("--active-liquidity-multiplier", type=float, default=1.0)
     parser.add_argument("--train-months", type=int, default=6)
     parser.add_argument("--eval-months", type=int, default=1)
     parser.add_argument("--test-months", type=int, default=1)
     parser.add_argument("--step-months", type=int, default=1)
+    parser.add_argument("--start-offset-days", type=float, default=0.0)
     parser.add_argument("--max-folds", type=int, default=4)
     parser.add_argument("--selector-train-weight", type=float, default=0.5)
     parser.add_argument("--selector-eval-weight", type=float, default=0.5)

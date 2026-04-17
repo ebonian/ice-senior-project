@@ -1,0 +1,58 @@
+{
+  "version": "three_head_v3_1h",
+  "timeframe": "1h",
+  "source_run": "walk_forward_three_head_v2_1h_maskfix_100k",
+  "source_summary": "walk_forward_three_head_v2_1h_maskfix_100k/wf_three_head_v2_1h_maskfix_100k_walk_forward_summary.json",
+  "rescored_gate_summary": "debug_outputs/generalization_gate/current_1h_15min_maskfix_rescored_combo_summary.json",
+  "top_level_alias_model": "../dqn_three_head_v3_1h.zip",
+  "top_level_alias_vecnormalize": "../dqn_three_head_v3_1h_vecnormalize.pkl",
+  "alias_source_fold": 0,
+  "selection_rule": "Fold 0 is the top-level alias because it is the clearest explainability/PnL compromise: meaningful W4/W10/W20 use, some cash/exits, zero invalid actions, positive eval-to-test transfer, and it beats the paper rule. Fold 3 has higher held-out PnL and is kept in the fold bundle, but its behavior is more W6-dominant.",
+  "nominal_gate": {
+    "status": "pass",
+    "mean_test_pnl_usd": 550.4108140958148,
+    "median_test_pnl_usd": 524.3660992344916,
+    "worst_test_pnl_usd": 435.3082631041309,
+    "beat_cash": "4/4",
+    "beat_paper": "3/4",
+    "invalid_actions": 0
+  },
+  "interpretability_notes": {
+    "fold0": "Best shipped explanation fold: W4/W10/W20 all used meaningfully, some cash/exits, beats paper, strong positive PnL.",
+    "fold1": "Positive PnL, but W6-dominant and less interesting as an autonomous-width story.",
+    "fold2": "Positive PnL, but loses to the paper rule on its test window.",
+    "fold3": "Highest-PnL alternate fold, but more W6-dominant than fold0; kept as a strong comparison checkpoint."
+  },
+  "folds": [
+    {
+      "fold_id": 0,
+      "model_path": "fold0_model.zip",
+      "vecnormalize_path": "fold0_vecnormalize.pkl",
+      "checkpoint_steps": 100000,
+      "test_pnl_usd": 562.2133532168025
+    },
+    {
+      "fold_id": 1,
+      "model_path": "fold1_model.zip",
+      "vecnormalize_path": "fold1_vecnormalize.pkl",
+      "checkpoint_steps": 100000,
+      "test_pnl_usd": 435.3082631041309
+    },
+    {
+      "fold_id": 2,
+      "model_path": "fold2_model.zip",
+      "vecnormalize_path": "fold2_vecnormalize.pkl",
+      "checkpoint_steps": 100000,
+      "test_pnl_usd": 486.5188453641695
+    },
+    {
+      "fold_id": 3,
+      "model_path": "fold3_model.zip",
+      "vecnormalize_path": "fold3_vecnormalize.pkl",
+      "checkpoint_steps": 100000,
+      "test_pnl_usd": 717.6027948077616
+    }
+  ],
+  "action_widths": [4, 6, 10, 20],
+  "hedge_accounting_mode": "continuous_delta_hedged"
+}

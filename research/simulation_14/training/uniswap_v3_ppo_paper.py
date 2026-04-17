@@ -33,10 +33,52 @@ from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv, VecNorm
 from stable_baselines3.common.callbacks import EvalCallback, CheckpointCallback
 
 Q96 = 2 ** 96
+SECONDS_PER_HOUR = 3600.0
 
 # v3-core tick bounds (TickMath.MIN_TICK / MAX_TICK), aligned to tick_spacing=10
 MIN_TICK = -887270
 MAX_TICK = 887270
+
+
+def normalize_timeframe(timeframe: str) -> str:
+    """Return a pandas-compatible fixed-frequency alias for model bars."""
+    raw = str(timeframe or "1h").strip().lower().replace(" ", "")
+    aliases = {
+        "h": "1h",
+        "1hr": "1h",
+        "1hour": "1h",
+        "hour": "1h",
+        "hourly": "1h",
+        "5m": "5min",
+        "5min": "5min",
+        "5mins": "5min",
+        "5minute": "5min",
+        "5minutes": "5min",
+        "15m": "15min",
+        "15min": "15min",
+        "15mins": "15min",
+        "15minute": "15min",
+        "15minutes": "15min",
+    }
+    freq = aliases.get(raw, raw)
+    seconds = pd.Timedelta(freq).total_seconds()
+    if seconds <= 0 or SECONDS_PER_HOUR % seconds != 0:
+        raise ValueError(
+            f"timeframe must evenly divide 1 hour, got {timeframe!r} ({seconds}s)"
+        )
+    return freq
+
+
+def timeframe_seconds(timeframe: str) -> float:
+    return float(pd.Timedelta(normalize_timeframe(timeframe)).total_seconds())
+
+
+def timeframe_periods_per_hour(timeframe: str) -> float:
+    return SECONDS_PER_HOUR / timeframe_seconds(timeframe)
+
+
+def _window_steps(hours: float, periods_per_hour: float) -> int:
+    return max(int(round(float(hours) * float(periods_per_hour))), 1)
 
 
 def sqrt_price_x96_to_price(sqrt_price_x96: int, decimals0: int, decimals1: int) -> float:
@@ -131,7 +173,10 @@ assert len(FEATURE_COLS) == 33, f"Expected 33 features, got {len(FEATURE_COLS)}"
 WIDTH_SET = [1, 2, 4, 6, 10, 15, 20, 30, 40]
 
 
-def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
+def compute_technical_indicators(
+    df: pd.DataFrame,
+    periods_per_hour: float = 1.0,
+) -> pd.DataFrame:
     """
     Compute technical indicators from OHLCV data.
     Based on Zhang et al. (2023) Table 2 - 31 features.
@@ -146,6 +191,11 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
     volume = df['volume'].values if 'volume' in df.columns else np.ones_like(close)
 
     n = len(close)
+    steps_1h = _window_steps(1, periods_per_hour)
+    steps_24h = _window_steps(24, periods_per_hour)
+    steps_7d = _window_steps(168, periods_per_hour)
+    steps_ma50h = _window_steps(50, periods_per_hour)
+    steps_ma200h = _window_steps(200, periods_per_hour)
 
     # Basic OHLC ratios (3 features)
     df['high_open_ratio'] = high / np.maximum(open_price, 1e-10)
@@ -247,29 +297,35 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     # Price returns over different horizons
     return_1h = np.zeros(n)
-    return_1h[1:] = (close[1:] - close[:-1]) / np.maximum(close[:-1], 1e-10)
+    return_1h[steps_1h:] = (
+        close[steps_1h:] - close[:-steps_1h]
+    ) / np.maximum(close[:-steps_1h], 1e-10)
     df['return_1h'] = return_1h
 
     return_24h = np.zeros(n)
-    return_24h[24:] = (close[24:] - close[:-24]) / np.maximum(close[:-24], 1e-10)
+    return_24h[steps_24h:] = (
+        close[steps_24h:] - close[:-steps_24h]
+    ) / np.maximum(close[:-steps_24h], 1e-10)
     df['return_24h'] = return_24h
 
     return_7d = np.zeros(n)
-    return_7d[168:] = (close[168:] - close[:-168]) / np.maximum(close[:-168], 1e-10)
+    return_7d[steps_7d:] = (
+        close[steps_7d:] - close[:-steps_7d]
+    ) / np.maximum(close[:-steps_7d], 1e-10)
     df['return_7d'] = return_7d
 
     # Moving average trend signals
-    ma_50 = pd.Series(close).rolling(50, min_periods=1).mean().values
-    ma_200 = pd.Series(close).rolling(200, min_periods=1).mean().values
+    ma_50 = pd.Series(close).rolling(steps_ma50h, min_periods=1).mean().values
+    ma_200 = pd.Series(close).rolling(steps_ma200h, min_periods=1).mean().values
     df['price_vs_ma50'] = (close - ma_50) / np.maximum(ma_50, 1e-10)
     df['price_vs_ma200'] = (close - ma_200) / np.maximum(ma_200, 1e-10)
     df['ma50_vs_ma200'] = (ma_50 - ma_200) / np.maximum(ma_200, 1e-10)
 
     # Market regime (-1 bear, 0 sideways, +1 bull) based on 7-day return
     regime = np.zeros(n)
-    for i in range(168, n):
-        denom = max(close[i - 168], 1e-10)
-        ret_7d = (close[i] - close[i - 168]) / denom
+    for i in range(steps_7d, n):
+        denom = max(close[i - steps_7d], 1e-10)
+        ret_7d = (close[i] - close[i - steps_7d]) / denom
         if ret_7d > 0.03:
             regime[i] = 1.0
         elif ret_7d < -0.03:
@@ -282,9 +338,9 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     # Fast regime: 24h return threshold ±1.5% (confirms in 24h vs 168h for market_regime)
     regime_fast = np.zeros(n)
-    for i in range(24, n):
-        denom = max(close[i - 24], 1e-10)
-        ret_24h = (close[i] - close[i - 24]) / denom
+    for i in range(steps_24h, n):
+        denom = max(close[i - steps_24h], 1e-10)
+        ret_24h = (close[i] - close[i - steps_24h]) / denom
         if ret_24h > 0.015:
             regime_fast[i] = 1.0
         elif ret_24h < -0.015:
@@ -300,7 +356,7 @@ def compute_technical_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
 @dataclass
 class HourlyData:
-    """Hourly resampled data for training (paper approach)."""
+    """Fixed-interval resampled data for training (legacy name kept for compatibility)."""
     timestamps: List[pd.Timestamp]
     prices: Dict[pd.Timestamp, float]  # hourly close price
     volumes: Dict[pd.Timestamp, float]  # hourly swap volume in USD
@@ -311,6 +367,9 @@ class HourlyData:
     decimals1: int
     pool_fee: float  # δ in paper (e.g. 0.003 for 0.3%)
     tick_spacing: int
+    timeframe: str = "1h"
+    period_seconds: float = SECONDS_PER_HOUR
+    periods_per_hour: float = 1.0
     # Per-swap prices for each hour, precomputed from swap-level data.
     # Used for exact per-swap fee calculation following Zhang et al. (2023).
     swap_prices_per_hour: Optional[Dict[pd.Timestamp, np.ndarray]] = None
@@ -336,7 +395,7 @@ class HourlyData:
     hourly_high: Optional[Dict[pd.Timestamp, float]] = None
     hourly_low:  Optional[Dict[pd.Timestamp, float]] = None
     # Internal caches shared across env instances that reuse the same HourlyData.
-    _fee_path_cache: Dict[Tuple[int, int, int], Dict[str, np.ndarray | float | str]] = field(
+    _fee_path_cache: Dict[Tuple[object, ...], Dict[str, np.ndarray | float | str]] = field(
         default_factory=dict,
         repr=False,
     )
@@ -346,12 +405,16 @@ class HourlyData:
     )
 
 
-def prepare_hourly_data(data_dir: str) -> HourlyData:
+def prepare_interval_data(data_dir: str, timeframe: str = "1h") -> HourlyData:
     """
-    Prepare hourly resampled data (paper methodology).
-    Resamples swap data to hourly OHLCV format.
+    Prepare fixed-interval resampled data (paper methodology).
+    Resamples swap data to OHLCV bars while preserving exact per-swap path
+    inside each bar for fee and active-hedge accounting.
     """
-    print("🔄 Preparing hourly data (paper methodology)...")
+    timeframe = normalize_timeframe(timeframe)
+    period_seconds = timeframe_seconds(timeframe)
+    periods_per_hour = timeframe_periods_per_hour(timeframe)
+    print(f"🔄 Preparing {timeframe} data (paper methodology)...")
     
     # Load data files
     pool_cfg = pd.read_csv(os.path.join(data_dir, "pool_config_eth_usdt_0p3.csv"))
@@ -405,8 +468,8 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
             "Re-export swap data with the tick field from Uniswap v3 swap events."
         )
 
-    # Precompute per-swap prices and amounts for each hour from swap-level data.
-    # Following Zhang et al. (2023): fees are summed over every swap per hour.
+    # Precompute per-swap prices and amounts for each model bar from swap-level data.
+    # Following Zhang et al. (2023): fees are summed over every swap per interval.
     # swap_amounts_per_hour stores |amount1| / 10^decimals1 (USD volume per swap).
     # v3-core traceability: fee_i = volume_i × pool_fee × (L_ours / L_pool) × in_range_fraction.
     swaps_indexed_for_prices = swaps.set_index('evt_block_time')
@@ -418,37 +481,42 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
     swap_time_seconds_per_hour_raw = {}
     # Precompute once: decimals are pool constants, so the offset never changes per swap.
     tick_offset = int(round((decimals0 - decimals1) * math.log(10) / math.log(1.0001)))
-    for hour, group in swaps_indexed_for_prices.groupby(pd.Grouper(freq='1h')):
+    for bar_start, group in swaps_indexed_for_prices.groupby(pd.Grouper(freq=timeframe)):
         if len(group) >= 2:
-            swap_prices_per_hour_raw[hour] = group['price'].values.astype(np.float64)
+            swap_prices_per_hour_raw[bar_start] = group['price'].values.astype(np.float64)
         elif len(group) == 1:
-            swap_prices_per_hour_raw[hour] = group['price'].values.astype(np.float64)
+            swap_prices_per_hour_raw[bar_start] = group['price'].values.astype(np.float64)
         if len(group) > 0:
-            pool_liq_per_hour_raw[hour] = group['liquidity'].median()
+            pool_liq_per_hour_raw[bar_start] = group['liquidity'].median()
             # Per-swap USD volumes: |amount1| / 10^decimals1
-            swap_amounts_per_hour_raw[hour] = (
+            swap_amounts_per_hour_raw[bar_start] = (
                 group['amount1'].abs() / (10 ** decimals1)
             ).values.astype(np.float64)
             # Per-swap pool active liquidity (exact, eliminates hourly-median approximation)
-            swap_liquidity_per_hour_raw[hour] = group['liquidity'].values.astype(np.float64)
+            swap_liquidity_per_hour_raw[bar_start] = group['liquidity'].values.astype(np.float64)
             # Per-swap tick: vectorized add of precomputed offset (v3→human conversion)
-            swap_ticks_per_hour_raw[hour] = group['tick'].values.astype(np.int64) + tick_offset
-            hour_start = pd.Timestamp(hour)
-            swap_time_seconds_per_hour_raw[hour] = (
-                (group.index - hour_start).total_seconds().to_numpy(dtype=np.float64)
+            swap_ticks_per_hour_raw[bar_start] = group['tick'].values.astype(np.int64) + tick_offset
+            interval_start = pd.Timestamp(bar_start)
+            swap_time_seconds_per_hour_raw[bar_start] = (
+                (group.index - interval_start).total_seconds().to_numpy(dtype=np.float64)
             )
     
-    # Resample to hourly OHLCV
+    # Resample to fixed-interval OHLCV
     swaps.set_index('evt_block_time', inplace=True)
-    hourly = swaps.resample('1h').agg({
+    hourly = swaps.resample(timeframe).agg({
         'price': ['first', 'last', 'max', 'min'],
         'volume_usd': 'sum'
     })
     hourly.columns = ['open', 'close', 'high', 'low', 'volume']
     hourly = hourly.dropna(subset=['close'])
     
-    # Forward-fill missing hours (no swaps in that hour)
-    full_range = pd.date_range(start=hourly.index.min(), end=hourly.index.max(), freq='1h', tz='UTC')
+    # Forward-fill missing intervals (no swaps in that bar)
+    full_range = pd.date_range(
+        start=hourly.index.min(),
+        end=hourly.index.max(),
+        freq=timeframe,
+        tz='UTC',
+    )
     hourly = hourly.reindex(full_range)
     hourly['close'] = hourly['close'].ffill()
     hourly['open'] = hourly['open'].ffill()
@@ -456,7 +524,7 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
     hourly['low'] = hourly['low'].ffill()
     hourly['volume'] = hourly['volume'].fillna(0)
     
-    print(f"  📊 {len(hourly)} hourly candles")
+    print(f"  📊 {len(hourly)} {timeframe} candles")
     
     # Compute volatility (exponentially weighted std of log returns)
     # Paper uses smoothing factor α = 0.05
@@ -465,13 +533,19 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
     hourly['volatility'] = hourly['volatility'].fillna(0)
     
     # Moving averages
-    hourly['ma_24h'] = hourly['close'].rolling(window=24, min_periods=1).mean()
-    hourly['ma_168h'] = hourly['close'].rolling(window=168, min_periods=1).mean()
+    hourly['ma_24h'] = hourly['close'].rolling(
+        window=_window_steps(24, periods_per_hour),
+        min_periods=1,
+    ).mean()
+    hourly['ma_168h'] = hourly['close'].rolling(
+        window=_window_steps(168, periods_per_hour),
+        min_periods=1,
+    ).mean()
     
     print(f"  📈 Computed volatility and moving averages")
 
     # Compute 31-dim technical indicators for extended observation space
-    hourly = compute_technical_indicators(hourly)
+    hourly = compute_technical_indicators(hourly, periods_per_hour=periods_per_hour)
 
     # Ensure all feature columns exist
     for col in FEATURE_COLS:
@@ -479,8 +553,12 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
             hourly[col] = 0.0
 
     print(f"  🧮 Computed {len(FEATURE_COLS)} technical features (22 original + 9 trend + 2 fast regime)")
-    warmup_hours = 200  # ma_200 needs 200 hours to stabilize
-    print(f"  ⚠️  Indicator warmup: first {warmup_hours} hours have partial lookback (ma_200)")
+    warmup_hours = 200  # ma_200h needs 200 wall-clock hours to stabilize
+    warmup_steps = _window_steps(warmup_hours, periods_per_hour)
+    print(
+        f"  ⚠️  Indicator warmup: first {warmup_steps} bars "
+        f"(~{warmup_hours}h) have partial lookback (ma_200h)"
+    )
 
     # Convert to dictionaries for fast lookup
     timestamps = list(hourly.index)
@@ -543,6 +621,9 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
         decimals1=decimals1,
         pool_fee=pool_fee,
         tick_spacing=tick_spacing,
+        timeframe=timeframe,
+        period_seconds=period_seconds,
+        periods_per_hour=periods_per_hour,
         swap_prices_per_hour=swap_prices_per_hour,
         swap_amounts_per_hour=swap_amounts_per_hour,
         pool_liquidity_per_hour=pool_liquidity_per_hour,
@@ -553,6 +634,11 @@ def prepare_hourly_data(data_dir: str) -> HourlyData:
         hourly_high=hourly_high_dict,
         hourly_low=hourly_low_dict,
     )
+
+
+def prepare_hourly_data(data_dir: str, timeframe: str = "1h") -> HourlyData:
+    """Compatibility wrapper. Pass timeframe='5min' or '15min' for lower bars."""
+    return prepare_interval_data(data_dir=data_dir, timeframe=timeframe)
 
 
 class UniswapV3PaperEnv(gym.Env):
@@ -611,6 +697,8 @@ class UniswapV3PaperEnv(gym.Env):
         in_range_bonus_usd: float = 0.0,
         hedge_funding_rate_annual: float = 0.11,  # 11% APR; realistic ETH perpetual funding
         hedge_enabled: bool = True,  # False → unhedged LP reward (no hedge_pnl, no funding)
+        fee_haircut: float = 1.0,
+        active_liquidity_multiplier: float = 1.0,
     ):
         super().__init__()
 
@@ -621,7 +709,12 @@ class UniswapV3PaperEnv(gym.Env):
         self.in_range_bonus_usd = float(in_range_bonus_usd)
         self.hedge_funding_rate_annual = float(hedge_funding_rate_annual)
         self._funding_hr = self.hedge_funding_rate_annual / 8760.0
+        self.period_seconds = float(getattr(hourly_data, "period_seconds", SECONDS_PER_HOUR))
+        self.period_hours = self.period_seconds / SECONDS_PER_HOUR
+        self.periods_per_hour = float(getattr(hourly_data, "periods_per_hour", 1.0))
         self.hedge_enabled = hedge_enabled
+        self.fee_haircut = max(float(fee_haircut), 0.0)
+        self.active_liquidity_multiplier = max(float(active_liquidity_multiplier), 1e-12)
         self.min_tick_width = min_tick_width
         self.max_tick_width = max_tick_width
         self.hold_threshold = hold_threshold
@@ -880,7 +973,7 @@ class UniswapV3PaperEnv(gym.Env):
         lp_delta_x = self._compute_lp_delta(price_t0, lower_price, upper_price, liquidity)
         hedge_pnl = -lp_delta_x * (price_t1 - price_t0)
         if self.hedge_enabled:
-            funding_cost = abs(lp_delta_x * price_t0) * self._funding_hr
+            funding_cost = abs(lp_delta_x * price_t0) * self._funding_hr * self.period_hours
             return hedge_pnl, funding_cost
         else:
             # Delta-neutral adjustment only — no funding, no capital accumulation.
@@ -935,13 +1028,8 @@ class UniswapV3PaperEnv(gym.Env):
         """Build/cache exact per-swap fee path metadata for a given hour and range."""
         lp_lower_tick = price_to_tick(price_lower)
         lp_upper_tick = price_to_tick(price_upper)
-        key = (int(hour_idx), int(lp_lower_tick), int(lp_upper_tick))
-        cache = self.hourly_data._fee_path_cache
-        cached = cache.get(key)
-        if cached is not None:
-            return cached
-
         t0 = self.timestamps[hour_idx]
+        opening_tick = price_to_tick(price_t)
         swap_prices = (
             self.hourly_data.swap_prices_per_hour.get(t0, None)
             if self.hourly_data.swap_prices_per_hour is not None else None
@@ -958,13 +1046,31 @@ class UniswapV3PaperEnv(gym.Env):
             self.hourly_data.swap_ticks_per_hour.get(t0, None)
             if self.hourly_data.swap_ticks_per_hour is not None else None
         )
+        # `hour_idx` is local to the current env slice. Walk-forward scoring reuses the
+        # same HourlyData object across train/eval/test slices, so index-only keys can
+        # collide across different timestamps and make evaluation order-dependent.
+        # Include source-array identities as well so dataclass copies with changed
+        # per-swap liquidity do not reuse a stale fee path from a sibling fixture.
+        key = (
+            str(t0),
+            int(opening_tick),
+            int(lp_lower_tick),
+            int(lp_upper_tick),
+            id(swap_prices),
+            id(swap_amounts),
+            id(swap_liquidities),
+            id(swap_ticks),
+        )
+        cache = self.hourly_data._fee_path_cache
+        cached = cache.get(key)
+        if cached is not None:
+            return cached
 
         if swap_prices is None or len(swap_prices) < 1 or swap_amounts is None or len(swap_amounts) == 0:
             cached = {"kind": "uncached"}
             cache[key] = cached
             return cached
 
-        opening_tick = price_to_tick(price_t)
         coeffs = []
         pool_liqs = []
         fallback_pool_liq = self._get_pool_liquidity(t0)
@@ -1070,8 +1176,13 @@ class UniswapV3PaperEnv(gym.Env):
 
         # Compute hourly-median liquidity share as fallback
         # v3-core: feeGrowthGlobal += feeAmount / L_pool; LP collects L_ours × feeGrowthInside
+        fee_haircut = max(float(getattr(self, "fee_haircut", 1.0)), 0.0)
+        active_liquidity_multiplier = max(
+            float(getattr(self, "active_liquidity_multiplier", 1.0)),
+            1e-12,
+        )
         L_raw = L * self._liquidity_scale
-        pool_L = self._get_pool_liquidity(t0)
+        pool_L = self._get_pool_liquidity(t0) * active_liquidity_multiplier
         if pool_L > 0 and L_raw > 0:
             liquidity_share = L_raw / (pool_L + L_raw)
         else:
@@ -1083,12 +1194,13 @@ class UniswapV3PaperEnv(gym.Env):
             if len(coeffs) == 0:
                 return 0.0
             pool_liqs = cached_fee_path["pool_liqs"]
+            scaled_pool_liqs = pool_liqs * active_liquidity_multiplier
             ls = np.where(
-                np.isfinite(pool_liqs) & (pool_liqs > 0),
-                L_raw / (pool_liqs + L_raw),
+                np.isfinite(scaled_pool_liqs) & (scaled_pool_liqs > 0),
+                L_raw / (scaled_pool_liqs + L_raw),
                 liquidity_share,
             )
-            return float(np.sum(coeffs * ls))
+            return float(np.sum(coeffs * ls) * fee_haircut)
 
         if swap_prices is not None and len(swap_prices) >= 1:
             total_fee = 0.0
@@ -1119,7 +1231,7 @@ class UniswapV3PaperEnv(gym.Env):
                     # Per-swap pool liquidity → exact liquidity_share per swap
                     if (swap_liquidities is not None and j < len(swap_liquidities)
                             and swap_liquidities[j] > 0):
-                        pool_L_j = swap_liquidities[j]
+                        pool_L_j = swap_liquidities[j] * active_liquidity_multiplier
                         ls_j = L_raw / (pool_L_j + L_raw)
                     else:
                         ls_j = liquidity_share  # fall back to hourly median
@@ -1197,7 +1309,7 @@ class UniswapV3PaperEnv(gym.Env):
             max_fee = volume_usd * self.pool_fee * liquidity_share
             total_fee = min(total_fee, max_fee)
 
-        return total_fee
+        return total_fee * fee_haircut
 
     def _compute_swap_fraction(self, price: float,
                                old_lower: float, old_upper: float, old_L: float,
