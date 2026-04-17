@@ -614,6 +614,11 @@ def simulate_step(
       - We first credit/debit P&L for that interval, then apply the new action.
 
     Returns (new_state, step_record).
+
+    Note: `prev_state["hours_since_rebalance"]` is expected to already reflect
+    the hour that elapses BETWEEN the previous step and this one — the main
+    loop ticks it before building the /infer body so the policy sees the same
+    obs the training env would at `idx - position_entry_idx`.
     """
     s = prev_state.copy()
     pool_fee          = cfg.get("pool_fee", 0.0005)
@@ -636,11 +641,25 @@ def simulate_step(
     hedge_pnl_usd        = 0.0
     funding_cost_usd     = 0.0
 
+    # Debug diagnostics (always populated, 0.0 when no position)
+    dbg_L_raw             = 0.0
+    dbg_pool_L_median     = 0.0
+    dbg_liquidity_share   = 0.0
+    dbg_hourly_volume_usd = float(swap_data.get_volume(hour_ts))
+    _swaps_this_hour = swap_data.swap_prices_per_hour.get(hour_ts)
+    dbg_num_swaps         = int(len(_swaps_this_hour)) if _swaps_this_hour is not None else 0
+
     if s.get("has_position") and step_idx > 0 and s.get("liquidity", 0) > 0:
         L = s["liquidity"]
         pl = s.get("price_lower", 0.0) or 0.0
         pu = s.get("price_upper", float("inf")) or float("inf")
         prev_pos_state = _compute_position_state(prev_price, s)
+
+        # Diagnostics: compute hourly-median liquidity share the same way compute_fee does.
+        dbg_L_raw = L * liquidity_scale
+        dbg_pool_L_median = float(swap_data.get_pool_liquidity(hour_ts))
+        if dbg_pool_L_median > 0 and dbg_L_raw > 0:
+            dbg_liquidity_share = dbg_L_raw / (dbg_pool_L_median + dbg_L_raw)
 
         # Position value change (exact v3 math)
         value_t0 = compute_position_value(prev_price, pl, pu, L)
@@ -760,7 +779,7 @@ def simulate_step(
         s["portfolio_value_usd"]   = deployable_capital
     else:
         effective_action = "hold"
-        s["hours_since_rebalance"] = s.get("hours_since_rebalance", 0.0) + 1.0
+        # hsr was already ticked at the start of the step
 
     # ---- 3. Determine position state after action --------------------------------
     position_state = _compute_position_state(current_price, s)
@@ -816,6 +835,12 @@ def simulate_step(
         "price_upper":             s.get("price_upper"),
         "liquidity":               s.get("liquidity", 0.0),
         "hours_since_rebalance":   s["hours_since_rebalance"],
+        # --- Debug diagnostics ------------------------------------------------
+        "dbg_L_raw":               dbg_L_raw,
+        "dbg_pool_L_median":       dbg_pool_L_median,
+        "dbg_liquidity_share":     dbg_liquidity_share,
+        "dbg_hourly_volume_usd":   dbg_hourly_volume_usd,
+        "dbg_num_swaps":           dbg_num_swaps,
     }
 
     return s, step_record
@@ -1083,6 +1108,14 @@ def main():
             # at this exact hour (no future data leak).
             reference_date = ts.strftime("%Y-%m-%dT%H:%M:%S")
 
+            # Tick hsr for any surviving position BEFORE building the body so
+            # the policy sees `hours = idx - position_entry_idx` (matches the
+            # training env). simulate_step then uses this value as-is.
+            if state.get("has_position") and step_idx > 0:
+                state["hours_since_rebalance"] = (
+                    state.get("hours_since_rebalance", 0.0) + 1.0
+                )
+
             # Build request — include caller-computed observation features
             ncr = 0.0
             tir = 0.0
@@ -1208,6 +1241,7 @@ def main():
         _save_trace(trace_rows, trace_path)
         log.info("Done. trace_df saved to %s (%d rows)", trace_path, len(trace_rows))
         log.info("inference_log saved to %s (%d rows)", log_path, len(log_rows))
+        _print_pnl_debug_summary(trace_rows)
         if fatal_error:
             sys.exit(1)
         log.info("Run 04_compute_metrics.py next.")
@@ -1217,6 +1251,90 @@ def _save_trace(rows: list[dict], path: Path) -> None:
     df = pd.DataFrame(rows)
     if not df.empty:
         df.to_parquet(path, index=False)
+
+
+def _print_pnl_debug_summary(rows: list[dict]) -> None:
+    """Break down PnL components by position_state to surface what's dominating."""
+    if not rows:
+        return
+    df = pd.DataFrame(rows)
+    numeric_cols = [
+        "fee_usd", "funding_cost_usd", "tx_cost_usd",
+        "lp_value_change_usd", "hedge_pnl_usd", "swing_pnl_usd",
+        "net_after_tx_usd", "dbg_liquidity_share", "dbg_pool_L_median",
+        "dbg_L_raw", "dbg_hourly_volume_usd", "dbg_num_swaps",
+    ]
+    for c in numeric_cols:
+        if c not in df.columns:
+            df[c] = 0.0
+
+    log.info("=" * 78)
+    log.info("PnL DEBUG SUMMARY  (per position_state, totals in USD)")
+    log.info("=" * 78)
+
+    totals = {
+        "fee":     df["fee_usd"].sum(),
+        "swing":   df["swing_pnl_usd"].sum(),
+        "funding": df["funding_cost_usd"].sum(),
+        "tx":      df["tx_cost_usd"].sum(),
+        "net":     df["net_after_tx_usd"].sum(),
+    }
+    log.info(
+        "TOTAL   steps=%4d  fee=%+8.4f  swing=%+8.4f  funding=%+8.4f  "
+        "tx=%+8.4f  net=%+8.4f",
+        len(df), totals["fee"], totals["swing"],
+        -totals["funding"], -totals["tx"], totals["net"],
+    )
+
+    for state, grp in df.groupby("position_state"):
+        log.info(
+            "[%-11s] n=%4d  fee=%+8.4f  swing=%+8.4f  funding=%+8.4f  "
+            "tx=%+8.4f  net=%+8.4f",
+            state, len(grp),
+            grp["fee_usd"].sum(), grp["swing_pnl_usd"].sum(),
+            -grp["funding_cost_usd"].sum(), -grp["tx_cost_usd"].sum(),
+            grp["net_after_tx_usd"].sum(),
+        )
+
+    # In-range diagnostics only (liquidity share is meaningful only with a live position)
+    in_range = df[df["position_state"] == "lp_in_range"]
+    if not in_range.empty:
+        ls = in_range["dbg_liquidity_share"]
+        vol = in_range["dbg_hourly_volume_usd"]
+        pool_L = in_range["dbg_pool_L_median"]
+        nsw = in_range["dbg_num_swaps"]
+        log.info("-" * 78)
+        log.info("In-range hours only (n=%d):", len(in_range))
+        log.info(
+            "  liquidity_share:  min=%.2e  median=%.2e  max=%.2e",
+            ls.min(), ls.median(), ls.max(),
+        )
+        log.info(
+            "  pool_L (median):  min=%.2e  median=%.2e  max=%.2e",
+            pool_L.min(), pool_L.median(), pool_L.max(),
+        )
+        log.info(
+            "  hourly volume:    min=$%.0f   median=$%.0f   max=$%.0f",
+            vol.min(), vol.median(), vol.max(),
+        )
+        log.info(
+            "  swaps per hour:   min=%d      median=%d      max=%d",
+            int(nsw.min()), int(nsw.median()), int(nsw.max()),
+        )
+        log.info(
+            "  fee per hour:     min=$%.6f  median=$%.6f  max=$%.6f",
+            in_range["fee_usd"].min(),
+            in_range["fee_usd"].median(),
+            in_range["fee_usd"].max(),
+        )
+        # Expected-vs-actual sanity: fee ≈ volume × pool_fee × liquidity_share
+        expected_hourly_fee = (vol * 0.0005 * ls).median()
+        log.info(
+            "  expected fee/hr (vol×0.0005×LS median): $%.6f  "
+            "(actual median: $%.6f)",
+            expected_hourly_fee, in_range["fee_usd"].median(),
+        )
+    log.info("=" * 78)
 
 
 if __name__ == "__main__":

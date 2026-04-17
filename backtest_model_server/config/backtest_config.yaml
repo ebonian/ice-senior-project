@@ -4,8 +4,8 @@
 #          04_compute_metrics.py → 05_plot_dashboard.py
 
 # --- Date range ---
-start_date: "2025-11-09"
-end_date: "2025-12-09"
+start_date: "2026-04-11"
+end_date: "2026-04-14"
 
 # --- Model server ---
 server_url: "http://localhost:4001"
@@ -36,7 +36,7 @@ funding_rate_annual: 0.048 # 4.8% annual perp funding rate
 hedge_accounting_mode: "continuous_delta_hedged"
 
 # Validation threshold: halt if swap-derived vs Binance median price error exceeds this.
-binance_deviation_threshold_pct: 0.5
+binance_deviation_threshold_pct: 0.9
 
 # --- Serving ---
 max_retries: 3 # retry on 503

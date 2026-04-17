@@ -6,6 +6,7 @@ Reads results/ output and writes to plots/:
   plots/decision_analysis.png    action distribution, hold streaks
   plots/portfolio_performance.png equity curve, drawdown, position timeline
   plots/market_context.png       OHLCV candles, volatility, LP range bands
+  plots/market_wallet_overlay.png market context + wallet PnL in one chart
 
 Usage (from backtest_model_server/):
     python scripts/05_plot_dashboard.py
@@ -421,6 +422,101 @@ def plot_market_context(trace_df: pd.DataFrame, out_path: Path, show: bool):
 
 
 # ---------------------------------------------------------------------------
+# Panel 5 — Market context + wallet PnL overlay
+# ---------------------------------------------------------------------------
+
+def plot_market_wallet_overlay(
+    trace_df: pd.DataFrame,
+    initial_cap: float,
+    out_path: Path,
+    show: bool,
+):
+    fig, ax_price = plt.subplots(1, 1, figsize=(15, 6))
+    fig.suptitle("Market Context + Wallet PnL", fontsize=14, fontweight="bold")
+
+    ts = pd.to_datetime(trace_df["timestamp"], errors="coerce")
+    price = trace_df["current_price"]
+    pv = trace_df["portfolio_value"]
+    pnl = pv - initial_cap
+
+    # LP range bands
+    WIDTH_COLORS = {
+        "enter_w4": "#C44E52", "recenter_w4": "#C44E52",
+        "enter_w6": "#DD8452", "recenter_w6": "#DD8452",
+        "enter_w10": "#55A868", "recenter_w10": "#55A868",
+        "enter_w20": "#4C72B0", "recenter_w20": "#4C72B0",
+    }
+    tdf = trace_df.reset_index(drop=True)
+    ts_arr = ts.reset_index(drop=True)
+    has_pos = tdf.get("has_position", pd.Series(False, index=tdf.index)).astype(bool)
+
+    blocks = []
+    i = 0
+    active_color = None
+    while i < len(tdf):
+        if has_pos.iloc[i]:
+            ea = tdf.iloc[i].get("effective_action", "hold")
+            if ea in WIDTH_COLORS:
+                active_color = WIDTH_COLORS[ea]
+            color = active_color or "#AAAAAA"
+            pl = tdf.iloc[i].get("price_lower")
+            pu = tdf.iloc[i].get("price_upper")
+            start_i = i
+            while i < len(tdf) and has_pos.iloc[i]:
+                row = tdf.iloc[i]
+                row_ea = row.get("effective_action", "hold")
+                if row_ea in WIDTH_COLORS and WIDTH_COLORS[row_ea] != color:
+                    break
+                if row.get("price_lower") != pl or row.get("price_upper") != pu:
+                    break
+                i += 1
+            end_i = i - 1
+            if pd.notna(pl) and pd.notna(pu):
+                t_start = ts_arr.iloc[start_i]
+                t_end = ts_arr.iloc[end_i] + pd.Timedelta(hours=1) if end_i + 1 >= len(tdf) else ts_arr.iloc[end_i + 1]
+                blocks.append((t_start, t_end, color, float(pl), float(pu)))
+        else:
+            active_color = None
+            i += 1
+
+    for t_start, t_end, color, pl, pu in blocks:
+        ax_price.fill_between([t_start, t_end], [pl, pl], [pu, pu], color=color, alpha=0.16, linewidth=0)
+
+    # Price line (left axis)
+    ax_price.plot(ts, price, color="black", linewidth=1.2, label="ETH/USDC Price", zorder=6)
+    ax_price.set_ylabel("Price (USD)")
+    ax_price.yaxis.set_major_formatter(USD_FMT)
+
+    # Wallet PnL line (right axis)
+    ax_pnl = ax_price.twinx()
+    ax_pnl.plot(ts, pnl, color="#7E57C2", linewidth=1.6, label="Wallet PnL", zorder=7)
+    ax_pnl.axhline(0, color="#7E57C2", linestyle="--", linewidth=1.0, alpha=0.6)
+    ax_pnl.fill_between(ts, pnl, 0, where=(pnl >= 0), color="#7E57C2", alpha=0.10)
+    ax_pnl.fill_between(ts, pnl, 0, where=(pnl < 0), color="#7E57C2", alpha=0.18)
+    ax_pnl.set_ylabel("Wallet PnL (USD)")
+    ax_pnl.yaxis.set_major_formatter(USD_FMT)
+
+    # Markers
+    enter_mask = trace_df["effective_action"].fillna("hold").str.startswith("enter_w")
+    if enter_mask.any():
+        ax_price.scatter(ts[enter_mask].values, price[enter_mask].values,
+                         marker="^", color="green", s=35, zorder=8, label="Enter")
+    recenter_mask = trace_df["effective_action"].fillna("hold").str.startswith("recenter_w")
+    if recenter_mask.any():
+        ax_price.scatter(ts[recenter_mask].values, price[recenter_mask].values,
+                         marker="o", color="orange", s=24, zorder=8, label="Recenter")
+
+    # Combined legend
+    h1, l1 = ax_price.get_legend_handles_labels()
+    h2, l2 = ax_pnl.get_legend_handles_labels()
+    ax_price.legend(h1 + h2, l1 + l2, fontsize=8, loc="upper left", ncol=2)
+
+    ax_price.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
+    ax_price.grid(alpha=0.2)
+    _save(fig, out_path, show)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -476,6 +572,9 @@ def main():
     plot_portfolio_performance(trace_df, metrics, initial_cap,
                                plots_dir / "portfolio_performance.png", args.show)
     plot_market_context(trace_df, plots_dir / "market_context.png", args.show)
+    plot_market_wallet_overlay(
+        trace_df, initial_cap, plots_dir / "market_wallet_overlay.png", args.show
+    )
 
     log.info("All plots saved to %s", plots_dir)
 

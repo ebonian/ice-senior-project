@@ -118,7 +118,7 @@ python scripts/05_plot_dashboard.py
 python scripts/05_plot_dashboard.py --show
 ```
 
-Writes four PNGs to `plots/`:
+Writes five PNGs to `plots/`:
 
 | File | Contents |
 |------|----------|
@@ -126,6 +126,7 @@ Writes four PNGs to `plots/`:
 | `decision_analysis.png` | Daily action stacks, cumulative counts, hold-streak histogram |
 | `portfolio_performance.png` | Equity curve (model vs HODL), drawdown, position-state timeline |
 | `market_context.png` | Price chart with LP range bands + entry/recenter markers, realised volatility |
+| `market_wallet_overlay.png` | Market context (price + LP bands) and wallet PnL in the same visualization |
 
 ## Configuration reference
 
@@ -163,7 +164,8 @@ plots/
 ├── serving_health.png
 ├── decision_analysis.png
 ├── portfolio_performance.png
-└── market_context.png
+├── market_context.png
+└── market_wallet_overlay.png
 
 data/
 ├── raw_swaps/
