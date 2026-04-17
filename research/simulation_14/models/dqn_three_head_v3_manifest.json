@@ -1,0 +1,61 @@
+{
+  "version": "three_head_v3",
+  "created_at": "2026-04-17",
+  "notes": [
+    "Mask-fixed three-head Double+Dueling DQN v2 action contract saved as v3 model artifacts.",
+    "Top-level aliases use explainability/PnL compromise checkpoints, not simply the best test-PnL fold.",
+    "The 1h model is the strongest project candidate: nominal gate pass, zero invalid actions, fold 0 selected for clearest width reasoning.",
+    "The 15min model is packaged as an interpretable high-PnL candidate, but did not beat the paper rule in enough folds to be called a full pass.",
+    "The 5min model is saved for comparison/demo, but is weaker than 1h and did not beat the paper rule in the first serious gate."
+  ],
+  "top_level_aliases": {
+    "1h": {
+      "model_path": "kongtrae/models/dqn_three_head_v3_1h.zip",
+      "vecnormalize_path": "kongtrae/models/dqn_three_head_v3_1h_vecnormalize.pkl",
+      "source_run": "walk_forward_three_head_v2_1h_maskfix_100k",
+      "source_fold": 0,
+      "source_checkpoint_steps": 100000,
+      "nominal_gate_status": "pass",
+      "mean_test_pnl_usd": 550.4108140958148,
+      "median_test_pnl_usd": 524.3660992344916,
+      "beat_cash_folds": "4/4",
+      "beat_paper_folds": "3/4",
+      "invalid_actions": 0,
+      "alias_selection_note": "Fold 0 is used as the top-level alias because it has the clearest autonomous width-selection story: W4/W10/W20 are all meaningful, with some cash/exits and positive held-out PnL. Fold 3 remains in the fold bundle as the higher-PnL alternate."
+    },
+    "15min": {
+      "model_path": "kongtrae/models/dqn_three_head_v3_15min.zip",
+      "vecnormalize_path": "kongtrae/models/dqn_three_head_v3_15min_vecnormalize.pkl",
+      "source_run": "walk_forward_three_head_v2_15min_maskfix_150k",
+      "source_fold": 3,
+      "source_checkpoint_steps": 100000,
+      "nominal_gate_status": "candidate",
+      "mean_test_pnl_usd": 773.1028308019265,
+      "median_test_pnl_usd": 769.1873424174681,
+      "beat_cash_folds": "4/4",
+      "beat_paper_folds": "2/4",
+      "invalid_actions": 0,
+      "alias_selection_note": "Fold 3 is used as the top-level alias because it balances explainable width selection with positive held-out PnL; fold 2 is more mixed but weaker on PnL."
+    },
+    "5min": {
+      "model_path": "kongtrae/models/dqn_three_head_v3_5min.zip",
+      "vecnormalize_path": "kongtrae/models/dqn_three_head_v3_5min_vecnormalize.pkl",
+      "source_run": "walk_forward_three_head_v2_5min_maskfix_200k_s72",
+      "source_fold": 3,
+      "source_checkpoint_steps": 200000,
+      "nominal_gate_status": "comparison_candidate",
+      "mean_test_pnl_usd": 456.7525,
+      "median_test_pnl_usd": 469.125,
+      "beat_cash_folds": "4/4",
+      "beat_paper_folds": "0/4",
+      "invalid_actions": 0
+    }
+  },
+  "fold_bundles": {
+    "1h": "kongtrae/models/three_head_v3_1h",
+    "15min": "kongtrae/models/three_head_v3_15min",
+    "5min": "kongtrae/models/three_head_v3_5min"
+  },
+  "action_widths": [4, 6, 10, 20],
+  "hedge_accounting_mode": "continuous_delta_hedged"
+}

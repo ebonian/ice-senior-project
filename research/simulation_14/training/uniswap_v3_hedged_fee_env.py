@@ -179,6 +179,8 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
         hedge_funding_rate_annual: float = 0.048,
         hedge_accounting_mode: str = HEDGE_ACCOUNTING_DEFAULT,
         training_reward_mode: str = TRAINING_REWARD_DEFAULT,
+        fee_haircut: float = 1.0,
+        active_liquidity_multiplier: float = 1.0,
         mode: str = "train",
         train_ratio: float = 0.8,
         val_ratio: float = 0.1,
@@ -201,6 +203,8 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
             end_idx=end_idx,
             hedge_funding_rate_annual=hedge_funding_rate_annual,
             hedge_enabled=True,
+            fee_haircut=fee_haircut,
+            active_liquidity_multiplier=active_liquidity_multiplier,
         )
         if hedge_accounting_mode not in HEDGE_ACCOUNTING_MODES:
             raise ValueError(
@@ -634,6 +638,7 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
             funding_per_l = 0.0
             prev_price = float(price_t0)
             prev_time_seconds = 0.0
+            period_seconds = float(getattr(self.hourly_data, "period_seconds", 3600.0))
 
             for j, swap_price in enumerate(np.asarray(swap_prices, dtype=np.float64)):
                 cur_price = float(swap_price)
@@ -641,7 +646,9 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
                 hedge_pnl_per_l += -delta_unit * (cur_price - prev_price)
 
                 if self.hedge_enabled and swap_times is not None and j < len(swap_times):
-                    cur_time_seconds = float(min(max(swap_times[j], prev_time_seconds), 3600.0))
+                    cur_time_seconds = float(
+                        min(max(swap_times[j], prev_time_seconds), period_seconds)
+                    )
                     dt_hours = max(cur_time_seconds - prev_time_seconds, 0.0) / 3600.0
                     funding_per_l += abs(delta_unit * prev_price) * self._funding_hr * dt_hours
                     prev_time_seconds = cur_time_seconds
@@ -651,11 +658,15 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
             if self.hedge_enabled:
                 if swap_times is not None:
                     delta_unit = self._compute_lp_delta(prev_price, lower_price, upper_price, 1.0)
-                    dt_hours = max(3600.0 - prev_time_seconds, 0.0) / 3600.0
+                    dt_hours = max(period_seconds - prev_time_seconds, 0.0) / 3600.0
                     funding_per_l += abs(delta_unit * prev_price) * self._funding_hr * dt_hours
                 else:
                     open_delta_unit = self._compute_lp_delta(price_t0, lower_price, upper_price, 1.0)
-                    funding_per_l = abs(open_delta_unit * price_t0) * self._funding_hr
+                    funding_per_l = (
+                        abs(open_delta_unit * price_t0)
+                        * self._funding_hr
+                        * (period_seconds / 3600.0)
+                    )
 
             cached = (float(hedge_pnl_per_l), float(funding_per_l))
             cache[key] = cached
@@ -775,7 +786,9 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
         )
 
         natr = float(full_features[FEATURE_COLS.index("natr_14")])
-        sigma_hourly = max(natr, 1e-6)
+        sigma_period = max(natr, 1e-6)
+        period_hours = float(getattr(self, "period_hours", 1.0))
+        periods_per_hour = float(getattr(self, "periods_per_hour", 1.0))
         position_state = self._position_state(price)
         is_cash = 1.0 if position_state == "cash" else 0.0
 
@@ -790,27 +803,28 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
                     abs(tick - self.lp_lower_tick),
                     abs(self.lp_upper_tick - tick),
                 )
-                dist_sigma = (dist_ticks * 0.0001) / sigma_hourly
+                dist_sigma = (dist_ticks * 0.0001) / sigma_period
                 dist_to_boundary_sigma = min(5.0, dist_sigma)
             else:
                 if tick < self.lp_lower_tick:
                     dist_ticks = self.lp_lower_tick - tick
                 else:
                     dist_ticks = tick - self.lp_upper_tick
-                dist_sigma = (dist_ticks * 0.0001) / sigma_hourly
+                dist_sigma = (dist_ticks * 0.0001) / sigma_period
                 dist_to_boundary_sigma = -min(5.0, dist_sigma)
 
             half_width_frac = math.exp((self.lp_width_ticks / 2) * math.log(1.0001)) - 1.0
-            sigma_actual = sigma_hourly / 1.3
-            expected_hours_to_oor = (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12)
+            sigma_actual = sigma_period / 1.3
+            expected_periods_to_oor = (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12)
+            expected_hours_to_oor = expected_periods_to_oor * period_hours
             expected_hours_to_oor = min(expected_hours_to_oor, 500.0)
 
             vol_sma = float(full_features[FEATURE_COLS.index("volume_sma_ratio")])
             fee_il_ratio = min(
                 10.0,
-                vol_sma * self.pool_fee / max(sigma_hourly ** 2 * max(width_normalized, 0.01), 1e-10),
+                vol_sma * self.pool_fee / max(sigma_period ** 2 * max(width_normalized, 0.01), 1e-10),
             )
-            hours = self.idx - self.position_entry_idx
+            hours = (self.idx - self.position_entry_idx) * period_hours
             hours_since_rebalance = math.log1p(max(hours, 0)) / math.log(169.0)
 
             book_capital_ratio = self.get_portfolio_value() / max(self.initial_capital, 1.0)
@@ -838,9 +852,10 @@ class UniswapV3HedgedFeeEnv(UniswapV3PaperEnv):
             net_carry_ratio = 0.0
             time_in_range = 0.0
 
-        if self.idx >= 6:
+        lookback_steps = max(int(round(6 * periods_per_hour)), 1)
+        if self.idx >= lookback_steps:
             recent_returns = []
-            for j in range(1, 7):
+            for j in range(1, lookback_steps + 1):
                 p_prev = self._get_price(self.timestamps[self.idx - j])
                 p_cur = self._get_price(self.timestamps[self.idx - j + 1])
                 if p_prev > 0:

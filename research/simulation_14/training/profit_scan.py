@@ -14,6 +14,7 @@ from kongtrae.training.uniswap_v3_hedged_fee_env import (
 
 def _scenario_cache_path(args, action_widths, horizon_hours: int, margin_usd: float, start_idx=None, end_idx=None):
     widths = "_".join(str(w) for w in action_widths)
+    timeframe = str(getattr(args, "timeframe", "1h")).replace(" ", "").replace("/", "_")
     window_suffix = ""
     if start_idx is not None and end_idx is not None:
         window_suffix = f"_idx{int(start_idx)}_{int(end_idx)}"
@@ -21,6 +22,7 @@ def _scenario_cache_path(args, action_widths, horizon_hours: int, margin_usd: fl
         "debug_outputs",
         (
             f"profit_scenarios_train_{getattr(args, 'hedge_accounting_mode', HEDGE_ACCOUNTING_CONTINUOUS)}"
+            f"_tf{timeframe}"
             f"_h{int(horizon_hours)}_s{args.profit_scan_stride}"
             f"_m{str(float(margin_usd)).replace('.', 'p')}"
             f"_w{widths}.csv"
@@ -52,7 +54,11 @@ def _build_or_load_profit_scenario_df(
     )
     width_actions = {width: width_to_action(width) for width in action_widths}
     records = []
-    max_i = max(raw_env.n_steps - int(horizon_hours) - 1, 0)
+    horizon_steps = max(
+        int(round(float(horizon_hours) * float(getattr(data, "periods_per_hour", 1.0)))),
+        1,
+    )
+    max_i = max(raw_env.n_steps - horizon_steps - 1, 0)
     for start_idx_i in range(0, max_i, max(int(args.profit_scan_stride), 1)):
         best_reward = -float("inf")
         best_width = int(action_widths[0])
@@ -64,7 +70,7 @@ def _build_or_load_profit_scenario_df(
             _, _, done, _, info = raw_env.step(width_actions[width])
             reward_usd += float(info["reward_usd"])
             steps = 1
-            while not done and steps < int(horizon_hours):
+            while not done and steps < horizon_steps:
                 _, _, done, _, info = raw_env.step(HOLD_ACTION)
                 reward_usd += float(info["reward_usd"])
                 steps += 1

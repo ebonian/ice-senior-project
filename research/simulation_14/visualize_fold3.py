@@ -43,11 +43,11 @@ test_end_idx = next(i for i, t in enumerate(timestamps) if str(t)[:16] >= test_e
 print(f"Test range: {timestamps[test_start_idx]} -> {timestamps[test_end_idx - 1]}")
 print(f"Hours: {test_end_idx - test_start_idx}")
 
-# ── Load fold 3 model ──
+# ── Load fold 3 v3 model ──
 from kongtrae.training.three_head_dueling_dqn import ThreeHeadDoubleDuelingDQN
 
-model_path = os.path.join(SCRIPT_DIR, "models", "dqn_three_head_v2.zip")
-vec_path = os.path.join(SCRIPT_DIR, "models", "dqn_three_head_v2_vecnormalize.pkl")
+model_path = os.path.join(SCRIPT_DIR, "models", "dqn_three_head_v3_1h.zip")
+vec_path = os.path.join(SCRIPT_DIR, "models", "dqn_three_head_v3_1h_vecnormalize.pkl")
 
 model = ThreeHeadDoubleDuelingDQN.load(model_path, device="cpu")
 with open(vec_path, "rb") as f:

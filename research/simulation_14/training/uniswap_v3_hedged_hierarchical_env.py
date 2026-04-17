@@ -29,7 +29,7 @@ from kongtrae.training.uniswap_v3_hedged_fee_env import (
     optimal_width_for_vol,
     width_to_action,
 )
-from kongtrae.training.uniswap_v3_ppo_paper import FEATURE_COLS, tick_to_price
+from kongtrae.training.uniswap_v3_ppo_paper import FEATURE_COLS, price_to_tick, tick_to_price
 from kongtrae.training.hedged_width_action_utils import (
     WIDTH_ACTION_MODE_ABSOLUTE,
     WIDTH_ACTION_MODES,
@@ -276,21 +276,22 @@ def projected_entry_features_for_width(
         full_features = env.hourly_data.features.get(
             env.timestamps[env.idx], np.zeros(len(FEATURE_COLS), dtype=np.float32)
         )
-    sigma_hourly = max(float(full_features[FEATURE_COLS.index("natr_14")]), 1e-6)
+    sigma_period = max(float(full_features[FEATURE_COLS.index("natr_14")]), 1e-6)
+    period_hours = float(getattr(env, "period_hours", 1.0))
     volume_sma_ratio = float(full_features[FEATURE_COLS.index("volume_sma_ratio")])
     width_normalized = max(float(width) / 40.0, 0.01)
     half_width_ticks = (float(width) * env.tick_spacing) / 2.0
     half_width_frac = math.exp(half_width_ticks * math.log(1.0001)) - 1.0
-    sigma_actual = sigma_hourly / 1.3
+    sigma_actual = sigma_period / 1.3
     expected_hours_to_oor = min(
-        (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12),
+        ((half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12)) * period_hours,
         500.0,
     )
     fee_il_ratio = min(
         10.0,
         volume_sma_ratio
         * env.pool_fee
-        / max(sigma_hourly ** 2 * width_normalized, 1e-10),
+        / max(sigma_period ** 2 * width_normalized, 1e-10),
     )
     return expected_hours_to_oor / 100.0, fee_il_ratio
 
@@ -335,13 +336,14 @@ def project_timing_observation(
     if full_features is None:
         return obs
 
-    sigma_hourly = max(float(full_features[FEATURE_COLS.index("natr_14")]), 1e-6)
+    sigma_period = max(float(full_features[FEATURE_COLS.index("natr_14")]), 1e-6)
+    period_hours = float(getattr(env, "period_hours", 1.0))
     half_width_ticks = (projected_width * env.tick_spacing) / 2.0
-    dist_to_boundary_sigma = min(5.0, (half_width_ticks * 0.0001) / sigma_hourly)
+    dist_to_boundary_sigma = min(5.0, (half_width_ticks * 0.0001) / sigma_period)
     half_width_frac = math.exp((projected_width * env.tick_spacing / 2.0) * math.log(1.0001)) - 1.0
-    sigma_actual = sigma_hourly / 1.3
+    sigma_actual = sigma_period / 1.3
     expected_hours_to_oor = min(
-        (half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12),
+        ((half_width_frac ** 2) / max(sigma_actual ** 2, 1e-12)) * period_hours,
         500.0,
     )
     volume_sma_ratio = float(full_features[FEATURE_COLS.index("volume_sma_ratio")])
@@ -349,7 +351,7 @@ def project_timing_observation(
         10.0,
         volume_sma_ratio
         * env.pool_fee
-        / max(sigma_hourly ** 2 * max(width_normalized, 0.01), 1e-10),
+        / max(sigma_period ** 2 * max(width_normalized, 0.01), 1e-10),
     )
 
     obs = obs.copy()
@@ -412,8 +414,8 @@ class UniswapV3HedgedTimingEnv(UniswapV3HedgedFeeEnv):
 
     def reset(self, seed=None, options=None):
         obs, info = super().reset(seed=seed, options=options)
-        if self.randomize_start and self.n_steps > self.min_episode_hours:
-            max_start = max(self.n_steps - self.min_episode_hours, 0)
+        if self.randomize_start and self.n_steps > self.min_episode_steps:
+            max_start = max(self.n_steps - self.min_episode_steps, 0)
             self.idx = int(self.np_random.integers(0, max_start + 1))
             self._set_cash_state(self.initial_capital)
             obs = self._get_obs()
@@ -763,6 +765,8 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
         action_widths: Sequence[int] = THREE_HEAD_ACTION_WIDTHS,
         allow_in_range_recenter: bool = True,
         oor_recenter_same_width_only: bool = False,
+        recenter_cooldown_hours: float = 0.0,
+        recenter_emergency_oor_sigma: float = 2.5,
         include_paper_signal_features: bool = False,
         cash_start_prob: float = 0.60,
         in_range_start_prob: float = 0.20,
@@ -777,17 +781,25 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
         super().__init__(*args, **kwargs)
         self.reward_scale = float(reward_scale)
         self.randomize_start = bool(randomize_start)
-        self.min_episode_hours = max(int(min_episode_hours), 1)
+        self.period_hours = float(getattr(self, "period_hours", 1.0))
+        self.min_episode_hours = max(float(min_episode_hours), self.period_hours)
         self.max_episode_hours = (
             self.min_episode_hours
             if max_episode_hours is None
-            else max(int(max_episode_hours), self.min_episode_hours)
+            else max(float(max_episode_hours), self.min_episode_hours)
+        )
+        self.min_episode_steps = max(int(math.ceil(self.min_episode_hours / self.period_hours)), 1)
+        self.max_episode_steps = max(
+            int(math.ceil(self.max_episode_hours / self.period_hours)),
+            self.min_episode_steps,
         )
         self.action_widths = tuple(int(w) for w in action_widths)
         if not self.action_widths:
             raise ValueError("Three-head env requires at least 1 entry width")
         self.allow_in_range_recenter = bool(allow_in_range_recenter)
         self.oor_recenter_same_width_only = bool(oor_recenter_same_width_only)
+        self.recenter_cooldown_hours = max(float(recenter_cooldown_hours), 0.0)
+        self.recenter_emergency_oor_sigma = max(float(recenter_emergency_oor_sigma), 0.0)
         self.include_paper_signal_features = bool(include_paper_signal_features)
         weights = np.array(
             [float(cash_start_prob), float(in_range_start_prob), float(oor_start_prob)],
@@ -910,9 +922,9 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
     def _sample_episode_horizon(self) -> int:
         if not self.randomize_start:
             return self.n_steps
-        if self.max_episode_hours <= self.min_episode_hours:
-            return self.min_episode_hours
-        return int(self.np_random.integers(self.min_episode_hours, self.max_episode_hours + 1))
+        if self.max_episode_steps <= self.min_episode_steps:
+            return self.min_episode_steps
+        return int(self.np_random.integers(self.min_episode_steps, self.max_episode_steps + 1))
 
     def _set_episode_window(self, start_idx: int) -> None:
         horizon = self._sample_episode_horizon()
@@ -952,7 +964,7 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
         snapshot = self.get_state_snapshot()
         max_lookback = min(
             target_idx,
-            max(self.max_episode_hours * 2, self.min_episode_hours),
+            max(self.max_episode_steps * 2, self.min_episode_steps),
         )
         if max_lookback <= 0:
             return False
@@ -1041,8 +1053,52 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
             raw_boundary_il_usd=raw_boundary_before,
         )
 
-    def _valid_action_mask_for_state(self, state: str) -> np.ndarray:
-        return self.state_action_masks[THREE_HEAD_STATES.index(state)].copy()
+    def _hours_since_rebalance(self) -> float:
+        if not self.has_lp:
+            return 0.0
+        return max(float(self.idx - self.position_entry_idx) * self.period_hours, 0.0)
+
+    def _oor_distance_to_boundary_sigma(self, price: Optional[float] = None) -> float:
+        if not self.has_lp or self.lp_lower_tick is None or self.lp_upper_tick is None:
+            return 0.0
+        if price is None:
+            if self.idx >= len(self.timestamps):
+                return 0.0
+            price = self._get_price(self.timestamps[self.idx])
+        tick = price_to_tick(float(price))
+        if self.lp_lower_tick <= tick <= self.lp_upper_tick:
+            return 0.0
+        dist_ticks = (
+            self.lp_lower_tick - tick
+            if tick < self.lp_lower_tick
+            else tick - self.lp_upper_tick
+        )
+        full_features = self.hourly_data.features.get(
+            self.timestamps[min(self.idx, len(self.timestamps) - 1)],
+            np.zeros(len(FEATURE_COLS), dtype=np.float32),
+        )
+        sigma_period = max(float(full_features[FEATURE_COLS.index("natr_14")]), 1e-6)
+        return float((dist_ticks * 0.0001) / sigma_period)
+
+    def _recenter_allowed_by_cooldown(self, state: str, price: Optional[float] = None) -> bool:
+        if self.recenter_cooldown_hours <= 0.0:
+            return True
+        if state != THREE_HEAD_OOR:
+            return True
+        if self._hours_since_rebalance() >= self.recenter_cooldown_hours:
+            return True
+        if (
+            self.recenter_emergency_oor_sigma > 0.0
+            and self._oor_distance_to_boundary_sigma(price) >= self.recenter_emergency_oor_sigma
+        ):
+            return True
+        return False
+
+    def _valid_action_mask_for_state(self, state: str, price: Optional[float] = None) -> np.ndarray:
+        mask = self.state_action_masks[THREE_HEAD_STATES.index(state)].copy()
+        if state == THREE_HEAD_OOR and not self._recenter_allowed_by_cooldown(state, price):
+            mask[2:] = False
+        return mask
 
     def _safe_default_action(self, state: str) -> int:
         if state == THREE_HEAD_CASH:
@@ -1074,12 +1130,17 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
             return 0
         return three_head_action_to_width(action_int, state, self.action_widths)
 
-    def requested_three_head_action_label(self, action: int, state: str) -> str:
+    def requested_three_head_action_label(
+        self,
+        action: int,
+        state: str,
+        price: Optional[float] = None,
+    ) -> str:
         action_int = int(action)
         # Check if this is the masked cash slot (last action for cash state)
         if state == THREE_HEAD_CASH and action_int >= 1 + len(self.action_widths):
             return "masked_cash_slot"
-        valid_mask = self._valid_action_mask_for_state(state)
+        valid_mask = self._valid_action_mask_for_state(state, price)
         if not valid_mask[action_int]:
             return "masked_invalid_action"
         if state == THREE_HEAD_CASH:
@@ -1185,13 +1246,25 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
         price_t0 = self._get_price(t0)
         price_t1 = self._get_price(t1)
         decision_state = self._position_state(price_t0)
-        valid_action_mask = self._valid_action_mask_for_state(decision_state)
+        valid_action_mask = self._valid_action_mask_for_state(decision_state, price_t0)
         masked_invalid_action = not bool(valid_action_mask[action_int])
         applied_action = (
             self._safe_default_action(decision_state) if masked_invalid_action else action_int
         )
         requested_width = self.requested_three_head_width(applied_action, decision_state)
         raw_boundary_before = float(self._current_boundary_pnl(price_t0))
+        hours_since_rebalance_before = self._hours_since_rebalance()
+        oor_distance_sigma_before = (
+            self._oor_distance_to_boundary_sigma(price_t0)
+            if decision_state == THREE_HEAD_OOR
+            else 0.0
+        )
+        recenter_cooldown_blocked = bool(
+            decision_state == THREE_HEAD_OOR
+            and action_int >= 2
+            and self.recenter_cooldown_hours > 0.0
+            and not self._recenter_allowed_by_cooldown(decision_state, price_t0)
+        )
 
         if decision_state == THREE_HEAD_CASH:
             if requested_width > 0:
@@ -1290,17 +1363,22 @@ class UniswapV3HedgedThreeHeadEnv(UniswapV3HedgedFeeEnv):
             "decision_state": decision_state,
             "requested_action": action_int,
             "requested_action_label": self.requested_three_head_action_label(
-                action_int, decision_state
+                action_int, decision_state, price_t0
             ),
             "requested_width": int(requested_width),
             "selected_width": int(requested_width),
             "masked_invalid_action": bool(masked_invalid_action),
+            "recenter_cooldown_blocked": bool(recenter_cooldown_blocked),
+            "recenter_cooldown_hours": float(self.recenter_cooldown_hours),
+            "recenter_emergency_oor_sigma": float(self.recenter_emergency_oor_sigma),
+            "hours_since_rebalance": float(hours_since_rebalance_before),
+            "oor_distance_to_boundary_sigma": float(oor_distance_sigma_before),
             "masked_cash_action": bool(
                 decision_state == THREE_HEAD_CASH and masked_invalid_action
             ),
             "applied_action": int(applied_action),
             "applied_action_label": self.requested_three_head_action_label(
-                applied_action, decision_state
+                applied_action, decision_state, price_t0
             ),
             "effective_action": effective_action,
             "next_position_state": next_state,

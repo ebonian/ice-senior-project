@@ -868,8 +868,11 @@ def run_three_head_policy_episode(
                 "timestamp": str(t),
                 "position_state": state,
                 "three_head_action": int(action_value),
-                "three_head_action_label": env.requested_three_head_action_label(
-                    action_value, state
+                "three_head_action_label": str(
+                    info.get(
+                        "requested_action_label",
+                        env.requested_three_head_action_label(action_value, state),
+                    )
                 ),
                 "three_head_q_gap": prediction.q_gap,
                 "requested_width": int(requested_width),
@@ -916,6 +919,22 @@ def run_three_head_policy_episode(
                     float(obs[4]) if getattr(env, "include_paper_signal_features", False) else 0.0
                 ),
                 "hedge_accounting_mode": info["hedge_accounting_mode"],
+                "masked_invalid_action": int(info.get("masked_invalid_action", False)),
+                "recenter_cooldown_blocked": int(
+                    info.get("recenter_cooldown_blocked", False)
+                ),
+                "recenter_cooldown_hours": float(
+                    info.get("recenter_cooldown_hours", 0.0)
+                ),
+                "recenter_emergency_oor_sigma": float(
+                    info.get("recenter_emergency_oor_sigma", 0.0)
+                ),
+                "hours_since_rebalance": float(
+                    info.get("hours_since_rebalance", 0.0)
+                ),
+                "oor_distance_to_boundary_sigma": float(
+                    info.get("oor_distance_to_boundary_sigma", 0.0)
+                ),
             }
         )
         obs = next_obs
@@ -1003,6 +1022,8 @@ def run_paper_threshold_policy_episode(
     start_idx=None,
     end_idx=None,
     fixed_width: int = 4,
+    fee_haircut: float = 1.0,
+    active_liquidity_multiplier: float = 1.0,
 ) -> pd.DataFrame:
     env = UniswapV3HedgedFeeEnv(
         data,
@@ -1011,6 +1032,8 @@ def run_paper_threshold_policy_episode(
         start_idx=start_idx,
         end_idx=end_idx,
         hedge_accounting_mode=hedge_accounting_mode,
+        fee_haircut=fee_haircut,
+        active_liquidity_multiplier=active_liquidity_multiplier,
     )
     obs, _ = env.reset(seed=seed)
     bb_history = [
@@ -1161,7 +1184,16 @@ def _infer_initial_capital(trace_df: pd.DataFrame) -> float:
 
 def trace_metrics(trace_df: pd.DataFrame) -> dict:
     initial_capital = _infer_initial_capital(trace_df)
-    trade_mask = trace_df["effective_action"].str.startswith(("enter_w", "recenter_w", "exit_to_cash"))
+    same_width_recenter_mask = trace_df["effective_action"].eq("recenter_same_width")
+    recenter_mask = (
+        trace_df["effective_action"].str.startswith("recenter_w")
+        | same_width_recenter_mask
+    )
+    trade_mask = (
+        trace_df["effective_action"].str.startswith("enter_w")
+        | recenter_mask
+        | trace_df["effective_action"].eq("exit_to_cash")
+    )
     gross_fee_carry = (
         float(trace_df["gross_fee_carry_usd"].sum())
         if "gross_fee_carry_usd" in trace_df.columns
@@ -1202,7 +1234,8 @@ def trace_metrics(trace_df: pd.DataFrame) -> dict:
         "oor_pct": float((trace_df["position_state"] == "lp_oor").mean() * 100.0),
         "trade_count": int(trade_mask.sum()),
         "enter_count": int(trace_df["effective_action"].str.startswith("enter_w").sum()),
-        "recenter_count": int(trace_df["effective_action"].str.startswith("recenter_w").sum()),
+        "recenter_count": int(recenter_mask.sum()),
+        "same_width_recenter_count": int(same_width_recenter_mask.sum()),
         "exit_count": int(trace_df["effective_action"].eq("exit_to_cash").sum()),
         "gross_fee_carry_usd": gross_fee_carry,
         "raw_swing_pnl_usd": raw_swing_total,
