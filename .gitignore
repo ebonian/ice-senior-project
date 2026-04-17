@@ -216,5 +216,10 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-#poc 
+#poc
 research/poc/
+
+# backtest_model_server — generated data & outputs
+backtest_model_server/data/
+backtest_model_server/results/
+backtest_model_server/plots/

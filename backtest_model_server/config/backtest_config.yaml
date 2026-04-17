@@ -1,0 +1,49 @@
+# Backtest Model Server Configuration
+# ------------------------------------
+# Run scripts/01_pull_data.py → 02_prepare_ohlcv.py → 03_run_infer_backtest.py →
+#          04_compute_metrics.py → 05_plot_dashboard.py
+
+# --- Date range ---
+start_date: "2025-11-09"
+end_date: "2025-12-09"
+
+# --- Model server ---
+server_url: "http://localhost:4001"
+strategy: "default"
+api_key: test-key-123 # override with MODEL_API_KEY env var
+
+# --- Portfolio ---
+initial_capital_usd: 1000.0
+
+# --- Simulation (realistic, ported from simulation_14) ---
+cadence_hours: 1 # inference frequency (hours between steps)
+tick_spacing: 10 # Uniswap V3 tick spacing for ETH/USDC 0.05%
+
+# Pool & position economics (matches simulation_14 defaults)
+pool_fee: 0.0005 # 0.05% fee tier
+decimals0: 18 # WETH decimals
+decimals1: 6 # USDC decimals
+
+# Transaction costs
+gas_cost_usd: 0.03 # gas per trade
+mev_slippage_pct: 0.0001 # 0.01% MEV/slippage per swap
+
+# Hedge parameters (continuous delta hedge via perps)
+hedge_ratio: 1.0 # fraction of ETH delta hedged (1.0 = full hedge, matches training)
+funding_rate_annual: 0.048 # 4.8% annual perp funding rate
+
+# Hedge accounting mode: continuous_delta_hedged | idealized_perfect | none
+hedge_accounting_mode: "continuous_delta_hedged"
+
+# Validation threshold: halt if swap-derived vs Binance median price error exceeds this.
+binance_deviation_threshold_pct: 0.5
+
+# --- Serving ---
+max_retries: 3 # retry on 503
+retry_backoff_base: 1.0 # exponential backoff base (seconds)
+request_timeout: 30 # seconds per request
+concurrency: 1 # sequential (reference_date bypasses server cache)
+
+# --- Output ---
+output_dir: "results"
+plots_dir: "plots"

@@ -8,11 +8,11 @@ This guide explains how to promote a trained model from the research repo into t
 | ------------ | --------------- | ---------- |
 | DuelingDQN | `uniswap_v3_dqn_paper.py` | Yes |
 | LSTM-DQN | custom DQN training | Yes |
-| PPO (Stable Baselines3) | `uniswap_v3_ppo_paper.py` | **No** — different architecture, cannot be loaded |
+| PPO (Stable Baselines3) | `uniswap_v3_ppo_paper.py` | Yes (startup file copy via metadata + artifact folder/zip) |
 
-## Checkpoint Format
+## Checkpoint Formats
 
-The model service expects a `.pth` file containing either:
+For DQN/LSTM strategies, the model service expects a `.pth` file containing either:
 
 - A full training checkpoint dict with a `q_network` key (as produced by DQN training scripts)
 - A raw `state_dict` matching the DuelingDQN or LSTMDuelingDQN layer names
@@ -53,9 +53,19 @@ Each `.pth` file needs a matching `.json` file with the same name:
 }
 ```
 
+**SB3 PPO (artifact folder or zip):**
+```json
+{
+  "architecture": "sb3_ppo",
+  "state_dim": 38,
+  "action_dim": 7,
+  "model_path": "default"
+}
+```
+
 ## Method A: File Copy (before startup)
 
-Place your `.pth` + `.json` pair in `model/weights/`. The service auto-discovers them on startup.
+Place your model artifacts in `model/weights/`. The service auto-discovers them on startup.
 
 ```bash
 # From research repo root
@@ -65,16 +75,26 @@ cp kongtrae/models/my_strategy.json         ../model/weights/my_strategy.json
 
 The service will log `├ my_strategy (dqn)` on startup.
 
-To replace the default model:
+To replace the default model with the simulation_13 PPO artifact:
 
 ```bash
-cp kongtrae/models/comparison_dqn_best.pth ../model/weights/default.pth
-# default.json already exists with correct metadata
+rm -f ../model/weights/default.pth
+mkdir -p ../model/weights/default
+cp -r research/simulation_13/best_model_paper/best_model/. ../model/weights/default/
+cat > ../model/weights/default.json <<'JSON'
+{
+  "architecture": "sb3_ppo",
+  "state_dim": 38,
+  "action_dim": 7,
+  "model_path": "default"
+}
+JSON
 ```
 
 ## Method B: Upload API (hot-reload on running service)
 
 No restart needed. The model is saved to disk and loaded into memory immediately.
+This endpoint currently supports **DQN/LSTM-DQN only**.
 
 ```bash
 # DQN upload
@@ -94,7 +114,7 @@ curl -X POST http://localhost:4001/models/my_strategy/upload \
   -F "fc_hidden=64"
 ```
 
-## Method C: Convert a Training Checkpoint
+## Method C: Convert a DQN/LSTM Training Checkpoint
 
 If your training script saves a full checkpoint (with optimizer, epsilon, etc.), extract just the weights:
 
