@@ -7,8 +7,14 @@ Usage (from backtest_model_server/):
     python scripts/01_pull_data.py --list   # dry-run: show available dates
 
 Requires env vars:  B2_ACCOUNT_ID, B2_ACCOUNT_KEY, B2_BUCKET_NAME
-Output:             data/raw_swaps/raw/swaps/YYYY-MM-DD/*.parquet
-                    data/raw_swaps/raw/prices/YYYY-MM-DD/*.parquet
+Output:             data/raw_swaps/raw/swaps/YYYY-MM-DD/*.parquet       (15-min raw swaps for simulation)
+                    data/raw_swaps/raw/prices/YYYY-MM-DD/*.parquet      (optional)
+                    data/raw_swaps/daily/ohlcv/YYYY-MM-DD.parquet       (hourly OHLCV, built by the pipeline consolidator)
+
+The daily/ohlcv/ files are the same on-chain-derived OHLCV the model server
+consumes in prod (see pipeline/consolidator/ohlcv.go :: BuildOHLCVFromSwaps).
+Script 02 concatenates them into data/ohlcv/hourly_ohlcv.parquet instead of
+rebuilding locally from swaps.
 """
 
 import sys
@@ -66,8 +72,10 @@ def main():
     parser = argparse.ArgumentParser(description="Pull B2 swap/prices data for backtest date range")
     parser.add_argument("--config", default=str(BASE_DIR / "config" / "backtest_config.yaml"))
     parser.add_argument("--list", action="store_true", help="Dry-run: list available dates and exit")
-    parser.add_argument("--types", default="swaps,prices",
-                        help="Comma-separated data types to download (default: swaps,prices)")
+    parser.add_argument("--types", default="swaps,ohlcv",
+                        help="Comma-separated data types to download. Raw types (swaps, prices, mints, "
+                             "burns, state, states) pull 15-min files. 'ohlcv' pulls daily consolidated "
+                             "OHLCV (default: swaps,ohlcv)")
     args = parser.parse_args()
 
     cfg = load_config(Path(args.config))
@@ -127,37 +135,104 @@ def main():
     # List or download
     # ------------------------------------------------------------------
     data_types = [t.strip() for t in args.types.split(",") if t.strip()]
-    invalid_types = [t for t in data_types if t not in DATA_TYPES]
+    ohlcv_requested = "ohlcv" in data_types
+    raw_types = [t for t in data_types if t != "ohlcv"]
+
+    invalid_types = [t for t in raw_types if t not in DATA_TYPES]
     if invalid_types:
-        log.error("Invalid --types values: %s (valid: %s)", ",".join(invalid_types), ",".join(DATA_TYPES))
+        log.error(
+            "Invalid --types values: %s (valid: %s,ohlcv)",
+            ",".join(invalid_types), ",".join(DATA_TYPES),
+        )
         sys.exit(1)
 
-    all_files = list_all_raw_files(bucket, pool_prefix="eth_usdc_0p05")
+    all_raw_files = list_all_raw_files(bucket, pool_prefix="eth_usdc_0p05") if raw_types else {}
 
     if args.list:
-        for dtype in data_types:
-            files = all_files.get(dtype, [])
+        for dtype in raw_types:
+            files = all_raw_files.get(dtype, [])
             filtered = filter_files_by_date_range(files, start_date, end_date, is_daily=False)
-            log.info("[%s] %d files available in range", dtype, len(filtered))
+            log.info("[raw %s] %d files available in range", dtype, len(filtered))
             for f in filtered[:5]:
                 print(f"  {f}")
             if len(filtered) > 5:
                 print(f"  ... and {len(filtered) - 5} more")
+        if ohlcv_requested:
+            ohlcv_dates = _list_daily_ohlcv_dates(bucket, start_date, end_date)
+            log.info("[daily ohlcv] %d files available in range", len(ohlcv_dates))
+            for d in ohlcv_dates[:5]:
+                print(f"  eth_usdc_0p05/daily/ohlcv/{d}.parquet")
+            if len(ohlcv_dates) > 5:
+                print(f"  ... and {len(ohlcv_dates) - 5} more")
         return
 
     log.info("Starting download...")
-    downloaded = download_raw_files(
-        bucket,
-        start_date=start_date,
-        end_date=end_date,
-        data_types=data_types,
-        output_dir=output_dir,
-    )
+    downloaded: dict = {}
+
+    if raw_types:
+        raw_downloaded = download_raw_files(
+            bucket,
+            start_date=start_date,
+            end_date=end_date,
+            data_types=raw_types,
+            output_dir=output_dir,
+        )
+        downloaded.update(raw_downloaded)
+
+    if ohlcv_requested:
+        ohlcv_downloaded = _download_daily_ohlcv(
+            bucket, start_date, end_date, output_dir=output_dir,
+        )
+        downloaded["ohlcv"] = ohlcv_downloaded
 
     print_summary(downloaded)
 
     total = sum(len(v) for v in downloaded.values())
     log.info("Done. Downloaded %d files to %s", total, output_dir)
+
+
+def _list_daily_ohlcv_dates(bucket, start_date, end_date,
+                            prefix: str = "eth_usdc_0p05/daily/ohlcv/") -> list[str]:
+    """Return sorted list of YYYY-MM-DD strings available in the daily/ohlcv/ prefix, inclusive of range."""
+    dates: list[str] = []
+    for file_version, _ in bucket.ls(folder_to_list=prefix, recursive=True):
+        name = file_version.file_name
+        if not name.endswith(".parquet"):
+            continue
+        date_str = name.split("/")[-1].removesuffix(".parquet")
+        try:
+            dt = datetime.fromisoformat(date_str)
+        except ValueError:
+            continue
+        if start_date <= dt <= end_date:
+            dates.append(date_str)
+    return sorted(dates)
+
+
+def _download_daily_ohlcv(bucket, start_date, end_date,
+                          output_dir: Path,
+                          prefix: str = "eth_usdc_0p05/daily/ohlcv/") -> list[Path]:
+    """Download all daily OHLCV parquet files in range to {output_dir}/daily/ohlcv/."""
+    dates = _list_daily_ohlcv_dates(bucket, start_date, end_date, prefix=prefix)
+    if not dates:
+        log.warning("No daily/ohlcv files found in %s → %s",
+                    start_date.date().isoformat(), end_date.date().isoformat())
+        return []
+
+    dest_dir = output_dir / "daily" / "ohlcv"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    log.info("Downloading %d daily OHLCV files to %s", len(dates), dest_dir)
+
+    written: list[Path] = []
+    for date_str in dates:
+        remote = f"{prefix}{date_str}.parquet"
+        local = dest_dir / f"{date_str}.parquet"
+        try:
+            bucket.download_file_by_name(remote).save_to(str(local))
+            written.append(local)
+        except Exception as e:
+            log.warning("Failed to download %s: %s", remote, e)
+    return written
 
 
 if __name__ == "__main__":

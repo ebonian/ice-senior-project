@@ -1,12 +1,19 @@
 """
-Phase 1b-1c — Convert raw swaps to hourly OHLCV and validate against Binance.
+Phase 1b-1c — Concatenate daily OHLCV parquet files pulled from B2, then validate against Binance.
+
+Previously this step rebuilt hourly OHLCV from raw swaps via the POC helpers.
+The B2 pipeline now publishes `eth_usdc_0p05/daily/ohlcv/{date}.parquet` — the
+same file the model server consumes in prod (see `model/app/services/b2_data.py`
+and `pipeline/consolidator/ohlcv.go`). Using it directly removes a divergence
+risk between this harness and the live service.
 
 Usage (from backtest_model_server/):
     python scripts/02_prepare_ohlcv.py
     python scripts/02_prepare_ohlcv.py --config config/backtest_config.yaml
     python scripts/02_prepare_ohlcv.py --skip-validation   # skip Binance comparison
 
-Input:   data/raw_swaps/raw/swaps/ (preferred) or data/raw_swaps/swaps/ (legacy)
+Input:   data/raw_swaps/daily/ohlcv/*.parquet  (preferred — from 01_pull_data.py)
+         data/raw_swaps/{raw/swaps,swaps}/**/*.parquet  (legacy fallback — rebuilds locally)
 Output:  data/ohlcv/hourly_ohlcv.parquet
          data/ohlcv/binance_comparison.csv   (unless --skip-validation)
          data/ohlcv/binance_comparison.png
@@ -62,12 +69,72 @@ def normalize_config_date(value, field_name: str) -> str:
     )
 
 
+def load_daily_ohlcv(daily_dir: Path) -> pd.DataFrame:
+    """
+    Load and concatenate all daily/ohlcv/*.parquet files into a hourly OHLCV
+    DataFrame indexed by UTC datetime.
+
+    The parquet schema matches `pipeline/consolidator/ohlcv.go::OHLCVCandle`:
+        open_time (int64 ms), open, high, low, close, volume
+    """
+    files = sorted(daily_dir.glob("*.parquet"))
+    if not files:
+        raise FileNotFoundError(f"No parquet files under {daily_dir}")
+
+    frames = []
+    for f in files:
+        try:
+            frames.append(pd.read_parquet(f))
+        except Exception as exc:
+            log.warning("Skipping %s: %s", f.name, exc)
+
+    if not frames:
+        raise RuntimeError(f"No readable OHLCV parquet files in {daily_dir}")
+
+    df = pd.concat(frames, ignore_index=True)
+
+    if "open_time" not in df.columns:
+        raise RuntimeError(
+            f"Daily OHLCV parquet missing 'open_time' column — got {list(df.columns)}"
+        )
+
+    df["datetime"] = pd.to_datetime(df["open_time"], unit="ms", utc=True)
+    df = df.sort_values("datetime").drop_duplicates(subset="datetime", keep="last")
+    df = df.set_index("datetime")
+
+    keep = [c for c in ("open", "high", "low", "close", "volume") if c in df.columns]
+    return df[keep]
+
+
+def rebuild_from_raw_swaps(raw_dir: Path) -> pd.DataFrame:
+    """Legacy fallback: rebuild hourly OHLCV locally from raw 15-min swap files."""
+    try:
+        from poc_ohlc_from_swap_data import load_swaps_from_parquet, build_hourly_ohlcv
+    except ImportError as e:
+        raise RuntimeError(
+            f"Cannot import poc_ohlc_from_swap_data from {POC_DIR}: {e}"
+        ) from e
+
+    log.info("Loading swaps from %s ...", raw_dir)
+    swaps = load_swaps_from_parquet(raw_dir)
+    log.info("Loaded %d swap events", len(swaps))
+    if swaps.empty:
+        raise RuntimeError("No swap data loaded — check that B2 download succeeded")
+
+    log.info("Building hourly OHLCV from raw swaps (legacy path)...")
+    return build_hourly_ohlcv(swaps, decimals0=18, decimals1=6)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Build hourly OHLCV from raw swaps + validate vs Binance")
+    parser = argparse.ArgumentParser(
+        description="Assemble hourly OHLCV from B2 daily/ohlcv files + validate vs Binance"
+    )
     parser.add_argument("--config", default=str(BASE_DIR / "config" / "backtest_config.yaml"))
     parser.add_argument("--skip-validation", action="store_true",
                         help="Skip Binance comparison (useful offline or for quick runs)")
     parser.add_argument("--show-plots", action="store_true", help="Show matplotlib popup windows")
+    parser.add_argument("--force-rebuild", action="store_true",
+                        help="Force rebuild from raw swaps even if daily/ohlcv/ files exist")
     args = parser.parse_args()
 
     cfg = load_config(Path(args.config))
@@ -82,65 +149,57 @@ def main():
         log.error("Invalid date range: start_date (%s) is after end_date (%s)", start_date, end_date)
         sys.exit(1)
 
-    threshold  = cfg.get("binance_deviation_threshold_pct", 0.5)
-
-    raw_candidates = [
-        BASE_DIR / "data" / "raw_swaps" / "swaps",      # legacy/expected layout
-        BASE_DIR / "data" / "raw_swaps" / "raw" / "swaps",  # fetch_b2_data.py layout
-    ]
-    raw_dir = raw_candidates[0]
-    for candidate in raw_candidates:
-        if candidate.exists() and any(candidate.rglob("*.parquet")):
-            raw_dir = candidate
-            break
+    threshold = cfg.get("binance_deviation_threshold_pct", 0.5)
 
     ohlcv_dir = BASE_DIR / "data" / "ohlcv"
     ohlcv_dir.mkdir(parents=True, exist_ok=True)
 
     # ------------------------------------------------------------------
-    # Import POC helpers
+    # Assemble hourly OHLCV
     # ------------------------------------------------------------------
-    try:
-        from poc_ohlc_from_swap_data import load_swaps_from_parquet, build_hourly_ohlcv
-    except ImportError as e:
-        log.error("Cannot import poc_ohlc_from_swap_data from %s: %s", POC_DIR, e)
-        sys.exit(1)
+    daily_dir = BASE_DIR / "data" / "raw_swaps" / "daily" / "ohlcv"
+    raw_candidates = [
+        BASE_DIR / "data" / "raw_swaps" / "raw" / "swaps",
+        BASE_DIR / "data" / "raw_swaps" / "swaps",
+    ]
 
-    # ------------------------------------------------------------------
-    # Build OHLCV from raw swaps
-    # ------------------------------------------------------------------
-    if not raw_dir.exists() or not any(raw_dir.rglob("*.parquet")):
-        log.error(
-            "No parquet files found in expected locations: %s",
-            ", ".join(str(p) for p in raw_candidates),
+    hourly: pd.DataFrame
+    if not args.force_rebuild and daily_dir.exists() and any(daily_dir.glob("*.parquet")):
+        log.info("Reading daily OHLCV from %s", daily_dir)
+        hourly = load_daily_ohlcv(daily_dir)
+        source = "b2:daily/ohlcv"
+    else:
+        raw_dir = next(
+            (c for c in raw_candidates if c.exists() and any(c.rglob("*.parquet"))),
+            None,
         )
-        log.error("Run 01_pull_data.py first")
-        sys.exit(1)
-    log.info("Using raw swaps directory: %s", raw_dir)
+        if raw_dir is None:
+            log.error(
+                "No OHLCV data found. Expected %s (preferred) or one of %s.",
+                daily_dir,
+                ", ".join(str(p) for p in raw_candidates),
+            )
+            log.error("Run 01_pull_data.py first (default --types now includes 'ohlcv').")
+            sys.exit(1)
+        log.info("Falling back to raw swaps at %s (legacy rebuild path)", raw_dir)
+        hourly = rebuild_from_raw_swaps(raw_dir)
+        source = f"local-rebuild:{raw_dir.name}"
 
-    log.info("Loading swaps from %s ...", raw_dir)
-    swaps = load_swaps_from_parquet(raw_dir)
-    log.info("Loaded %d swap events", len(swaps))
-
-    if swaps.empty:
-        log.error("No swap data loaded — check that B2 download succeeded")
-        sys.exit(1)
-
-    log.info("Building hourly OHLCV ...")
-    hourly = build_hourly_ohlcv(swaps, decimals0=18, decimals1=6)
-    log.info("Hourly OHLCV: %d rows, %s → %s",
-             len(hourly), hourly.index.min(), hourly.index.max())
+    log.info("Hourly OHLCV: %d rows, %s → %s (source=%s)",
+             len(hourly), hourly.index.min(), hourly.index.max(), source)
 
     # Filter to configured date range
     hourly = hourly.loc[start_date:end_date]
     log.info("Filtered to range: %d rows", len(hourly))
 
-    # Save
+    if hourly.empty:
+        log.error("No rows after filtering to %s → %s", start_date, end_date)
+        sys.exit(1)
+
     ohlcv_path = ohlcv_dir / "hourly_ohlcv.parquet"
     hourly.to_parquet(ohlcv_path)
     log.info("Saved OHLCV to %s", ohlcv_path)
 
-    # Also save a candle plot
     try:
         from poc_ohlc_from_swap_data import plot_candles
         plot_candles(
@@ -188,7 +247,6 @@ def main():
         log.warning("Comparison DataFrame is empty — no overlapping timestamps")
         return
 
-    # Check deviation
     median_diff_bps = comp["close_diff_bps"].abs().median()
     log.info("Median close price deviation: %.2f bps (%.4f%%)", median_diff_bps, median_diff_bps / 100)
 
@@ -207,13 +265,13 @@ def main():
     except Exception as e:
         log.warning("Could not plot comparison: %s", e)
 
-    threshold_bps = threshold * 100  # convert pct to bps
+    threshold_bps = threshold * 100
     if median_diff_bps > threshold_bps:
         log.error(
             "VALIDATION FAILED: median price deviation %.2f bps exceeds threshold %.2f bps (%.2f%%)",
             median_diff_bps, threshold_bps, threshold,
         )
-        log.error("Check B2 swap data quality or widen threshold in config")
+        log.error("Check B2 daily/ohlcv data quality or widen threshold in config")
         sys.exit(1)
     else:
         log.info("Validation PASSED: deviation within %.2f%% threshold", threshold)

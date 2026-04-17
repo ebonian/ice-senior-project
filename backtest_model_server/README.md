@@ -45,19 +45,32 @@ python scripts/01_pull_data.py
 python scripts/01_pull_data.py --list
 ```
 
-Downloads raw swap parquet files to `data/raw_swaps/raw/swaps/` and `data/raw_swaps/raw/prices/`.
+Downloads:
+- Raw 15-minute swap parquet files to `data/raw_swaps/raw/swaps/` (needed by step 5 for
+  per-hour pool liquidity / ticks / time-in-range).
+- Daily consolidated hourly OHLCV to `data/raw_swaps/daily/ohlcv/` — the same files the
+  model server consumes in prod (built by `pipeline/consolidator/ohlcv.go`). Used in step 3
+  instead of recomputing from swaps.
 
-### Step 3 — Build OHLCV + validate
+Override with `--types` (e.g. `--types swaps,ohlcv,prices`).
+
+### Step 3 — Assemble OHLCV + validate
 
 ```bash
 python scripts/02_prepare_ohlcv.py
 # Skip Binance validation (offline / quick run):
 python scripts/02_prepare_ohlcv.py --skip-validation
+# Force rebuild from raw swaps (legacy path — for debugging the consolidator):
+python scripts/02_prepare_ohlcv.py --force-rebuild
 ```
 
-Converts raw swaps to hourly OHLCV, validates against Binance (halts if median price deviation > 0.5%).
-Output: `data/ohlcv/hourly_ohlcv.parquet`, `data/ohlcv/binance_comparison.png`.
-The script auto-detects both `data/raw_swaps/raw/swaps/` and legacy `data/raw_swaps/swaps/`.
+Concatenates `data/raw_swaps/daily/ohlcv/*.parquet` into `data/ohlcv/hourly_ohlcv.parquet`,
+then validates against Binance (halts if median price deviation > 0.5%).
+This uses the **same OHLCV the production model server sees**, removing a divergence risk
+between the harness and the live service.
+
+If the daily/ohlcv files are missing, the script falls back to rebuilding from raw swaps
+via the POC helper (auto-detects `data/raw_swaps/raw/swaps/` or legacy `data/raw_swaps/swaps/`).
 
 ### Step 4 — Start the model server
 
@@ -169,11 +182,13 @@ plots/
 
 data/
 ├── raw_swaps/
-│   └── raw/
-│       ├── swaps/YYYY-MM-DD/   # raw 15-min swap parquets from B2
-│       └── prices/YYYY-MM-DD/
+│   ├── raw/
+│   │   ├── swaps/YYYY-MM-DD/   # raw 15-min swap parquets from B2 (used by simulator)
+│   │   └── prices/YYYY-MM-DD/
+│   └── daily/
+│       └── ohlcv/YYYY-MM-DD.parquet  # daily consolidated hourly OHLCV from B2
 └── ohlcv/
-    ├── hourly_ohlcv.parquet
+    ├── hourly_ohlcv.parquet          # concatenation of the daily/ohlcv files above
     ├── ohlcv_candles.png
     ├── binance_comparison.csv
     └── binance_comparison.png
