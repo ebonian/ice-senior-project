@@ -867,6 +867,19 @@ def simulate_step(
 
     gross_fee_carry = fee_usd - funding_cost_usd - step_tx_cost
 
+    # band_lower/band_upper: belt-and-suspenders against stale-bound regressions.
+    # For any held position, recompute the canonical bounds from (width, current_price)
+    # using the sim14 contract (half_width_ticks = width * tick_spacing // 2). The
+    # dashboard prefers these over price_lower/price_upper so a logging bug can no
+    # longer silently make recenter rows look like holds.
+    if s.get("has_position") and s.get("width") and current_price > 0:
+        _canonical_range = compute_lp_range_from_width(current_price, int(s["width"]), cfg)
+        band_lower = float(_canonical_range["price_lower"])
+        band_upper = float(_canonical_range["price_upper"])
+    else:
+        band_lower = None
+        band_upper = None
+
     step_record = {
         "step":                    step_idx,
         "timestamp":               timestamp.isoformat(),
@@ -899,6 +912,8 @@ def simulate_step(
         "upper_tick":              s.get("upper_tick"),
         "price_lower":             s.get("price_lower"),
         "price_upper":             s.get("price_upper"),
+        "band_lower":              band_lower,
+        "band_upper":              band_upper,
         "liquidity":               s.get("liquidity", 0.0),
         "hours_since_rebalance":   s["hours_since_rebalance"],
         # --- Debug diagnostics ------------------------------------------------

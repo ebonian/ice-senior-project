@@ -96,13 +96,109 @@ def _save(fig, path: Path, show: bool):
     plt.close(fig)
 
 
+TICK_SPACING_DEFAULT = 10
+DECIMALS0_DEFAULT = 18
+DECIMALS1_DEFAULT = 6
+
+
+def _compute_band_from_width(
+    price: float,
+    width: int,
+    tick_spacing: int = TICK_SPACING_DEFAULT,
+    decimals0: int = DECIMALS0_DEFAULT,
+    decimals1: int = DECIMALS1_DEFAULT,
+) -> tuple[float, float]:
+    """Mirror sim14's W-width contract: half_width_ticks = width * tick_spacing // 2."""
+    if price is None or price <= 0 or width is None or int(width) <= 0:
+        return float("nan"), float("nan")
+    offset = int(round((decimals0 - decimals1) * math.log(10) / math.log(1.0001)))
+    raw_tick = int(math.floor(math.log(price) / math.log(1.0001))) - offset
+    center_tick = (raw_tick // tick_spacing) * tick_spacing
+    half = int(width) * tick_spacing // 2
+    lower_human = (center_tick - half) + offset
+    upper_human = (center_tick + half) + offset
+    return 1.0001 ** lower_human, 1.0001 ** upper_human
+
+
+def _extract_width(row) -> int | None:
+    """Pull width from an enter_w{N}/recenter_w{N} label, else from selected_width/width columns."""
+    ea = str(row.get("effective_action", "") or "")
+    for prefix in ("enter_w", "recenter_w"):
+        if ea.startswith(prefix) and ea != "recenter_same_width":
+            tail = ea[len(prefix):]
+            digits = "".join(ch for ch in tail if ch.isdigit())
+            if digits:
+                return int(digits)
+    for col in ("selected_width", "width", "requested_width"):
+        val = row.get(col)
+        if val is not None and pd.notna(val):
+            try:
+                w = int(float(val))
+                if w > 0:
+                    return w
+            except (TypeError, ValueError):
+                continue
+    return None
+
+
+def _normalize_bands(trace_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Recompute per-row LP bounds from effective_action + current_price + width.
+
+    Fixes two reported issues:
+      - Some traces log stale price_lower/price_upper on recenter rows (bounds copied
+        from pre-action snapshot).
+      - "recenter_same_width" label carries no width in the string, so downstream
+        lookups that key off the label miss the new bounds.
+
+    Adds columns 'band_lower' and 'band_upper'. Carries forward through holds;
+    resets to NaN on exit_to_cash / stay_cash.
+    """
+    df = trace_df.copy().reset_index(drop=True)
+    band_lower = [float("nan")] * len(df)
+    band_upper = [float("nan")] * len(df)
+    cur_lo, cur_hi, cur_w = float("nan"), float("nan"), None
+    for i in range(len(df)):
+        row = df.iloc[i]
+        ea = str(row.get("effective_action", "") or "")
+        price = row.get("current_price")
+        if price is None or pd.isna(price):
+            # fall back to a 'price' column if present (kongtrae-direct traces)
+            price = row.get("price")
+
+        if ea.startswith("enter_w") or ea.startswith("recenter_w") or ea == "recenter_same_width":
+            # Width: parse from label; recenter_same_width inherits current width.
+            w = _extract_width(row) if ea != "recenter_same_width" else cur_w
+            if w is None:
+                w = _extract_width(row)  # last-resort: check columns
+            if w is not None and price is not None and not pd.isna(price):
+                cur_lo, cur_hi = _compute_band_from_width(float(price), int(w))
+                cur_w = int(w)
+        elif ea in ("exit_to_cash", "stay_cash", "go_cash", "close_position"):
+            cur_lo, cur_hi, cur_w = float("nan"), float("nan"), None
+        # else: hold / hold_oor — carry cur_lo/cur_hi forward
+
+        # If a row has has_position=False, ensure NaN (guards against stale carry).
+        has_pos = row.get("has_position")
+        if has_pos is not None and not pd.isna(has_pos) and not bool(has_pos):
+            band_lower[i] = float("nan")
+            band_upper[i] = float("nan")
+        else:
+            band_lower[i] = cur_lo
+            band_upper[i] = cur_hi
+
+    df["band_lower"] = band_lower
+    df["band_upper"] = band_upper
+    return df
+
+
 def load_trace(results_dir: Path) -> pd.DataFrame:
     parquet_path = results_dir / "trace_df.parquet"
     csv_path = results_dir / "local_kongtrae_trace.csv"
     if parquet_path.exists():
-        return pd.read_parquet(parquet_path)
+        return _normalize_bands(pd.read_parquet(parquet_path))
     if csv_path.exists():
-        return pd.read_csv(csv_path)
+        return _normalize_bands(pd.read_csv(csv_path))
     log.error(
         "No trace found. Expected %s or %s — run 03_run_infer_backtest.py or 09_run_local_kongtrae_backtest.py first",
         parquet_path,
@@ -350,43 +446,42 @@ def plot_market_context(trace_df: pd.DataFrame, out_path: Path, show: bool):
     ax = axes[0]
 
     # Shade LP range bands — merge contiguous position blocks into single rectangles
-    WIDTH_COLORS = {
-        "enter_w4":   "#C44E52", "recenter_w4":   "#C44E52",
-        "enter_w6":   "#DD8452", "recenter_w6":   "#DD8452",
-        "enter_w10":  "#55A868", "recenter_w10":  "#55A868",
-        "enter_w20":  "#4C72B0", "recenter_w20":  "#4C72B0",
-    }
+    # NOTE: bands come from the normalized band_lower/band_upper columns added by
+    # _normalize_bands (handles recenter_same_width + stale-log cases). Falls back
+    # to price_lower/price_upper if normalization wasn't applied.
+    WIDTH_COLORS_BY_W = {4: "#C44E52", 6: "#DD8452", 10: "#55A868", 20: "#4C72B0"}
+
     ts_arr = ts.reset_index(drop=True)
     tdf = trace_df.reset_index(drop=True)
     has_pos = tdf.get("has_position", pd.Series(False, index=tdf.index)).astype(bool)
+    if "band_lower" in tdf.columns and "band_upper" in tdf.columns:
+        band_lo_col, band_hi_col = "band_lower", "band_upper"
+    else:
+        band_lo_col, band_hi_col = "price_lower", "price_upper"
 
     # Build contiguous position blocks — carry the width color through HOLDs
-    blocks = []  # list of (t_start, t_end, color, price_lower, price_upper)
+    blocks = []  # list of (t_start, t_end, color, band_lower, band_upper)
     i = 0
     active_color = None  # track last enter/recenter color
     while i < len(tdf):
         if has_pos.iloc[i]:
-            ea = tdf.iloc[i].get("effective_action", "hold")
-            # Only update color when we see an actual enter/recenter action
-            if ea in WIDTH_COLORS:
-                active_color = WIDTH_COLORS[ea]
+            w = _extract_width(tdf.iloc[i])
+            if w in WIDTH_COLORS_BY_W:
+                active_color = WIDTH_COLORS_BY_W[w]
             color = active_color or "#AAAAAA"
-            pl = tdf.iloc[i].get("price_lower")
-            pu = tdf.iloc[i].get("price_upper")
+            pl = tdf.iloc[i].get(band_lo_col)
+            pu = tdf.iloc[i].get(band_hi_col)
             start_i = i
-            # Extend block while position continues with same bounds
+            # Extend block while position continues with same bounds + color
             while i < len(tdf) and has_pos.iloc[i]:
                 row = tdf.iloc[i]
-                row_ea = row.get("effective_action", "hold")
-                # Update active color on new enter/recenter
-                if row_ea in WIDTH_COLORS:
-                    new_color = WIDTH_COLORS[row_ea]
-                    if new_color != color:
-                        break  # new width action → start a new block
-                row_pl = row.get("price_lower")
-                row_pu = row.get("price_upper")
+                row_w = _extract_width(row)
+                if row_w in WIDTH_COLORS_BY_W and WIDTH_COLORS_BY_W[row_w] != color:
+                    break  # new width → new block
+                row_pl = row.get(band_lo_col)
+                row_pu = row.get(band_hi_col)
                 if row_pl != pl or row_pu != pu:
-                    break  # bounds changed → start a new block
+                    break  # bounds changed (recenter shifts center) → new block
                 i += 1
             end_i = i - 1
             if pd.notna(pl) and pd.notna(pu):
@@ -486,35 +581,35 @@ def plot_market_wallet_overlay(
     pv = trace_df["portfolio_value"]
     pnl = pv - initial_cap
 
-    # LP range bands
-    WIDTH_COLORS = {
-        "enter_w4": "#C44E52", "recenter_w4": "#C44E52",
-        "enter_w6": "#DD8452", "recenter_w6": "#DD8452",
-        "enter_w10": "#55A868", "recenter_w10": "#55A868",
-        "enter_w20": "#4C72B0", "recenter_w20": "#4C72B0",
-    }
+    # LP range bands — use normalized band_lower/band_upper (robust to recenter_same_width
+    # and stale-log traces); falls back to price_lower/price_upper if unavailable.
+    WIDTH_COLORS_BY_W = {4: "#C44E52", 6: "#DD8452", 10: "#55A868", 20: "#4C72B0"}
     tdf = trace_df.reset_index(drop=True)
     ts_arr = ts.reset_index(drop=True)
     has_pos = tdf.get("has_position", pd.Series(False, index=tdf.index)).astype(bool)
+    if "band_lower" in tdf.columns and "band_upper" in tdf.columns:
+        band_lo_col, band_hi_col = "band_lower", "band_upper"
+    else:
+        band_lo_col, band_hi_col = "price_lower", "price_upper"
 
     blocks = []
     i = 0
     active_color = None
     while i < len(tdf):
         if has_pos.iloc[i]:
-            ea = tdf.iloc[i].get("effective_action", "hold")
-            if ea in WIDTH_COLORS:
-                active_color = WIDTH_COLORS[ea]
+            w = _extract_width(tdf.iloc[i])
+            if w in WIDTH_COLORS_BY_W:
+                active_color = WIDTH_COLORS_BY_W[w]
             color = active_color or "#AAAAAA"
-            pl = tdf.iloc[i].get("price_lower")
-            pu = tdf.iloc[i].get("price_upper")
+            pl = tdf.iloc[i].get(band_lo_col)
+            pu = tdf.iloc[i].get(band_hi_col)
             start_i = i
             while i < len(tdf) and has_pos.iloc[i]:
                 row = tdf.iloc[i]
-                row_ea = row.get("effective_action", "hold")
-                if row_ea in WIDTH_COLORS and WIDTH_COLORS[row_ea] != color:
+                row_w = _extract_width(row)
+                if row_w in WIDTH_COLORS_BY_W and WIDTH_COLORS_BY_W[row_w] != color:
                     break
-                if row.get("price_lower") != pl or row.get("price_upper") != pu:
+                if row.get(band_lo_col) != pl or row.get(band_hi_col) != pu:
                     break
                 i += 1
             end_i = i - 1
