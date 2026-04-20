@@ -123,7 +123,7 @@ The direct run and the model server build their technical-analysis features
 from **different windows of history**:
 
 - **Direct** (`visualize_apr11_14.py` → `prepare_hourly_data` → swaps CSV):
-  loads `research/research/poc/training_data/swaps_20260407_to_20260414_eth_usdt_0p05.csv`,
+  loads `research/research/poc/training_data/swaps_20260407_to_20260414_eth_usdc_0p05.csv`,
   which covers **Apr 7 – Apr 14 2026 (~8 days / ~192 hours)**. All TA
   features — including the expanding-median windows — are computed off this
   short tail.
@@ -157,7 +157,7 @@ effect stacks on top of whatever residual Bug #2 drift exists.
 ### Evidence
 
 - Direct trace covers only 2026-04-11 → 2026-04-14 (95 rows). The
-  underlying swap CSV is `swaps_20260407_to_20260414_eth_usdt_0p05.csv`
+  underlying swap CSV is `swaps_20260407_to_20260414_eth_usdc_0p05.csv`
   (8-day window).
 - Server-side `research/backtest_model_server/results/ohlcv_hourly_detail.csv`
   contains 2568 hourly rows spanning 2026-01-01 → 2026-04-20 (verified
@@ -200,7 +200,7 @@ the Apr 11–14 audit to converge.
 
 - `research/research/simulation_14/visualize_apr11_14.py` — `DATA_DIR`,
   `prepare_hourly_data` call.
-- `research/research/poc/training_data/swaps_20260407_to_20260414_eth_usdt_0p05.csv`
+- `research/research/poc/training_data/swaps_20260407_to_20260414_eth_usdc_0p05.csv`
   — current (short) swap data slice.
 - `model/app/services/b2_data.py` — server-side long-history OHLCV loader.
 - `model/app/nn/features_v2.py:build_dqn_observation` — `expanding_median`

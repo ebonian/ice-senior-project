@@ -89,12 +89,12 @@ Fix:
 - `backtest_model_server/config/backtest_config.yaml` now has:
 
 ```yaml
-pool_prefix: "eth_usdt_0p05"
+pool_prefix: "eth_usdc_0p05"
 ```
 
 - `backtest_model_server/scripts/01_pull_data.py` uses `pool_prefix` from config.
 - `simulation_14/training/uniswap_v3_ppo_paper.py` is synced back to the
-  ETH/USDT filename contract used by `kongtrae`.
+  ETH/USDC filename contract used by `kongtrae`.
 
 ### 4. Dashboard hid exits
 

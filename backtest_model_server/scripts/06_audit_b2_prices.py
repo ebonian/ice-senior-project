@@ -47,7 +47,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-POOL_PREFIX = "eth_usdt_0p05"
+POOL_PREFIX = "eth_usdc_0p05"
 
 
 # ---------------------------------------------------------------------------
@@ -260,7 +260,7 @@ def plot_audit(df: pd.DataFrame, daily: pd.DataFrame, out_path: Path):
         # Dummy for legend
         ax.axvspan(dates.iloc[0], dates.iloc[0], alpha=0.25, color="#F44336", label="Stale data")
 
-    ax.set_ylabel("ETH/USDT Price ($)")
+    ax.set_ylabel("ETH/USDC Price ($)")
     ax.legend(loc="upper left", fontsize=9)
     ax.set_title("Price Timeline with Stale Regions", fontsize=12)
     ax.grid(True, alpha=0.3)

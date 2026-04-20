@@ -52,12 +52,33 @@ import numpy as np
 SCRIPT_DIR = Path(__file__).resolve().parent
 BASE_DIR   = SCRIPT_DIR.parent
 
+# Windows default stdout/stderr is cp1252 when piped; summary prints use
+# unicode (→, ×, …) and would crash. Reconfigure to UTF-8 eagerly.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger(__name__)
+
+
+def _apply_log_prefix(prefix: str) -> None:
+    """Re-initialise the root formatter so every log line is tagged.
+
+    Used by the orchestrator when running multiple strategies in parallel —
+    stdout from all children is interleaved otherwise.
+    """
+    if not prefix:
+        return
+    fmt = f"%(asctime)s [%(levelname)s] [{prefix}] %(message)s"
+    for handler in logging.getLogger().handlers:
+        handler.setFormatter(logging.Formatter(fmt, datefmt="%H:%M:%S"))
 
 # ---------------------------------------------------------------------------
 # Config
@@ -873,7 +894,9 @@ def simulate_step(
     # dashboard prefers these over price_lower/price_upper so a logging bug can no
     # longer silently make recenter rows look like holds.
     if s.get("has_position") and s.get("width") and current_price > 0:
-        _canonical_range = compute_lp_range_from_width(current_price, int(s["width"]), cfg)
+        _canonical_range = compute_lp_range_from_width(
+            current_price, int(s["width"]), cfg.get("tick_spacing", 10)
+        )
         band_lower = float(_canonical_range["price_lower"])
         band_upper = float(_canonical_range["price_upper"])
     else:
@@ -1023,11 +1046,19 @@ def main():
                         help="Resume from last completed step (skip already-logged steps)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print first 3 request bodies then exit")
+    parser.add_argument("--strategy", default=None,
+                        help="Override cfg['strategy']. Used by run_all_strategies.py.")
+    parser.add_argument("--output-subdir", default=None,
+                        help="Subdirectory under output_dir to write trace/log to (e.g. strategy name).")
+    parser.add_argument("--log-prefix", default=None,
+                        help="Tag every log line with [prefix] — handy for parallel runs.")
     args = parser.parse_args()
+
+    _apply_log_prefix(args.log_prefix or "")
 
     cfg         = load_config(Path(args.config))
     server_url  = cfg["server_url"].rstrip("/")
-    strategy    = cfg.get("strategy", "default")
+    strategy    = args.strategy or cfg.get("strategy", "default")
     api_key     = os.environ.get("MODEL_API_KEY") or cfg.get("api_key")
     initial_cap = cfg.get("initial_capital_usd", 1000.0)
     cadence_h   = cfg.get("cadence_hours", 1)
@@ -1040,7 +1071,11 @@ def main():
         sys.exit(1)
 
     results_dir = BASE_DIR / cfg.get("output_dir", "results")
+    if args.output_subdir:
+        results_dir = results_dir / args.output_subdir
     results_dir.mkdir(parents=True, exist_ok=True)
+
+    log.info("Strategy: %s  |  output_dir: %s", strategy, results_dir)
 
     log_path   = results_dir / "inference_log.csv"
     trace_path = results_dir / "trace_df.parquet"
@@ -1210,9 +1245,11 @@ def main():
                 ncr = (acc_fees - acc_fund) / max(initial_cap, 1.0)
                 if state["lower_tick"] is not None and step_idx > 0:
                     prev_hour = pd.Timestamp(timestamps[step_idx - 1], tz="UTC").floor("h")
+                    # swap_ticks_per_hour stores raw v3-core ticks; convert LP bounds to match.
                     tir = compute_time_in_range_for_hour(
                         swap_data, prev_hour,
-                        int(state["lower_tick"]), int(state["upper_tick"]),
+                        human_tick_to_v3_tick(int(state["lower_tick"]), decimals0, decimals1),
+                        human_tick_to_v3_tick(int(state["upper_tick"]), decimals0, decimals1),
                     )
 
             body: dict = {
@@ -1226,8 +1263,13 @@ def main():
                 "time_in_range":         tir,
             }
             if state["has_position"] and state["lower_tick"] is not None:
-                body["lower_tick"] = int(state["lower_tick"])
-                body["upper_tick"] = int(state["upper_tick"])
+                # Server expects on-chain (v3-core) ticks; state stores human/simulation ticks.
+                body["lower_tick"] = human_tick_to_v3_tick(
+                    int(state["lower_tick"]), decimals0, decimals1
+                )
+                body["upper_tick"] = human_tick_to_v3_tick(
+                    int(state["upper_tick"]), decimals0, decimals1
+                )
 
             if args.dry_run:
                 print(f"Step {step_idx} [{ts.isoformat()}]: {json.dumps(body, indent=2)}")

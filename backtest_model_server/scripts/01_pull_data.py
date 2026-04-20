@@ -145,7 +145,7 @@ def main():
         )
         sys.exit(1)
 
-    pool_prefix = cfg.get("pool_prefix", "eth_usdt_0p05")
+    pool_prefix = cfg.get("pool_prefix", "eth_usdc_0p05")
     log.info("Pool prefix: %s", pool_prefix)
     all_raw_files = list_all_raw_files(bucket, pool_prefix=pool_prefix) if raw_types else {}
 

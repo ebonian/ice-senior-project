@@ -154,7 +154,7 @@ All options in `config/backtest_config.yaml`:
 | `api_key` | `null` | API key (or set `MODEL_API_KEY` env var) |
 | `initial_capital_usd` | `1000.0` | Starting portfolio value |
 | `cadence_hours` | `1` | Steps per hour |
-| `tick_spacing` | `10` | Uniswap V3 tick spacing (ETH/USDT 0.05%) |
+| `tick_spacing` | `10` | Uniswap V3 tick spacing (ETH/USDC 0.05%) |
 | `fee_tier_bps` | `5` | Pool fee tier in basis points |
 | `tx_cost_usd` | `2.0` | Flat cost per enter/recenter |
 | `slippage_bps` | `1` | Slippage on each rebalance |
@@ -198,9 +198,9 @@ data/
 
 The portfolio simulation uses a simplified LP model:
 
-- **In-range**: 50% price exposure (balanced ETH/USDT LP approximation) + fee accrual scaled by concentration factor (`sqrt(upper/lower) / (sqrt(upper/lower) - 1)`).
+- **In-range**: 50% price exposure (balanced ETH/USDC LP approximation) + fee accrual scaled by concentration factor (`sqrt(upper/lower) / (sqrt(upper/lower) - 1)`).
 - **OOR below range**: 100% ETH exposure (all capital in ETH), no fees.
-- **OOR above range**: 0% price exposure (all capital in USDT), no fees.
+- **OOR above range**: 0% price exposure (all capital in USDC), no fees.
 - **Rebalance cost**: `tx_cost_usd` + `slippage_bps × portfolio_value` deducted on each enter or recenter.
 
 The fee model is a calibrated approximation. For production accuracy, replace with on-chain fee data.

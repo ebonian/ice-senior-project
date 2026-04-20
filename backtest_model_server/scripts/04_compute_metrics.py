@@ -33,12 +33,28 @@ SIM14_DIR  = LLAMINET / "research" / "research" / "simulation_14"
 sys.path.insert(0, str(SIM14_DIR))
 sys.path.insert(0, str(SIM14_DIR / "training"))
 
+# Windows default stdout/stderr is cp1252 when piped; summary prints use
+# unicode (→, ×, …) and would crash. Reconfigure to UTF-8 eagerly.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger(__name__)
+
+
+def _apply_log_prefix(prefix: str) -> None:
+    if not prefix:
+        return
+    fmt = f"%(asctime)s [%(levelname)s] [{prefix}] %(message)s"
+    for handler in logging.getLogger().handlers:
+        handler.setFormatter(logging.Formatter(fmt, datefmt="%H:%M:%S"))
 
 
 def load_config(path: Path) -> dict:
@@ -143,31 +159,73 @@ def sharpe_ratio(portfolio_values: pd.Series, periods_per_year: float = 8760.0) 
 
 
 def win_rate(trace_df: pd.DataFrame) -> float:
-    """Fraction of closed trades (enter→recenter or enter→exit) with positive swing PnL."""
-    if "raw_swing_pnl_usd" not in trace_df.columns:
+    """Fraction of closed trades with positive net PnL (fees + swing - tx costs).
+
+    A trade spans entry_step → close_step.  Fees accumulate over every in-position
+    hour; raw_swing_pnl captures IL/price-move at the close step.  Using only
+    raw_swing_pnl always yields 0% for fee-based LP strategies because price
+    appreciation is captured by the hedge, not the raw LP swing.
+    """
+    if "raw_swing_pnl_usd" not in trace_df.columns or "effective_action" not in trace_df.columns:
         return float("nan")
-    # Mark trade boundaries: any rebalance or exit action
-    is_trade_close = trace_df["effective_action"].str.startswith(("recenter", "exit_to_cash"))
-    trades = trace_df.loc[is_trade_close, "raw_swing_pnl_usd"]
-    if trades.empty:
+
+    df = trace_df.reset_index(drop=True)
+    entry_mask = df["effective_action"].str.startswith("enter")
+    close_mask = df["effective_action"].str.startswith(("recenter", "exit_to_cash"))
+
+    entry_indices = df.index[entry_mask].tolist()
+    close_indices = df.index[close_mask].tolist()
+
+    if not entry_indices or not close_indices:
         return float("nan")
-    return float((trades > 0).mean())
+
+    fee_col = "fee_usd" if "fee_usd" in df.columns else None
+    tx_col = "tx_cost_usd" if "tx_cost_usd" in df.columns else None
+
+    results = []
+    for close_idx in close_indices:
+        last_entry = max((e for e in entry_indices if e <= close_idx), default=None)
+        if last_entry is None:
+            continue
+        # Sum fees earned from entry through close (inclusive)
+        total_fee = df.loc[last_entry:close_idx, fee_col].sum() if fee_col else 0.0
+        # TX costs at entry and close
+        total_tx = (
+            df.loc[[last_entry, close_idx], tx_col].sum() if tx_col else 0.0
+        )
+        swing = df.loc[close_idx, "raw_swing_pnl_usd"]
+        net = swing + total_fee - total_tx
+        results.append(net > 0)
+
+    return float(np.mean(results)) if results else float("nan")
 
 
 def avg_trade_duration(trace_df: pd.DataFrame) -> float:
-    """Mean hours between rebalances for in-position steps."""
-    if "hours_since_rebalance" not in trace_df.columns:
+    """Mean hours per trade (enter → recenter/exit).
+
+    simulate_step resets hours_since_rebalance to 0 immediately on entry,
+    so reading it at rebalance rows always yields 0.  Instead, reconstruct
+    duration as (close_step − most_recent_entry_step) for each close event.
+    """
+    if "effective_action" not in trace_df.columns or "step" not in trace_df.columns:
         return float("nan")
-    in_pos = trace_df[trace_df["position_state"] != "cash"]
-    if in_pos.empty:
+
+    df = trace_df.reset_index(drop=True)
+    entry_steps = df.loc[
+        df["effective_action"].str.startswith("enter"), "step"
+    ].tolist()
+    close_rows = df[df["effective_action"].str.startswith(("recenter", "exit_to_cash"))]
+
+    if close_rows.empty or not entry_steps:
         return float("nan")
-    # Each rebalance resets hours_since_rebalance to 0; the max just before
-    # next rebalance is the trade duration.
-    rebalance_steps = trace_df["effective_action"].str.startswith(("recenter", "exit_to_cash"))
-    durations = trace_df.loc[rebalance_steps, "hours_since_rebalance"]
-    if durations.empty:
-        return float("nan")
-    return float(durations.mean())
+
+    durations = []
+    for close_step in close_rows["step"]:
+        last_entry = max((s for s in entry_steps if s <= close_step), default=None)
+        if last_entry is not None:
+            durations.append(int(close_step) - int(last_entry))
+
+    return float(np.mean(durations)) if durations else float("nan")
 
 
 def compute_extended_metrics(trace_df: pd.DataFrame) -> dict:
@@ -279,11 +337,24 @@ def load_trace(results_dir: Path) -> pd.DataFrame:
 def main():
     parser = argparse.ArgumentParser(description="Compute backtest metrics and baseline comparison")
     parser.add_argument("--config", default=str(BASE_DIR / "config" / "backtest_config.yaml"))
+    parser.add_argument("--strategy", default=None,
+                        help="Override cfg['strategy'] for metrics labelling.")
+    parser.add_argument("--output-subdir", default=None,
+                        help="Subdirectory under output_dir to read trace_df from / write metrics to.")
+    parser.add_argument("--log-prefix", default=None,
+                        help="Tag every log line with [prefix] — handy for parallel runs.")
     args = parser.parse_args()
+
+    _apply_log_prefix(args.log_prefix or "")
 
     cfg         = load_config(Path(args.config))
     initial_cap = cfg.get("initial_capital_usd", 1000.0)
+    strategy    = args.strategy or cfg.get("strategy", "default")
     results_dir = BASE_DIR / cfg.get("output_dir", "results")
+    if args.output_subdir:
+        results_dir = results_dir / args.output_subdir
+
+    log.info("Strategy: %s  |  results_dir: %s", strategy, results_dir)
 
     trace_df = load_trace(results_dir)
     log.info("Loaded trace_df: %d rows", len(trace_df))
@@ -337,7 +408,7 @@ def main():
             "start_date":          cfg["start_date"],
             "end_date":            cfg["end_date"],
             "initial_capital_usd": initial_cap,
-            "strategy":            cfg.get("strategy", "default"),
+            "strategy":            strategy,
         },
         "model_server": model_metrics,
         "always_cash":  cash_metrics,
@@ -389,7 +460,7 @@ def main():
 
     lines = [
         f"# Backtest Results: {cfg['start_date']} → {cfg['end_date']}",
-        f"Strategy: `{cfg.get('strategy', 'default')}`  |  "
+        f"Strategy: `{strategy}`  |  "
         f"Initial capital: ${initial_cap:,.0f}  |  "
         f"Steps: {len(trace_df)}",
         "",

@@ -4,26 +4,33 @@
 #          04_compute_metrics.py → 05_plot_dashboard.py
 
 # --- Date range ---
-start_date: "2026-04-11"
-end_date: "2026-04-14"
+start_date: "2026-04-10"
+end_date: "2026-04-18"
 
 # --- Model server ---
 server_url: "http://localhost:4001"
-strategy: "default"
+strategy: "default"          # legacy single-strategy fallback (ignored when `strategies` is set)
+# Multi-strategy parallel backtest. When set, run_all_strategies.py runs step 3
+# for every entry concurrently (each hits the same model server) and writes
+# per-strategy outputs to results/<strategy>/ and plots/<strategy>/.
+strategies:
+  - "simulation_14_1h"
+  - "simulation_14_15min"
+  - "simulation_14_5min"
 api_key: test-key-123 # override with MODEL_API_KEY env var
 
 # --- Portfolio ---
-initial_capital_usd: 1000.0
+initial_capital_usd: 100.0
 
 # --- Simulation (realistic, ported from simulation_14) ---
 cadence_hours: 1 # inference frequency (hours between steps)
-tick_spacing: 10 # Uniswap V3 tick spacing for ETH/USDT 0.05%
+tick_spacing: 10 # Uniswap V3 tick spacing for ETH/USDC 0.05%
 
 # Pool & position economics (matches Kongtrae v3 training/eval defaults)
-pool_prefix: "eth_usdt_0p05" # B2 prefix. Must match the model/eval pool, not just a similar ETH stablecoin pool.
+pool_prefix: "eth_usdc_0p05" # B2 prefix. Must match the model/eval pool, not just a similar ETH stablecoin pool.
 pool_fee: 0.0005 # 0.05% fee tier
 decimals0: 18 # WETH decimals
-decimals1: 6 # USDT decimals
+decimals1: 6 # USDC decimals
 
 # Transaction costs
 gas_cost_usd: 0.03 # gas per trade

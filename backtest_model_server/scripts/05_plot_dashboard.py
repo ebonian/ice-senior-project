@@ -36,12 +36,26 @@ from matplotlib.ticker import FuncFormatter
 SCRIPT_DIR = Path(__file__).resolve().parent
 BASE_DIR   = SCRIPT_DIR.parent
 
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger(__name__)
+
+
+def _apply_log_prefix(prefix: str) -> None:
+    if not prefix:
+        return
+    fmt = f"%(asctime)s [%(levelname)s] [{prefix}] %(message)s"
+    for handler in logging.getLogger().handlers:
+        handler.setFormatter(logging.Formatter(fmt, datefmt="%H:%M:%S"))
 
 
 def load_config(path: Path) -> dict:
@@ -625,7 +639,7 @@ def plot_market_wallet_overlay(
         ax_price.fill_between([t_start, t_end], [pl, pl], [pu, pu], color=color, alpha=0.16, linewidth=0)
 
     # Price line (left axis)
-    ax_price.plot(ts, price, color="black", linewidth=1.2, label="ETH/USDT Price", zorder=6)
+    ax_price.plot(ts, price, color="black", linewidth=1.2, label="ETH/USDC Price", zorder=6)
     ax_price.set_ylabel("Price (USD)")
     ax_price.yaxis.set_major_formatter(USD_FMT)
 
@@ -670,7 +684,15 @@ def main():
     parser = argparse.ArgumentParser(description="Plot backtest dashboard")
     parser.add_argument("--config", default=str(BASE_DIR / "config" / "backtest_config.yaml"))
     parser.add_argument("--show", action="store_true", help="Show matplotlib popup windows")
+    parser.add_argument("--output-subdir", default=None,
+                        help="Subdirectory under output_dir to read trace/metrics from.")
+    parser.add_argument("--plots-subdir", default=None,
+                        help="Subdirectory under plots_dir to write PNGs to.")
+    parser.add_argument("--log-prefix", default=None,
+                        help="Tag every log line with [prefix] — handy for parallel runs.")
     args = parser.parse_args()
+
+    _apply_log_prefix(args.log_prefix or "")
 
     if args.show:
         try:
@@ -682,7 +704,12 @@ def main():
     initial_cap = cfg.get("initial_capital_usd", 1000.0)
     results_dir = BASE_DIR / cfg.get("output_dir", "results")
     plots_dir   = BASE_DIR / cfg.get("plots_dir", "plots")
+    if args.output_subdir:
+        results_dir = results_dir / args.output_subdir
+    if args.plots_subdir:
+        plots_dir = plots_dir / args.plots_subdir
     plots_dir.mkdir(parents=True, exist_ok=True)
+    log.info("results_dir: %s  |  plots_dir: %s", results_dir, plots_dir)
 
     # ------------------------------------------------------------------
     # Load data
