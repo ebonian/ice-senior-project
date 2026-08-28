@@ -21,10 +21,21 @@ One of three repos:
 
 **The cross-repo architecture is documented once, in `bot/docs/architecture/SYSTEM.md`.** Read it before touching a repo boundary. Live strategy status, the bug catalogue, and trial results live in `bot/STRATEGY_TRACKER.md` and `bot/docs/`.
 
+## The research loop
+
+Model/strategy research runs as a **closed loop** with durable memory: hypothesis → one-variable change → test → pre-registered verdict → self-critique, with a mandatory step-back review when a hypothesis family keeps failing. The loop's state lives in [`loop/`](loop/):
+
+- [`loop/GOAL.md`](loop/GOAL.md) — what the loop is optimizing, the sub-goal ladder, standing hypothesis families
+- [`loop/PROTOCOL.md`](loop/PROTOCOL.md) — the iteration procedure; **read it and execute exactly one iteration** when asked to “run a research-loop iteration”
+- [`loop/LEDGER.md`](loop/LEDGER.md) — append-only index of every experiment and review
+
+An experiment that grows into a full training run still becomes `research/simulation_N+1` (append-only convention below); its `E<NNN>` file wraps and links it.
+
 ## Layout
 
 | Path | Purpose |
 |---|---|
+| `loop/` | **The research loop** — goal, protocol, experiment ledger (see above) |
 | `research/simulation_N/` | One numbered experiment each — `README.md`, `CONFIG.md`, `PLAN.md`, training and eval code |
 | `research/simulation_14/` | **The shipped lineage.** Three-Head Double-Dueling DQN v3, multi-timeframe, mask-fixed walk-forward |
 | `research/data/`, `research/pull-data/` | Training data and its collection |
