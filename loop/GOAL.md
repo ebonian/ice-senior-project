@@ -14,8 +14,8 @@ Produce the **range policy** — when to be in position, at what width, when to 
 
 | # | Sub-goal | Status | Decided by |
 |---|---|---|---|
-| G1 | Know whether the shipped DQN beats the trivial always-in rule in its own env | RUNNING ([E001](experiments/E001-baseline-race.md)) | E001's pre-registered decision rule |
-| G2 | A policy trained under **honest costs** that does not collapse to never-act, and beats the rule under those costs | open | in-env eval vs rule, then G3 |
+| G1 | Know whether the shipped DQN beats the trivial always-in rule in its own env | ✅ done 2026-08-29 — **REFUTED** ([E001](experiments/E001-baseline-race.md)) | E001's pre-registered decision rule |
+| G2 | A policy trained under **honest costs** on the served pool's data (tickSpacing=10 — bot issue V) that does not collapse to never-act, and beats the rule under those costs | open — **current focus** | in-env eval vs rule, then G3 |
 | G3 | That policy clears Gate 2 in the bot backtest at the target APR | open | bot item D engine |
 
 G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95 first** (γ=0 makes never-act rational the moment costs are honest — the collapse the operator observed was rational under the old setup), cost curriculum (published technique: Karzanov et al 2025 — ramp transaction costs up during training), terminal net-carry reward, warm-start from the always-in rule, and monitor the stay-cash fraction during training as the collapse alarm.
@@ -25,7 +25,7 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 - **H-width** — current widths may be structurally too narrow: W4–W20 ≈ ±0.4–2%, and T5 earned **$0.72 of fees per $1.00 of IL** (fees/IL = 0.72 < 1, T5 corrected). The Strategic Liquidity Provision literature places profitable ranges far wider. Test wider ranges in-env and in the backtest before trusting either.
 - **H-frequency** — fewer, better rebalances: dwell/hysteresis on recentering vs. IL crystallized per rebalance (bot issue U's buy-high re-mint is one instance; 79% of T5's crystallized IL came from one breakout hour).
 - **H-pool** — ETH/USDC 0.05% at this capital may be structurally thin. The backtest engine is pool-parameterized (bot item D), so other pools can be screened offline. **Live trials stay on ETH/USDC 0.05%** until the engine is trusted — Gate 1 ground truth exists only for this pool.
-- **H-model-class** — if the DQN family keeps failing reviews, the named alternatives are: rule + tuned thresholds (simplest), policy-gradient, offline RL on trial data.
+- **H-model-class** — if the DQN family keeps failing reviews, the named alternatives are: rule + tuned thresholds (simplest), policy-gradient, offline RL on trial data. E001 verdict: the shipped DQN destroys value vs the always-in rule even in its own env — and was trained on a different pool than it serves (bot issue V).
 
 ## Constraints
 
@@ -35,4 +35,4 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 
 ## Current focus
 
-**E001 baseline race (G1).** After its verdict: REFUTED → G2 retrain becomes the focus and the rule becomes the interim serving candidate (pending operator + bot-repo confirmation); SUPPORTED → characterize what the DQN adds before starting G2; INCONCLUSIVE → run the disambiguating experiment it names.
+**G2 — the anti-collapse retrain (bot item F), on the served pool's data.** E001 came back REFUTED: always-in-W10 beats the shipped DQN in the DQN's own env (+$81.97/mo, 3/4 episodes; W4 +$251.18, 4/4), and the checkpoint turns out to have been trained on ETH/USDT 0.3% mainnet (tickSpacing 60) while serving ETH/USDC 0.05% (tickSpacing 10) — `ENTER_W10` is a 6.1× narrower range live than in training (bot issue V). Two constraints bind every future iteration: retrains use tickSpacing=10 ETH/USDC data, and simulation_14's published gate numbers are never quoted as evidence about the served pool. The in-env width ranking (W4 > W6 > W10) is signal-only — re-race under honest costs once the bot backtest engine passes Gate 1 (item D) before trusting it. Escalated to operator: no future live trial serves the shipped checkpoint as-is.

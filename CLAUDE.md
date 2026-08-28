@@ -39,7 +39,7 @@ An experiment that grows into a full training run still becomes `research/simula
 | `research/simulation_N/` | One numbered experiment each — `README.md`, `CONFIG.md`, `PLAN.md`, training and eval code |
 | `research/simulation_14/` | **The shipped lineage.** Three-Head Double-Dueling DQN v3, multi-timeframe, mask-fixed walk-forward |
 | `research/data/`, `research/pull-data/` | Training data and its collection |
-| `kongtrae/` | Shared model definition, training and inference code |
+| `kongtrae/` | Shared model definition, training and inference code. ⚠️ **Stale (pre-mask-fix)** as an import target: `simulation_14/training/*` run from the repo root resolves here and gets the wrong code — pin imports the way `research/simulation_14/analysis/baseline_race/sim14_bootstrap.py` does |
 | `backtest_model_server/` | Backtest harness against a model server (has its own `CLAUDE.md`) |
 | `dune_pipeline/`, `data_collector/` | Pool data extraction — Dune exports, poolfish exploration |
 | `checkpoints_paper/`, `eval_logs_paper/`, `best_model_paper/` | Paper-reproduction baselines the agents are measured against |
