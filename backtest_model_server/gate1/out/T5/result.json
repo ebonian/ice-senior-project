@@ -1,0 +1,171 @@
+{
+  "trial": 5,
+  "cost_model_version": "gate1-2026-08-29",
+  "table": [
+    {
+      "line": "lp_fees_usd",
+      "target": 7.821,
+      "reproduced": 7.809075507236367,
+      "delta": -0.011924492763633054,
+      "tolerance": "\u00b115%",
+      "delta_pct": -0.1524676226011131,
+      "pass": true,
+      "source": "summary.json lp_fees_collected_usd"
+    },
+    {
+      "line": "crystallized_il_usd",
+      "target": -10.9,
+      "reproduced": -11.724502990586643,
+      "delta": -0.8245029905866428,
+      "tolerance": "\u00b110%",
+      "delta_pct": -7.564247620060943,
+      "pass": true,
+      "source": "report 01 \u00a75 per-segment table"
+    },
+    {
+      "line": "basket_delta_usd",
+      "target": 8.52,
+      "reproduced": 9.49877903142567,
+      "delta": 0.9787790314256704,
+      "tolerance": "\u00b110%",
+      "delta_pct": 11.48801680077078,
+      "pass": false,
+      "source": "report 01 \u00a75"
+    },
+    {
+      "line": "hpl_fees_usd",
+      "target": -3.3577,
+      "reproduced": -3.3578971948799996,
+      "delta": -0.00019719487999969587,
+      "tolerance": "\u00b15%",
+      "delta_pct": -0.005872915388500934,
+      "pass": true,
+      "source": "summary.json hedge_fees_paid_usd"
+    },
+    {
+      "line": "funding_usd",
+      "target": 0.0702,
+      "reproduced": 0.056904875664368006,
+      "delta": -0.013295124335631993,
+      "tolerance": "\u00b1$0.05",
+      "delta_pct": NaN,
+      "pass": true,
+      "source": "summary.json implied_funding_usd"
+    },
+    {
+      "line": "onchain_cost_usd",
+      "target": -5.1049,
+      "reproduced": -4.625058525241999,
+      "delta": 0.47984147475800043,
+      "tolerance": "\u00b110%",
+      "delta_pct": 9.399625355207752,
+      "pass": true,
+      "source": "summary.json / onchain_audit.json"
+    },
+    {
+      "line": "onchain_swap_volume_usd",
+      "target": 9062.15,
+      "reproduced": 8158.499564,
+      "delta": -903.6504359999999,
+      "tolerance": "\u00b110%",
+      "delta_pct": -9.971700269803522,
+      "pass": true,
+      "source": "onchain_audit.json"
+    },
+    {
+      "line": "flat_gap_residual_usd",
+      "target": -2.4,
+      "reproduced": -3.050713388715023,
+      "delta": -0.6507133887150229,
+      "tolerance": "\u00b150%",
+      "delta_pct": -27.113057863125956,
+      "pass": true,
+      "source": "report 01 \u00a75 out-of-position drift"
+    }
+  ],
+  "aggregates": {
+    "lp_fees_usd": 7.809075507236367,
+    "crystallized_il_usd": -11.724502990586643,
+    "basket_delta_usd": 9.49877903142567,
+    "hpl_fees_usd": -3.3578971948799996,
+    "funding_usd": 0.056904875664368006,
+    "onchain_cost_usd": -4.625058525241999,
+    "onchain_swap_volume_usd": 8158.499564,
+    "flat_gap_residual_usd": -3.050713388715023,
+    "net_aum_explained_usd": -9.547035296382235,
+    "lp_fees_vs_recorded_usd": 7.809075507236367
+  },
+  "hedge": {
+    "n_fills": 409,
+    "notional_usd": 13656.822519999998,
+    "recorded_fees_usd": 3.357692,
+    "modelled_fees_usd": 3.3578971948799996,
+    "modelled_fees_count_weighted_usd": 2.514725226470024,
+    "maker_share_by_count": 0.8606356968215159,
+    "maker_share_by_notional": 0.646260761394152,
+    "maker_notional_usd": 8825.86852,
+    "taker_notional_usd": 4830.954,
+    "n_maker": 352,
+    "n_taker": 57,
+    "oversized_taker_fills": 8,
+    "oversized_taker_fees_usd": 1.620149,
+    "funding_usd": 0.056904875664368006
+  },
+  "hedge_trading_pnl": {
+    "realized_closes_gross_usd": -8.488485999999998,
+    "upnl_change_usd": 1.28415,
+    "hedge_trading_pnl_usd": -7.204335999999998,
+    "aum_total_start_usd": 1419.864753188204,
+    "aum_total_end_usd": 1407.2670045031068,
+    "aum_total_change_usd": -12.597748685097258
+  },
+  "onchain": {
+    "swapped_notional_predicted_usd": 7775.155249126782,
+    "swapped_notional_measured_usd": 8158.499564,
+    "n_our_swaps_measured": 22,
+    "swapped_notional_audited_usd": 9062.151864000001,
+    "n_swaps_audited": null,
+    "n_tx_audited": null,
+    "basis_used": "measured",
+    "modelled_total_usd": 4.625058525241999,
+    "modelled_swap_usd": 4.205706525241999,
+    "modelled_gas_usd": 0.40399999999999997,
+    "modelled_failed_usd": 0.015352,
+    "modelled_total_from_predicted_usd": 4.4274445309248565,
+    "audited_total_usd": null
+  },
+  "residual_usd": -3.050713388715023,
+  "n_cycles": 8,
+  "orphan_exits": [
+    {
+      "cycle": 8,
+      "dropped": [
+        {
+          "ts": "2026-05-15 04:02:04.588000+00:00",
+          "accumulated_fees_usd": 1.5764268593486461,
+          "tx": "0xb23a2565e6bcf9451c866184fe278bceed82eff0e715fe96a5ccb7cc0fe2d040",
+          "reverted": true
+        }
+      ]
+    }
+  ],
+  "il_totals": {
+    "binance": -11.702835399094965,
+    "onchain_price": -11.724502990586643,
+    "exact_from_mint_burn": -11.658572247935695,
+    "n_cycles_exact": 7,
+    "n_cycles": 8
+  },
+  "basket_totals": {
+    "binance": 9.775520859756966,
+    "onchain_price": 9.49877903142567,
+    "exact_from_mint_burn": 10.100565635029511
+  },
+  "lp_fee_totals": {
+    "modelled": 7.809075507236367,
+    "recorded": 7.8210258384360305,
+    "onchain_collect": 6.244598979087231,
+    "n_cycles_with_collect": 7,
+    "worst_cycle_abs_err_pct": 1.3438589866060724
+  }
+}

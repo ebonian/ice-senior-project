@@ -1,0 +1,160 @@
+{
+  "trial": 4,
+  "cost_model_version": "gate1-2026-08-29",
+  "table": [
+    {
+      "line": "lp_fees_usd",
+      "target": 5.5623,
+      "reproduced": 4.739714994882903,
+      "delta": -0.8225850051170962,
+      "tolerance": "\u00b115%",
+      "delta_pct": -14.788576759921188,
+      "pass": true,
+      "source": "report 01 \u00a72 (sum of executed_exit rows)"
+    },
+    {
+      "line": "crystallized_il_usd",
+      "target": -4.51,
+      "reproduced": -4.2701072023417055,
+      "delta": 0.2398927976582943,
+      "tolerance": "\u00b110%",
+      "delta_pct": 5.319130768476592,
+      "pass": true,
+      "source": "report 01 \u00a75"
+    },
+    {
+      "line": "basket_delta_usd",
+      "target": 1.2,
+      "reproduced": -4.271996533959282,
+      "delta": -5.471996533959282,
+      "tolerance": "\u00b110%",
+      "delta_pct": -455.9997111632735,
+      "pass": false,
+      "source": "report 01 \u00a75"
+    },
+    {
+      "line": "hpl_fees_usd",
+      "target": -4.4021,
+      "reproduced": -4.4024512406400005,
+      "delta": -0.00035124064000058297,
+      "tolerance": "\u00b15%",
+      "delta_pct": -0.007978933690751755,
+      "pass": true,
+      "source": "summary.json hedge_fees_paid_usd"
+    },
+    {
+      "line": "funding_usd",
+      "target": 0.0947,
+      "reproduced": 0.079082406607204,
+      "delta": -0.015617593392796003,
+      "tolerance": "\u00b1$0.05",
+      "delta_pct": NaN,
+      "pass": true,
+      "source": "summary.json implied_funding_usd"
+    },
+    {
+      "line": "onchain_cost_usd",
+      "target": -6.4,
+      "reproduced": -5.930592701082,
+      "delta": 0.46940729891800004,
+      "tolerance": "\u00b110%",
+      "delta_pct": 7.334489045593751,
+      "pass": true,
+      "source": "report 01 \u00a72 (SCALED ESTIMATE, +-40%)"
+    }
+  ],
+  "aggregates": {
+    "lp_fees_usd": 4.739714994882903,
+    "crystallized_il_usd": -4.2701072023417055,
+    "basket_delta_usd": -4.271996533959282,
+    "hpl_fees_usd": -4.4024512406400005,
+    "funding_usd": 0.079082406607204,
+    "onchain_cost_usd": -5.930592701082,
+    "onchain_swap_volume_usd": 10589.372844,
+    "flat_gap_residual_usd": 3.467291387201705,
+    "net_aum_explained_usd": -12.226355276532878,
+    "lp_fees_vs_recorded_usd": 4.739714994882903
+  },
+  "hedge": {
+    "n_fills": 620,
+    "notional_usd": 17662.12166,
+    "recorded_fees_usd": 4.402146,
+    "modelled_fees_usd": 4.4024512406400005,
+    "modelled_fees_count_weighted_usd": 3.0930363247679997,
+    "maker_share_by_count": 0.8919354838709678,
+    "maker_share_by_notional": 0.6345156983818443,
+    "maker_notional_usd": 11206.89346,
+    "taker_notional_usd": 6455.228200000001,
+    "n_maker": 553,
+    "n_taker": 67,
+    "oversized_taker_fills": 11,
+    "oversized_taker_fees_usd": 2.374966,
+    "funding_usd": 0.079082406607204
+  },
+  "hedge_trading_pnl": {
+    "realized_closes_gross_usd": 1.829995000000002,
+    "upnl_change_usd": 0.0,
+    "hedge_trading_pnl_usd": 1.829995000000002,
+    "aum_total_start_usd": 1429.5648732494587,
+    "aum_total_end_usd": 1420.8058093601276,
+    "aum_total_change_usd": -8.759063889331173
+  },
+  "onchain": {
+    "swapped_notional_predicted_usd": 10118.112742257837,
+    "swapped_notional_measured_usd": 10589.372844,
+    "n_our_swaps_measured": 27,
+    "swapped_notional_audited_usd": null,
+    "n_swaps_audited": null,
+    "n_tx_audited": null,
+    "basis_used": "measured",
+    "modelled_total_usd": 5.930592701082,
+    "modelled_swap_usd": 5.458821701082,
+    "modelled_gas_usd": 0.45449999999999996,
+    "modelled_failed_usd": 0.017270999999999998,
+    "modelled_total_from_predicted_usd": 5.687658118633916,
+    "audited_total_usd": null
+  },
+  "residual_usd": 3.467291387201705,
+  "n_cycles": 9,
+  "orphan_exits": [
+    {
+      "cycle": 5,
+      "dropped": [
+        {
+          "ts": "2026-05-13 05:02:06.556000+00:00",
+          "accumulated_fees_usd": 0.4320136226126713,
+          "tx": "0x4c731432aaf1c5514659b741101406710520a53d784ad816acc80bab53a1c8ab"
+        }
+      ]
+    },
+    {
+      "cycle": 7,
+      "dropped": [
+        {
+          "ts": "2026-05-13 10:02:05.213000+00:00",
+          "accumulated_fees_usd": 0.3893967193367941,
+          "tx": "0x88dd8ddfc607fff8eaceb459886459d20c50f3c234581194685b826a55f13b0b"
+        }
+      ]
+    }
+  ],
+  "il_totals": {
+    "binance": -5.669647045024362,
+    "onchain_price": -4.2701072023417055,
+    "exact_from_mint_burn": -4.269582453580256,
+    "n_cycles_exact": 9,
+    "n_cycles": 9
+  },
+  "basket_totals": {
+    "binance": -2.305417740656594,
+    "onchain_price": -4.271996533959282,
+    "exact_from_mint_burn": -4.273957677757608
+  },
+  "lp_fee_totals": {
+    "modelled": 4.739714994882903,
+    "recorded": 4.740882601986364,
+    "onchain_collect": 4.74088260198624,
+    "n_cycles_with_collect": 9,
+    "worst_cycle_abs_err_pct": 0.28386463630872827
+  }
+}

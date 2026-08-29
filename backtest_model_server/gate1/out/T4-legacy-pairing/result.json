@@ -1,0 +1,139 @@
+{
+  "trial": 4,
+  "cost_model_version": "gate1-2026-08-29",
+  "table": [
+    {
+      "line": "lp_fees_usd",
+      "target": 5.5623,
+      "reproduced": 4.169633336641536,
+      "delta": -1.3926666633584635,
+      "tolerance": "\u00b115%",
+      "delta_pct": -25.03760428884568,
+      "pass": false,
+      "source": "report 01 \u00a72 (sum of executed_exit rows)"
+    },
+    {
+      "line": "crystallized_il_usd",
+      "target": -4.51,
+      "reproduced": -4.058106312194468,
+      "delta": 0.45189368780553174,
+      "tolerance": "\u00b110%",
+      "delta_pct": 10.01981569413596,
+      "pass": false,
+      "source": "report 01 \u00a75"
+    },
+    {
+      "line": "basket_delta_usd",
+      "target": 1.2,
+      "reproduced": 0.7993473671368747,
+      "delta": -0.40065263286312525,
+      "tolerance": "\u00b110%",
+      "delta_pct": -33.38771940526044,
+      "pass": false,
+      "source": "report 01 \u00a75"
+    },
+    {
+      "line": "hpl_fees_usd",
+      "target": -4.4021,
+      "reproduced": -4.4024512406400005,
+      "delta": -0.00035124064000058297,
+      "tolerance": "\u00b15%",
+      "delta_pct": -0.007978933690751755,
+      "pass": true,
+      "source": "summary.json hedge_fees_paid_usd"
+    },
+    {
+      "line": "funding_usd",
+      "target": 0.0947,
+      "reproduced": 0.079082406607204,
+      "delta": -0.015617593392796003,
+      "tolerance": "\u00b1$0.05",
+      "delta_pct": NaN,
+      "pass": true,
+      "source": "summary.json implied_funding_usd"
+    },
+    {
+      "line": "onchain_cost_usd",
+      "target": -6.4,
+      "reproduced": -5.930592701082,
+      "delta": 0.46940729891800004,
+      "tolerance": "\u00b110%",
+      "delta_pct": 7.334489045593751,
+      "pass": true,
+      "source": "report 01 \u00a72 (SCALED ESTIMATE, +-40%)"
+    }
+  ],
+  "aggregates": {
+    "lp_fees_usd": 4.169633336641536,
+    "crystallized_il_usd": -4.058106312194468,
+    "basket_delta_usd": 0.7993473671368747,
+    "hpl_fees_usd": -4.4024512406400005,
+    "funding_usd": 0.079082406607204,
+    "onchain_cost_usd": -5.930592701082,
+    "onchain_swap_volume_usd": 10589.372844,
+    "flat_gap_residual_usd": -1.2459717458003219,
+    "net_aum_explained_usd": -7.5130921435308515,
+    "lp_fees_vs_recorded_usd": 4.169633336641536
+  },
+  "hedge": {
+    "n_fills": 620,
+    "notional_usd": 17662.12166,
+    "recorded_fees_usd": 4.402146,
+    "modelled_fees_usd": 4.4024512406400005,
+    "modelled_fees_count_weighted_usd": 3.0930363247679997,
+    "maker_share_by_count": 0.8919354838709678,
+    "maker_share_by_notional": 0.6345156983818443,
+    "maker_notional_usd": 11206.89346,
+    "taker_notional_usd": 6455.228200000001,
+    "n_maker": 553,
+    "n_taker": 67,
+    "oversized_taker_fills": 11,
+    "oversized_taker_fees_usd": 2.374966,
+    "funding_usd": 0.079082406607204
+  },
+  "hedge_trading_pnl": {
+    "realized_closes_gross_usd": 1.829995000000002,
+    "upnl_change_usd": 0.0,
+    "hedge_trading_pnl_usd": 1.829995000000002,
+    "aum_total_start_usd": 1429.5648732494587,
+    "aum_total_end_usd": 1420.8058093601276,
+    "aum_total_change_usd": -8.759063889331173
+  },
+  "onchain": {
+    "swapped_notional_predicted_usd": 8481.694740114668,
+    "swapped_notional_measured_usd": 10589.372844,
+    "n_our_swaps_measured": 27,
+    "swapped_notional_audited_usd": null,
+    "n_swaps_audited": null,
+    "n_tx_audited": null,
+    "basis_used": "measured",
+    "modelled_total_usd": 5.930592701082,
+    "modelled_swap_usd": 5.458821701082,
+    "modelled_gas_usd": 0.45449999999999996,
+    "modelled_failed_usd": 0.017270999999999998,
+    "modelled_total_from_predicted_usd": 4.844084638529112,
+    "audited_total_usd": null
+  },
+  "residual_usd": -1.2459717458003219,
+  "n_cycles": 9,
+  "orphan_exits": [],
+  "il_totals": {
+    "binance": -4.623055117101785,
+    "onchain_price": -4.058106312194468,
+    "exact_from_mint_burn": -3.648128943014285,
+    "n_cycles_exact": 7,
+    "n_cycles": 9
+  },
+  "basket_totals": {
+    "binance": 1.5507681091440872,
+    "onchain_price": 0.7993473671368747,
+    "exact_from_mint_burn": -1.505418963295483
+  },
+  "lp_fee_totals": {
+    "modelled": 4.169633336641536,
+    "recorded": 4.164321644273788,
+    "onchain_collect": 3.342911302324095,
+    "n_cycles_with_collect": 7,
+    "worst_cycle_abs_err_pct": 1.4174178527154746
+  }
+}

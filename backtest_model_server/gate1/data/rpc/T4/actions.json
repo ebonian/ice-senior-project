@@ -1,0 +1,554 @@
+[
+  {
+    "kind": "mint",
+    "ts": "2026-05-12T18:02:06.275Z",
+    "tx": "0xccebb4c78214886c5a70c0879c197d2cdb4f584c07fc93e3d2995889c8115b4b",
+    "tick_lower": "-199060",
+    "tick_upper": "-198960",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1021.7395138630968",
+    "block": 462129338,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -199060,
+          "tick_upper": -198960,
+          "liquidity": 4287713871685877,
+          "amount0": 237984946054515013,
+          "amount1": 479775770,
+          "block": 462129338
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-12T19:02:07.483Z",
+    "tx": "0x56bf7981d689b8706acce93ca89edc3541361edaa63fa2b2cec0f387ae298d67",
+    "accumulated_fees_usd": "0.3570851356977307",
+    "position_usd": "1022.262056441863",
+    "wallet_usd": "0.016156039085118312",
+    "block": 462143713,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -199060,
+          "tick_upper": -198960,
+          "liquidity": 4287713871685877,
+          "amount0": 187824307589495116,
+          "amount1": 594066477,
+          "block": 462143713
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -199060,
+          "tick_upper": -198960,
+          "amount0": 187893230494548356,
+          "amount1": 594266434,
+          "block": 462143713
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-12T20:02:06.949Z",
+    "tx": "0x1b47e1902e6c7c31509fa2835752f9aab372fddbae8ebb0c5efdf6cb56fbf4f6",
+    "tick_lower": "-199030",
+    "tick_upper": "-198930",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1022.420522",
+    "block": 462158012,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -199030,
+          "tick_upper": -198930,
+          "liquidity": 4280712327615582,
+          "amount0": 221589298661265789,
+          "amount1": 515465273,
+          "block": 462158012
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-12T21:02:07.435Z",
+    "tx": "0x8f821807dcbb454ece265fb8992e29b6a0f5a867710461fbd7d3ba1d2b169075",
+    "accumulated_fees_usd": "0.17367384511588063",
+    "position_usd": "1021.7411603116461",
+    "wallet_usd": "0.401443",
+    "block": 462172307,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -199030,
+          "tick_upper": -198930,
+          "liquidity": 4280712327615582,
+          "amount0": 223793916936375815,
+          "amount1": 510428148,
+          "block": 462172307
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -199030,
+          "tick_upper": -198930,
+          "amount0": 223832343402800761,
+          "amount1": 510514027,
+          "block": 462172307
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-12T22:02:14.068Z",
+    "tx": "0x5b863e5f5d2bc82e292bc99756fb1a477b28a1823e6f76b3e5d4f4d2fb4e1773",
+    "tick_lower": "-199010",
+    "tick_upper": "-198910",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1022.059733",
+    "block": 462186521,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -199010,
+          "tick_upper": -198910,
+          "liquidity": 3852659098052570,
+          "amount0": 213807386583780220,
+          "amount1": 431021621,
+          "block": 462186521
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T01:02:07.527Z",
+    "tx": "0x13621f392513ad21d608f1d4476e55203fb18dcf184ecf6c9d014f9c31122bae",
+    "accumulated_fees_usd": "0.6926738667896533",
+    "position_usd": "918.5538498984498",
+    "wallet_usd": "101.607582",
+    "block": 462229354,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -199010,
+          "tick_upper": -198910,
+          "liquidity": 3852659098052570,
+          "amount0": 329862213256777986,
+          "amount1": 165799903,
+          "block": 462229354
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -199010,
+          "tick_upper": -198910,
+          "amount0": 330035715649994738,
+          "amount1": 166096640,
+          "block": 462229354
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T02:02:07.115Z",
+    "tx": "0x0879a17b2e461ab0a79ae87afb4cd9e217889942fccf9f41d8fb78fe8c97261f",
+    "tick_lower": "-199000",
+    "tick_upper": "-198900",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1020.475709",
+    "block": 462243722,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -199000,
+          "tick_upper": -198900,
+          "liquidity": 4267126014867596,
+          "amount0": 261075691361792043,
+          "amount1": 421780281,
+          "block": 462243722
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T03:02:08.078Z",
+    "tx": "0x8954727c5a0b54a1825c323d35ba29743382502cded65103095740a3a4f82064",
+    "accumulated_fees_usd": "0.5214081466103477",
+    "position_usd": "1020.4510322514056",
+    "wallet_usd": "0.626444",
+    "block": 462258079,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -199000,
+          "tick_upper": -198900,
+          "liquidity": 4267126014867596,
+          "amount0": 182042213083704153,
+          "amount1": 602899345,
+          "block": 462258079
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -199000,
+          "tick_upper": -198900,
+          "amount0": 182141050923022424,
+          "amount1": 603194048,
+          "block": 462258079
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T04:02:08.849Z",
+    "tx": "0xc443d97ce280751a14f0f18984c8a4354cc430ee464af968a759219b39624bd1",
+    "tick_lower": "-198950",
+    "tick_upper": "-198850",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1021.389449",
+    "block": 462272445,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4260047580383501,
+          "amount0": 244609838514318317,
+          "amount1": 457536582,
+          "block": 462272445
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T05:02:06.556Z",
+    "tx": "0x4c731432aaf1c5514659b741101406710520a53d784ad816acc80bab53a1c8ab",
+    "accumulated_fees_usd": "0.4320136226126713",
+    "position_usd": "1021.5517251071337",
+    "wallet_usd": "0.4998960000000001",
+    "block": 462286829,
+    "events": {
+      "mint": [],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x0"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T06:02:07.927Z",
+    "tx": "0x8eb3f2c681078f139aac6b6eb512e85acc64ee1907c945504c0ca2af4b0c1077",
+    "accumulated_fees_usd": "0.678946245950689",
+    "position_usd": "1019.4325481697679",
+    "wallet_usd": "0.4998960000000001",
+    "block": 462301155,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4260047580383501,
+          "amount0": 324424900901785256,
+          "amount1": 273973868,
+          "block": 462301155
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "amount0": 324587453639155915,
+          "amount1": 274279303,
+          "block": 462301155
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T07:02:05.449Z",
+    "tx": "0x7bb2c660f2ba2b5e9a8c9959d779c64fc2a8536d70c89062bb2cf9e1e68188dd",
+    "tick_lower": "-198950",
+    "tick_upper": "-198850",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1020.236747",
+    "block": 462315552,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4255190024388470,
+          "amount0": 243024140268458444,
+          "amount1": 460023016,
+          "block": 462315552
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T08:02:08.67Z",
+    "tx": "0x9047c5b43bb209fa29741e95288bdeab688175e3931215d59e613f747b848af8",
+    "accumulated_fees_usd": "0.1918723868222993",
+    "position_usd": "1019.4028119553013",
+    "wallet_usd": "0.49623799999999996",
+    "block": 462330012,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4255190024388470,
+          "amount0": 247602791712756938,
+          "amount1": 449483569,
+          "block": 462330012
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "amount0": 247645346929406746,
+          "amount1": 449577490,
+          "block": 462330012
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T09:02:09.269Z",
+    "tx": "0x765f901067e70fca93b3b895b7f624cea590461a12d1f97db64f53789a5d25ed",
+    "tick_lower": "-198890",
+    "tick_upper": "-198790",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1019.804916",
+    "block": 462344440,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -198890,
+          "tick_upper": -198790,
+          "liquidity": 4240937411469463,
+          "amount0": 253946497520689967,
+          "amount1": 431004045,
+          "block": 462344440
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T10:02:05.213Z",
+    "tx": "0x88dd8ddfc607fff8eaceb459886459d20c50f3c234581194685b826a55f13b0b",
+    "accumulated_fees_usd": "0.3893967193367941",
+    "position_usd": "1019.9865197311419",
+    "wallet_usd": "0.5745750000000001",
+    "block": 462358864,
+    "events": {
+      "mint": [],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x0"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T11:02:07.352Z",
+    "tx": "0x57863d0b4330c73cf2327a577f5c304f3712f8c6e8adb35d65a37544cd202224",
+    "accumulated_fees_usd": "0.7190250537113512",
+    "position_usd": "1016.722622264008",
+    "wallet_usd": "0.5745750000000001",
+    "block": 462373270,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -198890,
+          "tick_upper": -198790,
+          "liquidity": 4240937411469463,
+          "amount0": 385987005379082118,
+          "amount1": 125763300,
+          "block": 462373270
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -198890,
+          "tick_upper": -198790,
+          "amount0": 386167273895838759,
+          "amount1": 126066218,
+          "block": 462373270
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T12:02:08.492Z",
+    "tx": "0x92311a9f49b7083f7b3885315b4b3bc8d1d654bbb78afc0333d929bf287a20ed",
+    "tick_lower": "-198950",
+    "tick_upper": "-198850",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1017.568097",
+    "block": 462387740,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4243846504764940,
+          "amount0": 232414781298048024,
+          "amount1": 481730504,
+          "block": 462387740
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T13:02:06.682Z",
+    "tx": "0x4e320d8e84807d749ffbf40508c1e465f5f6cc2ee51df9560aeffb460cd9772b",
+    "accumulated_fees_usd": "0.6144032414627718",
+    "position_usd": "1011.1948127329798",
+    "wallet_usd": "0.4342980000000001",
+    "block": 462402159,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "liquidity": 4243846504764940,
+          "amount0": 442131130207749456,
+          "amount1": 0,
+          "block": 462402159
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -198950,
+          "tick_upper": -198850,
+          "amount0": 442304527319277182,
+          "amount1": 217828,
+          "block": 462402159
+        }
+      ]
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "mint",
+    "ts": "2026-05-13T14:02:11.798Z",
+    "tx": "0xc65170dd43d535bd364f61620dd67e5954715a4977f605c98ac07fdaa0135281",
+    "tick_lower": "-199150",
+    "tick_upper": "-199050",
+    "accumulated_fees_usd": "0",
+    "position_usd": "0",
+    "wallet_usd": "1011.734527",
+    "block": 462416585,
+    "events": {
+      "mint": [
+        {
+          "tick_lower": -199150,
+          "tick_upper": -199050,
+          "liquidity": 3735736748714361,
+          "amount0": 181481660725190671,
+          "amount1": 476642098,
+          "block": 462416585
+        }
+      ],
+      "burn": [],
+      "collect": []
+    },
+    "status": "0x1"
+  },
+  {
+    "kind": "burn",
+    "ts": "2026-05-13T15:02:07.335Z",
+    "tx": "0x6086b4e726168a6e4c8f550a87b2e25f409e9453f50dd6bd7a5136b217c869ca",
+    "accumulated_fees_usd": "0.7917946798256399",
+    "position_usd": "887.441217",
+    "wallet_usd": "125.23563",
+    "block": 462430975,
+    "events": {
+      "mint": [],
+      "burn": [
+        {
+          "tick_lower": -199150,
+          "tick_upper": -199050,
+          "liquidity": 3735736748714361,
+          "amount0": 0,
+          "amount1": 887441217,
+          "block": 462430975
+        }
+      ],
+      "collect": [
+        {
+          "tick_lower": -199150,
+          "tick_upper": -199050,
+          "amount0": 140663692821528,
+          "amount1": 887913870,
+          "block": 462430975
+        }
+      ]
+    },
+    "status": "0x1"
+  }
+]

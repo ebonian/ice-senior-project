@@ -1,0 +1,66 @@
+[
+  {
+    "cycle": 1,
+    "ts": "2026-05-14 06:02:02.416000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.30897890662174476,
+    "modelled_fees_usd": 0.3101330961429955,
+    "err_pct": 0.3735496166616059
+  },
+  {
+    "cycle": 2,
+    "ts": "2026-05-14 09:02:02.764000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.3619131830619916,
+    "modelled_fees_usd": 0.36161687681949545,
+    "err_pct": -0.0818721882384188
+  },
+  {
+    "cycle": 3,
+    "ts": "2026-05-14 12:02:02.048000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.5075606510781405,
+    "modelled_fees_usd": 0.5072440418190634,
+    "err_pct": -0.062378606065038866
+  },
+  {
+    "cycle": 4,
+    "ts": "2026-05-14 15:02:01.839000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.7971103311752135,
+    "modelled_fees_usd": 0.7944274297484789,
+    "err_pct": -0.336578428582035
+  },
+  {
+    "cycle": 5,
+    "ts": "2026-05-14 18:02:02.106000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.9099457221434057,
+    "modelled_fees_usd": 0.9093506468658678,
+    "err_pct": -0.06539678829813322
+  },
+  {
+    "cycle": 6,
+    "ts": "2026-05-14 21:02:01.963000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 0.5888888637600318,
+    "modelled_fees_usd": 0.5879375852739576,
+    "err_pct": -0.16153786301890127
+  },
+  {
+    "cycle": 7,
+    "ts": "2026-05-15 00:02:01.921000+00:00",
+    "status": "skipped_hold",
+    "recorded_fees_usd": 0.368279793460203,
+    "modelled_fees_usd": 0.36777355404834994,
+    "err_pct": -0.13746054517318473
+  },
+  {
+    "cycle": 8,
+    "ts": "2026-05-15 03:02:01.225000+00:00",
+    "status": "skipped_dwell_guard",
+    "recorded_fees_usd": 1.0750829125976715,
+    "modelled_fees_usd": 1.071790959359748,
+    "err_pct": -0.3062045912318734
+  }
+]

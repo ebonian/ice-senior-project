@@ -39,6 +39,25 @@
             echo "Or 'jupyter lab' for JupyterLab"
           '';
         };
+
+        # backtest_model_server/gate1 needs parquet IO and HTTP, which the
+        # default shell lacks. A separate shell so the default stays untouched.
+        devShells.gate1 = pkgs.mkShell {
+          buildInputs = [
+            python
+            pythonPackages.pandas
+            pythonPackages.numpy
+            pythonPackages.pyarrow
+            pythonPackages.requests
+            pythonPackages.pyyaml
+            pythonPackages.matplotlib
+          ];
+
+          shellHook = ''
+            # Must not leak this shell's glibc into the system ssh.
+            unset LD_LIBRARY_PATH
+          '';
+        };
       }
     );
 }
