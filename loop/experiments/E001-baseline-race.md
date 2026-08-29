@@ -37,6 +37,8 @@ Rolling sweep (14 overlapping windows, stride 168): W4 +$292.44 (13/14 wins), W6
 
 **Discovery beyond the pre-registered question:** the shipped checkpoint was **trained on a different pool than it serves** — ETH/USDT 0.3% Ethereum mainnet (`tickSpacing=60`). The weights landed in `b208379` (2026-04-17 16:25) while `prepare_interval_data` still read `pool_config_eth_usdt_0p3.csv`; the switch to ETH/USDC 0.05% (`tickSpacing=10`) came ten hours later in `f94b312`, and the blob was never rebuilt. Width actions are denominated in tick-spacings, so `ENTER_W10` = ±3.05% in training but ±0.50% in production — 6.1× narrower. This explains the audit's 40/95 train/serve disagreement and the live "W10 timer". On its own training pool, in-sample, the DQN is **net negative** (−$84.24/episode), losing 0/2 episodes and 0/11 rolling windows to every arm including always-cash. The published simulation_14 gate numbers describe the training pool and are not reproducible on USDC data (best joint fit off by $979.50 across 193 candidate alignments). Filed as **bot issue V**.
 
+**Addendum 2026-08-29 (E002 F1):** the training env pays LP fees with no Uniswap protocol fee, so every arm's fee income here is ×1.333 overstated (bot issue W). Under a naive 0.75 fee haircut the rule stays strictly ahead (W10 ≈ +$23/mo net vs DQN ≈ −$1.5/mo) — the verdict stands; the absolute PnL levels do not.
+
 ## Verdict
 
 **REFUTED**, per the pre-registered rule: always-in-W10 ≥ DQN (+$81.97/mo, 3/4 episodes). The robust claim is *"the learned exit policy destroys value"* — NOT *"W4 is the right width"* (critique 2).
