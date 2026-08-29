@@ -52,5 +52,5 @@ Per-cycle LP fee error −0.5%…+1.3% (T5) against a ±25% bar; `Collect − Bu
 
 - **E003 unlocked** — and constrained: notional-weighted maker share (F5), protocol-fee-correct LP fees (F1), RPC-sourced pool data (F3), three-point hedge-cost envelope.
 - Bot repo: issues **W** (protocol fee — feeds item F's retrain env), **X** (reverted exits logged as executed — fix before T6), **Y** (B2 coverage gaps); trials/INDEX corrections (T4 LP fees $4.74; T5 realized vs accrued).
-- **Open reconciliation item:** LP basket delta / delta-luck — resolve before quoting luck-stripped nets anywhere new.
+- **Open reconciliation item:** LP basket delta / delta-luck — **resolved by [E004](E004-basket-delta-reconciliation.md)** (2026-08-29): engine vindicated; report 01's price-inversion + issue-X boundaries were the cause.
 - E001 gains an addendum: in-env fee income was ×1.333 overstated for every arm; the verdict survives the haircut, the absolute levels do not.

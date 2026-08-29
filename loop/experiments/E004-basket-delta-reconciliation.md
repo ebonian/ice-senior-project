@@ -2,7 +2,7 @@
 id: E004
 family: "new: Gate-1-instrumentation"
 date: 2026-08-29
-verdict: RUNNING
+verdict: SUPPORTED (T5) · INCONCLUSIVE (T4 — cause fully located)
 ---
 
 # E004 — report 01's basket-delta derivation, not the engine's chain read, explains the E002 mismatch
@@ -21,16 +21,37 @@ verdict: RUNNING
 
 ## Result
 
-_Pending._
+Commit `823835a`; full writeup + cycle-level table at `backtest_model_server/gate1/diagnostics/basket_delta/`. **The engine is vindicated**: the disputed Mint is corroborated **to the wei** by the receipts' ERC-20 Transfer logs (pool `Mint.amount0` = WETH Transfer→pool = 250925078172474145 wei; USDC leg exact; 7/7 independent checks). No engine bug; E002's IL line stands; **E003 is not blocked**.
+
+The reconciliation ladder closes both trials to a $0.000000 identity residual. T5's gap = the ETH-leg amount (+$0.78) + price source (+$0.20). T4's gap = **the cycle boundary, −$5.07** — the two reverted `executed_exit` rows (bot issue X) that report 01 treated as real cycle closes; the engine correctly carries the position to the next real Burn.
+
+**Mechanism — not the §3.3 guess.** The AUM snapshot agrees with the chain to 0.08%; the error is inverting position size at the **Binance price instead of the pool price**. A 4.27 bp basis is amplified ≈185×/bp by narrow-range V3 geometry (the ETH share of value sweeps 100%→0% across a 100 bp range): the price swap alone cuts mean ETH-leg error 4.08%→0.05% (T5) and 5.96%→0.02% (T4). → new bot learning `invert-v3-splits-at-the-pool-price`.
+
+**Corrected figures** (only the basket term changes; hedge directional reproduces report 01 exactly):
+
+| | T5 published → corrected | T4 published → corrected |
+|---|---|---|
+| LP basket delta | +$8.52 → +$9.50 | +$1.20 → **−$4.27** |
+| Delta luck | +$3.98 → +$4.96 | +$4.64 → **−$0.83** |
+| Luck-stripped net | −$16.58 → −$17.56 | −$13.40 → **−$7.93** |
+
+Report 01 §6's "both trials gained ~$4 from under-hedge" is false for T4; the corrected pair straddles zero — better support for "expectation ≈ 0, strip before projecting" than two same-signed figures. The T5-vs-T4 spread is now IL-dominated (−$10.90 vs −$4.27), as report 01 §7 argued.
 
 ## Verdict
 
-RUNNING.
+**T5: SUPPORTED** — the substitution collapses the gap to +9.1%, inside ±10%. **T4: INCONCLUSIVE per the rule as written** — its divergence is not an amount problem but the F4/issue-X cycle boundary, fully located and proven on-chain anyway. The REFUTED (engine-bug) branch does not fire.
 
 ## Critique
 
-_After results._
+1. **Proxy or goal?** Goal-side — instrument calibration.
+2. **Survive Gate 2?** n/a — strengthens the instrument's standing (closed-form vs raw-token-delta agree to $0.005 on the 7 comparable cycles).
+3. **Env faithful?** n/a.
+4. **One variable?** For T5, yes. T4's pre-registered instrument turned out wrong for its actual cause — recorded as INCONCLUSIVE rather than reframed post hoc.
+5. **Symptom-fix?** No.
 
 ## What this changes
 
-Whether the review's luck-stripped loss figures (−$13 to −$17/day) survive. SUPPORTED → correct report 01/synthesis numbers (bot repo, via main session). REFUTED → engine fix + E002/E003 re-check before anything downstream is quoted.
+- Luck-stripped nets are quotable again at corrected values (bot review 01 banner, tracker, synthesis updated).
+- Issue X's blast radius grows: it corrupted the attribution layer too (T4 basket −$5.07, delta-luck sign flip), not just LP fees.
+- New bot learning: never infer a V3 token split from a USD value and an off-chain price; invert at the pool price.
+- Carried unresolved: the luck construction's time-coverage mismatch (basket covers 54–67% of the window, directional 100%); T4's unexplained residual must be re-read after this correction, not carried over.
