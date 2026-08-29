@@ -15,16 +15,17 @@ Produce the **range policy** — when to be in position, at what width, when to 
 | # | Sub-goal | Status | Decided by |
 |---|---|---|---|
 | G1 | Know whether the shipped DQN beats the trivial always-in rule in its own env | ✅ done 2026-08-29 — **REFUTED** ([E001](experiments/E001-baseline-race.md)) | E001's pre-registered decision rule |
-| G2 | A policy trained under **honest costs** on the served pool's data (tickSpacing=10 — bot issue V) that does not collapse to never-act, and beats the rule under those costs | open — **current focus** | in-env eval vs rule, then G3 |
+| G-pool | Find a venue where the family can work: **fees/gamma > 1 with margin** (pool screen, E005) | open — **next** | E005 decision rule |
+| G2 | A policy trained under **honest costs** that does not collapse to never-act, and beats the always-in rule under those costs | **blocked — no valid venue yet** (E003 killed it for ETH/USDC 0.05%: fees/gamma 0.65–0.97, no arm to beat) | in-env eval vs rule, then G3 |
 | G3 | That policy clears Gate 2 in the bot backtest at the target APR | open | bot item D engine |
 
 G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95 first** (γ=0 makes never-act rational the moment costs are honest — the collapse the operator observed was rational under the old setup), cost curriculum (published technique: Karzanov et al 2025 — ramp transaction costs up during training), terminal net-carry reward, warm-start from the always-in rule, and monitor the stay-cash fraction during training as the collapse alarm.
 
 ## Standing hypothesis families
 
-- **H-width** — current widths may be structurally too narrow: W4–W20 ≈ ±0.4–2%, and T5 earned **$0.72 of fees per $1.00 of IL** (fees/IL = 0.72 < 1, T5 corrected). The Strategic Liquidity Provision literature places profitable ranges far wider. Test wider ranges in-env and in the backtest before trusting either.
+- **H-width** — **ANSWERED for ETH/USDC 0.05% (E003, REFUTED at every width ±0.2%→±8.3%)**: the frontier is monotone toward always_cash; fees/gamma 0.65–0.97 regardless of width. Width was never the lever on this pool.
 - **H-frequency** — fewer, better rebalances: dwell/hysteresis on recentering vs. IL crystallized per rebalance (bot issue U's buy-high re-mint is one instance; 79% of T5's crystallized IL came from one breakout hour).
-- **H-pool** — ETH/USDC 0.05% at this capital may be structurally thin. The backtest engine is pool-parameterized (bot item D), so other pools can be screened offline. **Live trials stay on ETH/USDC 0.05%** until the engine is trusted — Gate 1 ground truth exists only for this pool.
+- **H-pool** — **now the active family** (E003 routed here). Screen criterion: fees/gamma > 1 with margin, per pool, from swap data + the Gate-1-trusted engine. The engine is pool-parameterized; live-trial venue changes are operator decisions.
 - **H-model-class** — if the DQN family keeps failing reviews, the named alternatives are: rule + tuned thresholds (simplest), policy-gradient, offline RL on trial data. E001 verdict: the shipped DQN destroys value vs the always-in rule even in its own env — and was trained on a different pool than it serves (bot issue V).
 
 ## Constraints
@@ -35,4 +36,4 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 
 ## Current focus
 
-**E003 — the cost-honest width race** (next to pre-register and run). Gate 1 passed (E002, `4855be1`): the engine reproduces T4/T5 per cost line, so counterfactuals are quotable within mode A's scope. E003 re-races E001's arms plus wider-than-W20 widths through the gate1 engine with measured costs — protocol-fee-correct LP fees (E002 F1), notional-weighted maker share (F5), RPC-sourced pool data (F3), and a three-point hedge-cost envelope (optimistic / central / pessimistic) instead of fill prediction, because the hedge leg is replayed, not modeled. It decides H-width and bot Gate 2, then the branch: a width clears +$0.39–0.78/day → item F retrain (tickSpacing=10 data, anti-collapse design, protocol fee in the env, must beat the winning rule); none clears → H-pool screening / structural conversation, not retraining. E002's basket-delta open item is resolved (E004): engine vindicated to the wei; corrected luck figures live in bot review 01's correction banner (T5 luck-stripped −$17.56, T4 −$7.93).
+**Pre-register E005 — the pool screen** (pending operator go; live-trial and capital consequences are operator calls). E003 refuted H-width on ETH/USDC 0.05% at the strongest clause: no width clears $0/day even under the optimistic envelope; fees/gamma = 0.65–0.97 across a 40× width range, and gamma is rehedge-frequency-invariant — the shortfall is the venue's, not the rule's. So the question becomes: **which pool (if any) pays > 1.5–1.7× its gamma in fees at our size?** E005 screens candidate pools (other fee tiers, other pairs, other chains the engine's data layer can reach) on exactly that ratio plus liquidity-depth sanity, using the same engine. Item F retrain is dead until a venue passes. T6-as-planned is escalated to the operator.
