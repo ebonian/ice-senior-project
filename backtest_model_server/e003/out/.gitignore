@@ -1,0 +1,3 @@
+# Per-cycle traces are a debugging aid, and W4 alone emits tens of thousands of
+# rows. results.json and frontier.csv carry every number the report cites.
+cycles_*.csv

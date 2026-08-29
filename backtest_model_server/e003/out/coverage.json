@@ -1,0 +1,361 @@
+{
+  "pool": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+  "source": "eth_getLogs",
+  "seed": 42,
+  "months": [
+    {
+      "month": "2026-05",
+      "window_start_utc": "2026-05-01T00:00:00+00:00",
+      "window_end_utc": "2026-06-01T00:00:00+00:00",
+      "block_from": 458085624,
+      "block_to": 468748167,
+      "n_swaps": 575631,
+      "sha256": "e0241c026c861d4ae75d76f68b51eac65b01eb6a35c4efc7839020aacea1758e",
+      "ts_stride_blocks": 2000,
+      "T1_chunk_tiling": {
+        "n_chunks": 214,
+        "blocks_claimed": 10662544,
+        "blocks_in_range": 10662544,
+        "gaps": [],
+        "overlaps": [],
+        "pass": true
+      },
+      "T2_hourly_floor": {
+        "hours_expected": 744,
+        "hours_with_swaps": 744,
+        "coverage_pct": 100.0,
+        "empty_hours": [],
+        "n_empty_hours": 0,
+        "min_swaps_in_an_hour": 63,
+        "median_swaps_per_hour": 534.0,
+        "pass": true
+      },
+      "T3_refetch": {
+        "probe_span_blocks": 12500,
+        "probes": [
+          {
+            "from_block": 459953449,
+            "to_block": 459993448,
+            "n_refetched": 2933,
+            "n_stored": 2933,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 458505234,
+            "to_block": 458545233,
+            "n_refetched": 505,
+            "n_stored": 505,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 462699850,
+            "to_block": 462739849,
+            "n_refetched": 1677,
+            "n_stored": 1677,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "T5_interpolation": {
+        "n_probed": 60,
+        "stride_blocks": 2000,
+        "stride_seconds_nominal": 494.0,
+        "max_abs_error_s": 2,
+        "median_abs_error_s": 0.0,
+        "p95_abs_error_s": 1.0,
+        "pass": true
+      },
+      "enters_race": true
+    },
+    {
+      "month": "2026-06",
+      "window_start_utc": "2026-06-01T00:00:00+00:00",
+      "window_end_utc": "2026-07-01T00:00:00+00:00",
+      "block_from": 468748168,
+      "block_to": 479089705,
+      "n_swaps": 1405733,
+      "sha256": "27b323db300c249798f7ffbcaf2c3e682ecbf5cec59bb2f9d076644ce8bf74dc",
+      "ts_stride_blocks": 2000,
+      "T1_chunk_tiling": {
+        "n_chunks": 271,
+        "blocks_claimed": 10341538,
+        "blocks_in_range": 10341538,
+        "gaps": [],
+        "overlaps": [],
+        "pass": true
+      },
+      "T2_hourly_floor": {
+        "hours_expected": 720,
+        "hours_with_swaps": 720,
+        "coverage_pct": 100.0,
+        "empty_hours": [],
+        "n_empty_hours": 0,
+        "min_swaps_in_an_hour": 95,
+        "median_swaps_per_hour": 1312.0,
+        "pass": true
+      },
+      "T3_refetch": {
+        "probe_span_blocks": 12500,
+        "probes": [
+          {
+            "from_block": 470615993,
+            "to_block": 470655992,
+            "n_refetched": 9195,
+            "n_stored": 9195,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 469167778,
+            "to_block": 469207777,
+            "n_refetched": 3956,
+            "n_stored": 3956,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 473362394,
+            "to_block": 473402393,
+            "n_refetched": 764,
+            "n_stored": 764,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "T5_interpolation": {
+        "n_probed": 60,
+        "stride_blocks": 2000,
+        "stride_seconds_nominal": 494.0,
+        "max_abs_error_s": 3,
+        "median_abs_error_s": 1.0,
+        "p95_abs_error_s": 2.0,
+        "pass": true
+      },
+      "enters_race": true
+    },
+    {
+      "month": "2026-07",
+      "window_start_utc": "2026-07-01T00:00:00+00:00",
+      "window_end_utc": "2026-08-01T00:00:00+00:00",
+      "block_from": 479089706,
+      "block_to": 489802913,
+      "n_swaps": 783198,
+      "sha256": "03e618bd3179567cf1b082f800dff25d0e8c505af53059818dff3554b5aaae65",
+      "ts_stride_blocks": 2000,
+      "T1_chunk_tiling": {
+        "n_chunks": 221,
+        "blocks_claimed": 10713208,
+        "blocks_in_range": 10713208,
+        "gaps": [],
+        "overlaps": [],
+        "pass": true
+      },
+      "T2_hourly_floor": {
+        "hours_expected": 744,
+        "hours_with_swaps": 744,
+        "coverage_pct": 100.0,
+        "empty_hours": [],
+        "n_empty_hours": 0,
+        "min_swaps_in_an_hour": 48,
+        "median_swaps_per_hour": 783.5,
+        "pass": true
+      },
+      "T3_refetch": {
+        "probe_span_blocks": 12500,
+        "probes": [
+          {
+            "from_block": 480957531,
+            "to_block": 480997530,
+            "n_refetched": 4701,
+            "n_stored": 4701,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 479509316,
+            "to_block": 479549315,
+            "n_refetched": 2038,
+            "n_stored": 2038,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 483703932,
+            "to_block": 483743931,
+            "n_refetched": 2027,
+            "n_stored": 2027,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "T5_interpolation": {
+        "n_probed": 60,
+        "stride_blocks": 2000,
+        "stride_seconds_nominal": 494.0,
+        "max_abs_error_s": 1,
+        "median_abs_error_s": 0.0,
+        "p95_abs_error_s": 1.0,
+        "pass": true
+      },
+      "enters_race": true
+    },
+    {
+      "month": "2026-08",
+      "window_start_utc": "2026-08-01T00:00:00+00:00",
+      "window_end_utc": "2026-08-28T00:00:00+00:00",
+      "block_from": 489802914,
+      "block_to": 499082672,
+      "n_swaps": 669551,
+      "sha256": "dc0ca69ce33ec64a908a9dd5fc7db21ae57df136133fc732c88b8f17e851ab23",
+      "ts_stride_blocks": 2000,
+      "T1_chunk_tiling": {
+        "n_chunks": 209,
+        "blocks_claimed": 9279759,
+        "blocks_in_range": 9279759,
+        "gaps": [],
+        "overlaps": [],
+        "pass": true
+      },
+      "T2_hourly_floor": {
+        "hours_expected": 648,
+        "hours_with_swaps": 648,
+        "coverage_pct": 100.0,
+        "empty_hours": [],
+        "n_empty_hours": 0,
+        "min_swaps_in_an_hour": 26,
+        "median_swaps_per_hour": 577.0,
+        "pass": true
+      },
+      "T3_refetch": {
+        "probe_span_blocks": 12500,
+        "probes": [
+          {
+            "from_block": 491670739,
+            "to_block": 491710738,
+            "n_refetched": 1320,
+            "n_stored": 1320,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 490222524,
+            "to_block": 490262523,
+            "n_refetched": 378,
+            "n_stored": 378,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          },
+          {
+            "from_block": 494417140,
+            "to_block": 494457139,
+            "n_refetched": 1154,
+            "n_stored": 1154,
+            "missing_from_store": 0,
+            "extra_in_store": 0,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "T5_interpolation": {
+        "n_probed": 60,
+        "stride_blocks": 2000,
+        "stride_seconds_nominal": 494.0,
+        "max_abs_error_s": 2,
+        "median_abs_error_s": 0.0,
+        "p95_abs_error_s": 1.0,
+        "pass": true
+      },
+      "enters_race": true
+    }
+  ],
+  "b2_cross_read": {
+    "available": true,
+    "days": [
+      {
+        "day": "2026-05-10",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 1,
+        "rpc_swaps": 15041,
+        "b2_swaps": 119,
+        "b2_share_of_rpc_pct": 0.79,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-11",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 14,
+        "rpc_swaps": 18172,
+        "b2_swaps": 6431,
+        "b2_share_of_rpc_pct": 35.39,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-12",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 14,
+        "rpc_swaps": 17004,
+        "b2_swaps": 5489,
+        "b2_share_of_rpc_pct": 32.28,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-13",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 10,
+        "rpc_swaps": 16706,
+        "b2_swaps": 3059,
+        "b2_share_of_rpc_pct": 18.31,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-14",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 11,
+        "rpc_swaps": 20811,
+        "b2_swaps": 6243,
+        "b2_share_of_rpc_pct": 30.0,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-15",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 13,
+        "rpc_swaps": 22930,
+        "b2_swaps": 10831,
+        "b2_share_of_rpc_pct": 47.24,
+        "in_b2_not_in_rpc": 0
+      },
+      {
+        "day": "2026-05-16",
+        "rpc_hours_with_swaps": 24,
+        "b2_hours_with_swaps": 6,
+        "rpc_swaps": 11299,
+        "b2_swaps": 4348,
+        "b2_share_of_rpc_pct": 38.48,
+        "in_b2_not_in_rpc": 0
+      }
+    ]
+  },
+  "all_months_enter_race": true,
+  "total_swaps": 3434113
+}

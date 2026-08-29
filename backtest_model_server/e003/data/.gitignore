@@ -1,0 +1,9 @@
+# Raw chain data: ~575k swaps per month, ~30 MB per month across the raw and
+# assembled parquets. Too large for the repo, and re-derivable exactly — the
+# committed `<month>.blocks.json` records the block range and every eth_getLogs
+# chunk, `<month>.meta.json` records the row count and the parquet's sha256, and
+# `<month>.anchors.json` records the exact block timestamps the interpolation
+# uses. `fetch_months.py` with those files present re-assembles byte-identical
+# parquets, and `coverage.py` re-verifies them against chain.
+*.parquet
+*.log
