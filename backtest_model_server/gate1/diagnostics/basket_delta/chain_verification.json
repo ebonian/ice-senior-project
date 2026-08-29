@@ -1,0 +1,230 @@
+{
+  "5": [
+    {
+      "name": "T5 c1 mint",
+      "ts": "2026-05-14T05:02:06.849Z",
+      "tx": "0xdb9321aa3f2824536a6537ac438beec133d460d1d1f7c57a2d55f62ca943a71f",
+      "status": "0x1",
+      "block": 462632251,
+      "n_logs": 6,
+      "pool_mint": [
+        {
+          "liquidity": 4277419273628598,
+          "amount0": 251457208515585253,
+          "amount1": 447201623
+        }
+      ],
+      "pool_burn": [],
+      "pool_collect": [],
+      "weth_net_into_pool_wei": 251457208515585253,
+      "usdc_net_into_pool_units": 447201623,
+      "transfers": [
+        {
+          "token": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+          "token_name": "WETH",
+          "from": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "to": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "value": 251457208515585253,
+          "log_index": 6
+        },
+        {
+          "token": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+          "token_name": "USDC",
+          "from": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "to": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "value": 447201623,
+          "log_index": 8
+        },
+        {
+          "token": "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+          "token_name": "0xc36442b4",
+          "from": "0x0000000000000000000000000000000000000000",
+          "to": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "value": 0,
+          "log_index": 10
+        }
+      ],
+      "checks": [
+        {
+          "check": "Mint.amount0 == net WETH Transfer into pool",
+          "mint_amount0_wei": 251457208515585253,
+          "transfer_wei": 251457208515585253,
+          "diff_wei": 0,
+          "match": true
+        },
+        {
+          "check": "Mint.amount1 == net USDC Transfer into pool",
+          "mint_amount1_units": 447201623,
+          "transfer_units": 447201623,
+          "diff_units": 0,
+          "match": true
+        }
+      ]
+    },
+    {
+      "name": "T5 c4 mint  <-- BREAKOUT, the flagged cycle",
+      "ts": "2026-05-14T14:02:07.282Z",
+      "tx": "0xf0f10b4fa0517e4dcfcf8f71e0b905ba8d2b714f2aecefc571542db374fd3bc7",
+      "status": "0x1",
+      "block": 462761817,
+      "n_logs": 6,
+      "pool_mint": [
+        {
+          "liquidity": 4256751936550775,
+          "amount0": 250925078172474145,
+          "amount1": 443561418
+        }
+      ],
+      "pool_burn": [],
+      "pool_collect": [],
+      "weth_net_into_pool_wei": 250925078172474145,
+      "usdc_net_into_pool_units": 443561418,
+      "transfers": [
+        {
+          "token": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+          "token_name": "WETH",
+          "from": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "to": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "value": 250925078172474145,
+          "log_index": 5
+        },
+        {
+          "token": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+          "token_name": "USDC",
+          "from": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "to": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "value": 443561418,
+          "log_index": 7
+        },
+        {
+          "token": "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+          "token_name": "0xc36442b4",
+          "from": "0x0000000000000000000000000000000000000000",
+          "to": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "value": 0,
+          "log_index": 9
+        }
+      ],
+      "checks": [
+        {
+          "check": "Mint.amount0 == net WETH Transfer into pool",
+          "mint_amount0_wei": 250925078172474145,
+          "transfer_wei": 250925078172474145,
+          "diff_wei": 0,
+          "match": true
+        },
+        {
+          "check": "Mint.amount1 == net USDC Transfer into pool",
+          "mint_amount1_units": 443561418,
+          "transfer_units": 443561418,
+          "diff_units": 0,
+          "match": true
+        }
+      ]
+    },
+    {
+      "name": "T5 c4 burn  <-- BREAKOUT exit",
+      "ts": "2026-05-14T16:02:07.031Z",
+      "tx": "0xcc2487ca570af80d2722aa5392bdff28f9d40fa3a24f272df98f1307f66a6450",
+      "status": "0x1",
+      "block": 462790755,
+      "n_logs": 8,
+      "pool_mint": [],
+      "pool_burn": [
+        {
+          "liquidity": 4256751936550775,
+          "amount0": 0,
+          "amount1": 1010705286
+        }
+      ],
+      "pool_collect": [
+        {
+          "amount0": 128576882408800,
+          "amount1": 1011208147
+        }
+      ],
+      "weth_net_into_pool_wei": -128576882408800,
+      "usdc_net_into_pool_units": -1011208147,
+      "transfers": [
+        {
+          "token": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+          "token_name": "WETH",
+          "from": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "to": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "value": 128576882408800,
+          "log_index": 2
+        },
+        {
+          "token": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+          "token_name": "USDC",
+          "from": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+          "to": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "value": 1011208147,
+          "log_index": 3
+        },
+        {
+          "token": "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+          "token_name": "0xc36442b4",
+          "from": "0x209eb3db2700de48788e49dd81088267a0e79323",
+          "to": "0x0000000000000000000000000000000000000000",
+          "value": 0,
+          "log_index": 7
+        }
+      ],
+      "checks": [
+        {
+          "check": "Collect.amount0 == net WETH Transfer out of pool",
+          "collect_amount0_wei": 128576882408800,
+          "transfer_out_wei": 128576882408800,
+          "diff_wei": 0,
+          "match": true
+        },
+        {
+          "check": "Collect.amount1 == net USDC Transfer out of pool",
+          "collect_amount1_units": 1011208147,
+          "transfer_out_units": 1011208147,
+          "diff_units": 0,
+          "match": true
+        },
+        {
+          "check": "Collect >= Burn (fees are the difference)",
+          "fee0_wei": 128576882408800,
+          "fee1_units": 502861,
+          "match": true
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "name": "T4 c5 exit  <-- F4 reverted",
+      "ts": "2026-05-13T05:02:06",
+      "tx": "0x4c731432aaf1c5514659b741101406710520a53d784ad816acc80bab53a1c8ab",
+      "status": "0x0",
+      "block": 462286829,
+      "n_logs": 0,
+      "pool_mint": [],
+      "pool_burn": [],
+      "pool_collect": [],
+      "weth_net_into_pool_wei": 0,
+      "usdc_net_into_pool_units": 0,
+      "transfers": [],
+      "checks": []
+    },
+    {
+      "name": "T4 c7 exit  <-- F4 reverted",
+      "ts": "2026-05-13T10:02:05",
+      "tx": "0x88dd8ddfc607fff8eaceb459886459d20c50f3c234581194685b826a55f13b0b",
+      "status": "0x0",
+      "block": 462358864,
+      "n_logs": 0,
+      "pool_mint": [],
+      "pool_burn": [],
+      "pool_collect": [],
+      "weth_net_into_pool_wei": 0,
+      "usdc_net_into_pool_units": 0,
+      "transfers": [],
+      "checks": []
+    }
+  ]
+}
