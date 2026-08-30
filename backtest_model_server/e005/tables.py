@@ -90,7 +90,10 @@ def eligibility_rows(cands, cov):
                 row["monthly_swap_counts"] = pc["daily"]["monthly_swap_counts"]
             row["lp_fee_share"] = c["lp_fee_share_schedule"][0]["lp_fee_share"]
         rows.append(row)
+    listed_addrs = {r.get("address") for r in rows if r.get("address")}
     for d in cands["discovery"]:
+        if d.get("address") in listed_addrs:
+            continue   # chosen pools already have a full candidate row
         if d["status"] in ("SAMPLED-NOT-CHOSEN", "NO-POOL", "NO-PERP"):
             rows.append({"slug": f"{d['token'].lower()}_{d['quote'].lower()}_"
                                  f"{'0p05' if d['fee'] == 500 else '0p30'}",

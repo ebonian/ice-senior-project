@@ -128,9 +128,18 @@ def interp_probe(rpc: ArbRPC, df: pd.DataFrame, n: int, seed: int) -> dict:
     blocks = df["block_number"].to_numpy()
     picks = sorted({int(blocks[rng.randrange(len(blocks))]) for _ in range(n)})
     errs = []
+    import time
     for i in range(0, len(picks), 20):
         part = picks[i:i + 20]
-        res = rpc.batch([("eth_getBlockByNumber", [hex(b), False]) for b in part])
+        for attempt in range(6):
+            try:
+                res = rpc.batch([("eth_getBlockByNumber", [hex(b), False])
+                                 for b in part], tries=2)
+                break
+            except Exception:
+                if attempt == 5:
+                    raise
+                time.sleep(30.0 * (attempt + 1))   # outlast a sustained 429
         for b, r in zip(part, res):
             exact = int(r["timestamp"], 16)
             interp = int(df.loc[df["block_number"] == b, "timestamp"].iloc[0])
