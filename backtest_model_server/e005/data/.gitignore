@@ -1,0 +1,4 @@
+# Raw chain data, re-derivable from the committed month
+# block ranges + e003 anchors + sha256 in meta.json.
+*.parquet
+*.log

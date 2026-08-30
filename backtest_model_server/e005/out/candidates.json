@@ -1,0 +1,1317 @@
+{
+  "generated_utc": "2026-08-30T08:57:14Z",
+  "factory": "0x1f98431c8ad98523631ae4a59f267346ea31f984",
+  "window_blocks": [
+    458085624,
+    499082672
+  ],
+  "rpc": "https://arb1.arbitrum.io/rpc",
+  "tokens": {
+    "WETH": {
+      "address": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+      "symbol_onchain": "WETH",
+      "decimals_onchain": 18,
+      "expected_symbol": "WETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "USDC": {
+      "address": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+      "symbol_onchain": "USDC",
+      "decimals_onchain": 6,
+      "expected_symbol": "USDC",
+      "expected_decimals": 6,
+      "ok": true
+    },
+    "WBTC": {
+      "address": "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+      "symbol_onchain": "WBTC",
+      "decimals_onchain": 8,
+      "expected_symbol": "WBTC",
+      "expected_decimals": 8,
+      "ok": true
+    },
+    "ARB": {
+      "address": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+      "symbol_onchain": "ARB",
+      "decimals_onchain": 18,
+      "expected_symbol": "ARB",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "wstETH": {
+      "address": "0x5979d7b546e38e414f7e9822514be443a4800529",
+      "symbol_onchain": "wstETH",
+      "decimals_onchain": 18,
+      "expected_symbol": "wstETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "weETH": {
+      "address": "0x35751007a407ca6feffe80b3cb397736d2cf4dbe",
+      "symbol_onchain": "weETH",
+      "decimals_onchain": 18,
+      "expected_symbol": "weETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "LINK": {
+      "address": "0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
+      "symbol_onchain": "LINK",
+      "decimals_onchain": 18,
+      "expected_symbol": "LINK",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "UNI": {
+      "address": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
+      "symbol_onchain": "UNI",
+      "decimals_onchain": 18,
+      "expected_symbol": "UNI",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "GMX": {
+      "address": "0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
+      "symbol_onchain": "GMX",
+      "decimals_onchain": 18,
+      "expected_symbol": "GMX",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "PENDLE": {
+      "address": "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8",
+      "symbol_onchain": "PENDLE",
+      "decimals_onchain": 18,
+      "expected_symbol": "PENDLE",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "CRV": {
+      "address": "0x11cdb42b0eb46d95f990bedd4695a6e3fa034978",
+      "symbol_onchain": "CRV",
+      "decimals_onchain": 18,
+      "expected_symbol": "CRV",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "AAVE": {
+      "address": "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
+      "symbol_onchain": "AAVE",
+      "decimals_onchain": 18,
+      "expected_symbol": "AAVE",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "LDO": {
+      "address": "0x13ad51ed4f1b7e9dc168d8a00cb3f4ddd85efa60",
+      "symbol_onchain": "LDO",
+      "decimals_onchain": 18,
+      "expected_symbol": "LDO",
+      "expected_decimals": 18,
+      "ok": true
+    }
+  },
+  "hl_perps": {
+    "AAVE": {
+      "delisted": false
+    },
+    "ARB": {
+      "delisted": false
+    },
+    "BTC": {
+      "delisted": false
+    },
+    "CRV": {
+      "delisted": false
+    },
+    "ETH": {
+      "delisted": false
+    },
+    "GMX": {
+      "delisted": false
+    },
+    "LDO": {
+      "delisted": false
+    },
+    "LINK": {
+      "delisted": false
+    },
+    "PENDLE": {
+      "delisted": false
+    },
+    "UNI": {
+      "delisted": false
+    }
+  },
+  "candidates": [
+    {
+      "slug": "weth_usdc_0p05",
+      "family": "control",
+      "pair": "WETH/USDC",
+      "fee": 500,
+      "tick_spacing_expected": 10,
+      "status": "RESOLVED",
+      "address": "0xc6962004f452be9203591991d15f6b388e09e8d0",
+      "token0_symbol": "WETH",
+      "token1_symbol": "USDC",
+      "decimals0": 18,
+      "decimals1": 6,
+      "pool_state": {
+        "token0": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "token1": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 3438288399508773753,
+        "slot0_tick_now": -198258,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [
+        {
+          "block": 489749793,
+          "feeProtocol0Old": 4,
+          "feeProtocol1Old": 4,
+          "feeProtocol0New": 4,
+          "feeProtocol1New": 4
+        },
+        {
+          "block": 489750057,
+          "feeProtocol0Old": 4,
+          "feeProtocol1Old": 4,
+          "feeProtocol0New": 4,
+          "feeProtocol1New": 4
+        }
+      ],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 489749792,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        },
+        {
+          "from_block": 489749793,
+          "to_block": 489750056,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        },
+        {
+          "from_block": 489750057,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "USDC",
+          "hedge": "stable-unhedged"
+        }
+      }
+    },
+    {
+      "slug": "weth_usdc_0p30",
+      "family": "F1",
+      "pair": "WETH/USDC",
+      "fee": 3000,
+      "tick_spacing_expected": 60,
+      "status": "RESOLVED",
+      "address": "0xc473e2aee3441bf9240be85eb122abb059a3b57c",
+      "token0_symbol": "WETH",
+      "token1_symbol": "USDC",
+      "decimals0": 18,
+      "decimals1": 6,
+      "pool_state": {
+        "token0": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "token1": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 421556164086987735,
+        "slot0_tick_now": -198261,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "set_fee_protocol_events": [
+        {
+          "block": 489750057,
+          "feeProtocol0Old": 6,
+          "feeProtocol1Old": 6,
+          "feeProtocol0New": 6,
+          "feeProtocol1New": 6
+        }
+      ],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 489750056,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        },
+        {
+          "from_block": 489750057,
+          "to_block": 499082672,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "USDC",
+          "hedge": "stable-unhedged"
+        }
+      }
+    },
+    {
+      "slug": "wsteth_weth_0p01",
+      "family": "F3",
+      "pair": "wstETH/WETH",
+      "fee": 100,
+      "tick_spacing_expected": 1,
+      "status": "RESOLVED",
+      "address": "0x35218a1cbac5bbc3e57fd9bd38219d37571b3537",
+      "token0_symbol": "wstETH",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x5979d7b546e38e414f7e9822514be443a4800529",
+        "token1": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "fee": 100,
+        "tick_spacing": 1,
+        "liquidity_now": 406328106094608158921390,
+        "slot0_tick_now": 2169,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "wstETH",
+          "hedge": "eth-beta",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "weeth_weth_0p01",
+      "family": "F3",
+      "pair": "weETH/WETH",
+      "fee": 100,
+      "tick_spacing_expected": 1,
+      "status": "RESOLVED",
+      "address": "0x14353445c8329df76e6f15e9ead18fa2d45a8bb6",
+      "token0_symbol": "weETH",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x35751007a407ca6feffe80b3cb397736d2cf4dbe",
+        "token1": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "fee": 100,
+        "tick_spacing": 1,
+        "liquidity_now": 20163323724337589808607,
+        "slot0_tick_now": 971,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "weETH",
+          "hedge": "eth-beta",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "pair": "WBTC/WETH",
+      "fee": 500,
+      "tick_spacing_expected": 10,
+      "status": "RESOLVED",
+      "address": "0x2f5e87c9312fa29aed5c179e456625d79015299c",
+      "token0_symbol": "WBTC",
+      "token1_symbol": "WETH",
+      "decimals0": 8,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+        "token1": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 281542296750228945,
+        "slot0_tick_now": 264858,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WBTC",
+          "hedge": "perp",
+          "hl_coin": "BTC"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "wbtc_weth_0p30",
+      "family": "F2",
+      "pair": "WBTC/WETH",
+      "fee": 3000,
+      "tick_spacing_expected": 60,
+      "status": "RESOLVED",
+      "address": "0x149e36e72726e0bcea5c59d40df2c43f60f5a22d",
+      "token0_symbol": "WBTC",
+      "token1_symbol": "WETH",
+      "decimals0": 8,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+        "token1": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 2963608366953596,
+        "slot0_tick_now": 264868,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WBTC",
+          "hedge": "perp",
+          "hl_coin": "BTC"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "pair": "ARB/WETH",
+      "fee": 500,
+      "tick_spacing_expected": 10,
+      "status": "RESOLVED",
+      "address": "0xc6f780497a95e246eb9449f5e4770916dcd6396a",
+      "token0_symbol": "WETH",
+      "token1_symbol": "ARB",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "token1": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 291971999559866678542955,
+        "slot0_tick_now": 102566,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "ARB",
+          "hedge": "perp",
+          "hl_coin": "ARB"
+        }
+      }
+    },
+    {
+      "slug": "arb_weth_0p30",
+      "family": "F4",
+      "pair": "ARB/WETH",
+      "fee": 3000,
+      "tick_spacing_expected": 60,
+      "status": "RESOLVED",
+      "address": "0x92c63d0e701caae670c9415d91c474f686298f00",
+      "token0_symbol": "WETH",
+      "token1_symbol": "ARB",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "token1": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 3906647411472180744905,
+        "slot0_tick_now": 102538,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "ARB",
+          "hedge": "perp",
+          "hl_coin": "ARB"
+        }
+      }
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "pair": "PENDLE/WETH",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0xb08a8794a5d3ccca3725d92964696858d3201909",
+      "token0_symbol": "PENDLE",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8",
+        "token1": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 2824071351301769232381,
+        "slot0_tick_now": -72756,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "PENDLE",
+          "hedge": "perp",
+          "hl_coin": "PENDLE"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      },
+      "sampled_median_per_day": 2933
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "pair": "LINK/WETH",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0x91308bc9ce8ca2db82aa30c65619856cc939d907",
+      "token0_symbol": "WETH",
+      "token1_symbol": "LINK",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+        "token1": "0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 10447384565141251663905,
+        "slot0_tick_now": 53777,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 458085624,
+          "to_block": 499082672,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "LINK",
+          "hedge": "perp",
+          "hl_coin": "LINK"
+        }
+      },
+      "sampled_median_per_day": 1078
+    }
+  ],
+  "discovery": [
+    {
+      "token": "LINK",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "LINK",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x91308bc9ce8ca2db82aa30c65619856cc939d907",
+      "sampled_day_counts": [
+        1420,
+        757,
+        910,
+        1670,
+        1078,
+        522,
+        950,
+        949,
+        1122,
+        5101
+      ],
+      "sampled_median_per_day": 1078
+    },
+    {
+      "token": "LINK",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "LINK",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x468b88941e7cc0b88c1869d68ab6b570bcef62ff",
+      "sampled_day_counts": [
+        226,
+        134,
+        215,
+        101,
+        183,
+        80,
+        98,
+        263,
+        178,
+        1222
+      ],
+      "sampled_median_per_day": 183
+    },
+    {
+      "token": "LINK",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "LINK",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x655c1607f8c2e73d5b4ddabce9ba8792b87592b6",
+      "sampled_day_counts": [
+        0,
+        18,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        36
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "LINK",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "LINK",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xbbe36e6f0331c6a36ab44bc8421e28e1a1871c1e",
+      "sampled_day_counts": [
+        197,
+        157,
+        124,
+        118,
+        124,
+        57,
+        120,
+        164,
+        82,
+        381
+      ],
+      "sampled_median_per_day": 124
+    },
+    {
+      "token": "UNI",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "UNI",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xff96d42dc8e2700abab1f1f82ecf699caa1a2056",
+      "sampled_day_counts": [
+        7,
+        3,
+        5,
+        84,
+        57,
+        98,
+        105,
+        18,
+        78,
+        17
+      ],
+      "sampled_median_per_day": 57
+    },
+    {
+      "token": "UNI",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "UNI",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xc24f7d8e51a64dc1238880bd00bb961d54cbeb29",
+      "sampled_day_counts": [
+        299,
+        186,
+        144,
+        352,
+        313,
+        147,
+        296,
+        658,
+        312,
+        1496
+      ],
+      "sampled_median_per_day": 312
+    },
+    {
+      "token": "UNI",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "UNI",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xeaf86d2b37dbed7ebebd9f4a2728a87f083a6c43",
+      "sampled_day_counts": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "UNI",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "UNI",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x05477c22a5349cee601500da0489dad137fd6bfa",
+      "sampled_day_counts": [
+        357,
+        199,
+        140,
+        404,
+        417,
+        194,
+        359,
+        705,
+        286,
+        1355
+      ],
+      "sampled_median_per_day": 359
+    },
+    {
+      "token": "GMX",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "GMX",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xb435ebfe0bf4ce66810aa4d44e3a5ca875d40db1",
+      "sampled_day_counts": [
+        2,
+        9,
+        3,
+        5,
+        1,
+        2,
+        2,
+        6,
+        0,
+        1
+      ],
+      "sampled_median_per_day": 2
+    },
+    {
+      "token": "GMX",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "GMX",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x1aeedd3727a6431b8f070c0afaa81cc74f273882",
+      "sampled_day_counts": [
+        92,
+        132,
+        279,
+        251,
+        169,
+        151,
+        383,
+        222,
+        155,
+        742
+      ],
+      "sampled_median_per_day": 222
+    },
+    {
+      "token": "GMX",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "GMX",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xb0f4df6389d6a8cd3cc66e8b185a95f3a504af70",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "GMX",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "GMX",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x135e49cc315fed87f989e072ee11132686cf84f3",
+      "sampled_day_counts": [
+        90,
+        142,
+        197,
+        250,
+        187,
+        162,
+        336,
+        308,
+        120,
+        741
+      ],
+      "sampled_median_per_day": 197
+    },
+    {
+      "token": "PENDLE",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "PENDLE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xb08a8794a5d3ccca3725d92964696858d3201909",
+      "sampled_day_counts": [
+        7138,
+        4750,
+        2701,
+        2933,
+        1734,
+        2661,
+        2900,
+        2975,
+        986,
+        3830
+      ],
+      "sampled_median_per_day": 2933
+    },
+    {
+      "token": "PENDLE",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "PENDLE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xdbaeb7f0dfe3a0aafd798ccecb5b22e708f7852c",
+      "sampled_day_counts": [
+        2357,
+        1404,
+        971,
+        619,
+        724,
+        550,
+        549,
+        434,
+        320,
+        2064
+      ],
+      "sampled_median_per_day": 724
+    },
+    {
+      "token": "PENDLE",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "PENDLE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x1b72cca2a0f81728cc9ee289374c45a8ea73dfad",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "PENDLE",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "PENDLE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xc6af8e73e2261264ef95466b97b13e03bd88165e",
+      "sampled_day_counts": [
+        1645,
+        834,
+        429,
+        682,
+        689,
+        434,
+        717,
+        707,
+        463,
+        1741
+      ],
+      "sampled_median_per_day": 707
+    },
+    {
+      "token": "CRV",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "CRV",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x14cc036360c896c20bc816a2a7aa514bc843766f",
+      "sampled_day_counts": [
+        3,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "CRV",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "CRV",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xa95b0f5a65a769d82ab4f3e82842e45b8bbaf101",
+      "sampled_day_counts": [
+        384,
+        279,
+        141,
+        2811,
+        382,
+        328,
+        677,
+        317,
+        1607,
+        3317
+      ],
+      "sampled_median_per_day": 384
+    },
+    {
+      "token": "CRV",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "CRV",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xfe05b5a71bce306441da603e97e380ca615e00cc",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "CRV",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "CRV",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x31f263f819b08036aa76ccb235adc8e0405c3df0",
+      "sampled_day_counts": [
+        41,
+        20,
+        8,
+        224,
+        4,
+        1,
+        2,
+        119,
+        107,
+        247
+      ],
+      "sampled_median_per_day": 41
+    },
+    {
+      "token": "AAVE",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "AAVE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x263f7b865de80355f91c00dfb975a821effbea24",
+      "sampled_day_counts": [
+        198,
+        233,
+        121,
+        172,
+        323,
+        49,
+        55,
+        57,
+        54,
+        112
+      ],
+      "sampled_median_per_day": 121
+    },
+    {
+      "token": "AAVE",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "AAVE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xdd672b3b768a16b9bcb4ee1060d3e8221435beaa",
+      "sampled_day_counts": [
+        144,
+        143,
+        101,
+        225,
+        334,
+        240,
+        169,
+        395,
+        202,
+        1277
+      ],
+      "sampled_median_per_day": 225
+    },
+    {
+      "token": "AAVE",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "AAVE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x8f31cfceaeeb429126b2dae75d131a1195d2e163",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "AAVE",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "AAVE",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x3db70832f48f8c01ee041671f7bb1cfaa2677584",
+      "sampled_day_counts": [
+        200,
+        192,
+        90,
+        338,
+        375,
+        378,
+        301,
+        636,
+        260,
+        1717
+      ],
+      "sampled_median_per_day": 338
+    },
+    {
+      "token": "LDO",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "LDO",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xe4cd69c5f4bc7803b2fb745c984446b935b54249",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "LDO",
+      "quote": "WETH",
+      "fee": 3000,
+      "hl_coin": "LDO",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x52f9d14bed8ce6536da063aaf274ae2747ef4853",
+      "sampled_day_counts": [
+        157,
+        169,
+        99,
+        105,
+        132,
+        143,
+        170,
+        104,
+        156,
+        266
+      ],
+      "sampled_median_per_day": 156
+    },
+    {
+      "token": "LDO",
+      "quote": "USDC",
+      "fee": 500,
+      "hl_coin": "LDO",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0x15c503de090efe8187977bfd588cae62ed35b1cd",
+      "sampled_day_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "sampled_median_per_day": 0
+    },
+    {
+      "token": "LDO",
+      "quote": "USDC",
+      "fee": 3000,
+      "hl_coin": "LDO",
+      "hl_perp_live": true,
+      "status": "SAMPLED-NOT-CHOSEN",
+      "address": "0xbc4d874430834e90a4c9baeb3db470cacb0dcce2",
+      "sampled_day_counts": [
+        167,
+        315,
+        119,
+        145,
+        143,
+        147,
+        135,
+        155,
+        144,
+        340
+      ],
+      "sampled_median_per_day": 147
+    }
+  ],
+  "discovered_pools": [
+    {
+      "token": "PENDLE",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "PENDLE",
+      "hl_perp_live": true,
+      "status": "SAMPLED",
+      "address": "0xb08a8794a5d3ccca3725d92964696858d3201909",
+      "sampled_day_counts": [
+        7138,
+        4750,
+        2701,
+        2933,
+        1734,
+        2661,
+        2900,
+        2975,
+        986,
+        3830
+      ],
+      "sampled_median_per_day": 2933,
+      "slug": "pendle_weth_0p05"
+    },
+    {
+      "token": "LINK",
+      "quote": "WETH",
+      "fee": 500,
+      "hl_coin": "LINK",
+      "hl_perp_live": true,
+      "status": "SAMPLED",
+      "address": "0x91308bc9ce8ca2db82aa30c65619856cc939d907",
+      "sampled_day_counts": [
+        1420,
+        757,
+        910,
+        1670,
+        1078,
+        522,
+        950,
+        949,
+        1122,
+        5101
+      ],
+      "sampled_median_per_day": 1078,
+      "slug": "link_weth_0p05"
+    }
+  ]
+}
