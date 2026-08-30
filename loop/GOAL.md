@@ -15,7 +15,7 @@ Produce the **range policy** — when to be in position, at what width, when to 
 | # | Sub-goal | Status | Decided by |
 |---|---|---|---|
 | G1 | Know whether the shipped DQN beats the trivial always-in rule in its own env | ✅ done 2026-08-29 — **REFUTED** ([E001](experiments/E001-baseline-race.md)) | E001's pre-registered decision rule |
-| G-pool | Find a venue where the family can work: **fees/gamma > 1 with margin** (pool screen, E005) | open — **next** | E005 decision rule |
+| G-pool | Find a venue where the family can work: **fees/gamma > 1 with margin** (pool screen, E005) | **RUNNING** (go 2026-08-30) | E005 decision rule |
 | G2 | A policy trained under **honest costs** that does not collapse to never-act, and beats the always-in rule under those costs | **blocked — no valid venue yet** (E003 killed it for ETH/USDC 0.05%: fees/gamma 0.65–0.97, no arm to beat) | in-env eval vs rule, then G3 |
 | G3 | That policy clears Gate 2 in the bot backtest at the target APR | open | bot item D engine |
 
@@ -36,4 +36,4 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 
 ## Current focus
 
-**Pre-register E005 — the pool screen** (pending operator go; live-trial and capital consequences are operator calls). E003 refuted H-width on ETH/USDC 0.05% at the strongest clause: no width clears $0/day even under the optimistic envelope; fees/gamma = 0.65–0.97 across a 40× width range, and gamma is rehedge-frequency-invariant — the shortfall is the venue's, not the rule's. So the question becomes: **which pool (if any) pays > 1.5–1.7× its gamma in fees at our size?** E005 screens candidate pools (other fee tiers, other pairs, other chains the engine's data layer can reach) on exactly that ratio plus liquidity-depth sanity, using the same engine. Item F retrain is dead until a venue passes. T6-as-planned is escalated to the operator.
+**E005 — the pool screen — is RUNNING** (operator go 2026-08-30; pre-registration: [experiments/E005-pool-screen.md](experiments/E005-pool-screen.md)). Live-trial and capital consequences remain operator calls. E003 refuted H-width on ETH/USDC 0.05% at the strongest clause: no width clears $0/day even under the optimistic envelope; fees/gamma = 0.65–0.97 across a 40× width range, and gamma is rehedge-frequency-invariant — the shortfall is the venue's, not the rule's. So the question becomes: **which pool (if any) pays > 1.5–1.7× its gamma in fees at our size?** E005 screens candidate pools (other fee tiers, other pairs, other chains the engine's data layer can reach) on exactly that ratio plus liquidity-depth sanity, using the same engine. Item F retrain is dead until a venue passes. T6-as-planned is escalated to the operator.
