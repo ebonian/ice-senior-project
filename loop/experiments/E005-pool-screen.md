@@ -2,7 +2,7 @@
 id: E005
 family: H-pool
 date: 2026-08-30
-verdict: RUNNING
+verdict: INCONCLUSIVE
 ---
 
 # E005 — At least one Arbitrum V3 pool we can hedge on Hyperliquid pays its gamma with margin
@@ -105,17 +105,69 @@ sha256; funding CSVs committed. Deterministic replay, no RNG.
 
 ## Result
 
-_(pending)_
+Ten pools resolved (8 pre-registered + PENDLE/WETH 0.05% and LINK/WETH 0.05%
+by the F4 sampling rule); all raced except weETH/WETH 0.01%
+(INELIGIBLE-thin, median 43 swaps/day) — which was raced for context but is
+excluded from the verdict — with WBTC/WETH 0.30% recorded DATA-FAIL under
+the generalized T2 participation gate (T1/T3 prove the fetch complete; the
+pool is bursty — verdict-neutral either way at f/g < 1.0). The
+engine-extension validity gate passed exactly: the generalized simulator
+reproduces E003's lag1h_rh1h control row at 0.00% relative error on all
+three matching arms (38/38 contract tests). Full numbers:
+`backtest_model_server/e005/REPORT.md`, `out/decision.json`.
+
+Every USD-quoted pool behaves like the E003 control — fees/gamma 0.63–0.97
+across F1/F2/F4 at every width. Two escapes, both funding-carry-dependent:
+wstETH/WETH 0.01% ±0.1% (f/g 36.2 — degenerate: hedged gamma is a small
+POSITIVE accretion drift; monthly f/g > 1.0 all four months; net +$0.223/day
+central, 5.7% APR, ex-funding +$0.014/day) and LINK/WETH 0.05% ±8.3% (f/g
+1.204 with genuinely negative gamma; net +$0.174/day; its narrower arms post
+f/g 1.12–1.27 only by assuming 3.3–25% of the pool's in-range fee flow —
+gate (d) rejects them). PENDLE fired the incentive-cliff guard (August =
+24% of May's swaps). Gate (c) is size-invariant: net APR barely moves with
+notional at these pool shares, so the +$0.389/day floor is a rate shortfall,
+not a capital shortfall.
 
 ## Verdict
 
-RUNNING
+**INCONCLUSIVE** — no pool × arm passes all five SUPPORTED gates; REFUTED is
+excluded (eligible pools clear fees/gamma ≥ 1.0). Named watchlist, with
+failed gates: **wstETH/WETH 0.01%** ±0.1% [c], ±0.2% [b,c], ±0.5% [b,c],
+±2% [a,b,c]; **LINK/WETH 0.05%** ±8.3% [a,b,c], ±2%/±0.5%/±0.2% [a,b,c,d].
+Disambiguation: (i) a longer window — August alone breaks LINK's gate (b)
+and monthly f/g everywhere is noisy on one-month cells; (ii) per-venue cost
+calibration — the envelope's slippage was measured on ETH-perp fills and
+flatters thinner perps; (iii) a funding-regime sensitivity, since both
+watchlist pools' positive net is mostly perp funding carry.
 
 ## Critique
 
-_(pending)_
+1. *Proxy or goal?* Goal — net $/day through the full frozen cost stack; but
+   both positive pools earn it mostly from funding carry, a market rate the
+   venue does not control, and f/g on wstETH is degenerate (positive-drift
+   denominator), so the headline ratio flatters the weakest part of the case.
+2. *Would it survive Gate 2?* The two watchlist pools would survive sign but
+   not the target: 4.5–7.0% APR vs 10%; and per-venue perp slippage +
+   wstETH/WETH swap routing are modelled with ETH/USDC-calibrated constants.
+3. *Environment faithful enough?* The hedge ratio is still idealized (no
+   margin dynamics, pool-implied perp marks, no basis); for the static-beta
+   pool a $1,015 short on $405 equity is 2.5× leverage the model never
+   stress-tests through an ETH rally.
+4. *Exactly one variable?* Venue only — engine, costs, envelope, window,
+   notional, loop all frozen; verified by an exact control reproduction.
+5. *Symptom-fix of the previous iteration?* No — E003 said "the venue, not
+   the width"; this asked "which venue, then" and answered it.
 
 ## What this changes
 
-_(pending — SUPPORTED routes to a venue proposal for the operator + G2 unblocks
-on the winning pool; REFUTED closes G-pool for this venue set and escalates.)_
+G-pool closes as measured for this venue set at this size: **no
+Arbitrum-V3 × HL-hedgeable pool clears fees/gamma ≥ 1.5 with margin and the
+10% APR floor at $1,420.** The two watchlist venues are real but are 5–7%
+APR funding-carry positions, not the fee engine the strategy was designed
+around. Escalation to the operator (per the pre-registration's REFUTED/
+INCONCLUSIVE routing): the structural options are (a) accept a watchlist
+venue as a lower-yield carry position and validate the funding line's
+persistence, (b) re-screen on another chain after recalibrating the frozen
+gas/fee constants (pre-registered scope limit), or (c) judge the strategy
+family at this capital. Item F retrain stays dead pending that call. Any
+live-venue change is an operator decision recorded in bot/docs.
