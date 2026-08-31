@@ -64,7 +64,14 @@
       "pair": "WBTC/WETH",
       "fee_pct": 0.05,
       "address": "0x2f5e87c9312fa29aed5c179e456625d79015299c",
-      "screen": "NOT-FETCHED",
+      "screen": "RACED",
+      "median_swaps_per_day": 5803.0,
+      "monthly_swap_counts": {
+        "2026-05": 137507,
+        "2026-06": 294203,
+        "2026-07": 214508,
+        "2026-08": 197293
+      },
       "lp_fee_share": 0.75
     },
     {
@@ -73,7 +80,14 @@
       "pair": "WBTC/WETH",
       "fee_pct": 0.3,
       "address": "0x149e36e72726e0bcea5c59d40df2c43f60f5a22d",
-      "screen": "NOT-FETCHED",
+      "screen": "DATA-FAIL",
+      "median_swaps_per_day": 141.0,
+      "monthly_swap_counts": {
+        "2026-05": 3456,
+        "2026-06": 10077,
+        "2026-07": 4746,
+        "2026-08": 4201
+      },
       "lp_fee_share": 0.8333333333333334
     },
     {
@@ -82,7 +96,14 @@
       "pair": "ARB/WETH",
       "fee_pct": 0.05,
       "address": "0xc6f780497a95e246eb9449f5e4770916dcd6396a",
-      "screen": "NOT-FETCHED",
+      "screen": "RACED",
+      "median_swaps_per_day": 6115.0,
+      "monthly_swap_counts": {
+        "2026-05": 202275,
+        "2026-06": 239681,
+        "2026-07": 261962,
+        "2026-08": 165195
+      },
       "lp_fee_share": 0.75
     },
     {
@@ -91,7 +112,14 @@
       "pair": "ARB/WETH",
       "fee_pct": 0.3,
       "address": "0x92c63d0e701caae670c9415d91c474f686298f00",
-      "screen": "NOT-FETCHED",
+      "screen": "RACED",
+      "median_swaps_per_day": 205.0,
+      "monthly_swap_counts": {
+        "2026-05": 7765,
+        "2026-06": 8310,
+        "2026-07": 8940,
+        "2026-08": 2993
+      },
       "lp_fee_share": 0.8333333333333334
     },
     {
@@ -100,7 +128,14 @@
       "pair": "PENDLE/WETH",
       "fee_pct": 0.05,
       "address": "0xb08a8794a5d3ccca3725d92964696858d3201909",
-      "screen": "NOT-FETCHED",
+      "screen": "RACED",
+      "median_swaps_per_day": 3147.0,
+      "monthly_swap_counts": {
+        "2026-05": 167564,
+        "2026-06": 110021,
+        "2026-07": 113151,
+        "2026-08": 40930
+      },
       "lp_fee_share": 0.75
     },
     {
@@ -109,17 +144,15 @@
       "pair": "LINK/WETH",
       "fee_pct": 0.05,
       "address": "0x91308bc9ce8ca2db82aa30c65619856cc939d907",
-      "screen": "NOT-FETCHED",
+      "screen": "RACED",
+      "median_swaps_per_day": 1093.0,
+      "monthly_swap_counts": {
+        "2026-05": 31913,
+        "2026-06": 53482,
+        "2026-07": 29423,
+        "2026-08": 49199
+      },
       "lp_fee_share": 0.75
-    },
-    {
-      "slug": "link_weth_0p05",
-      "family": "F4-shortlist",
-      "pair": "LINK/WETH",
-      "fee_pct": 0.05,
-      "address": "0x91308bc9ce8ca2db82aa30c65619856cc939d907",
-      "screen": "SAMPLED-NOT-CHOSEN",
-      "median_swaps_per_day": 1078
     },
     {
       "slug": "link_weth_0p30",
@@ -219,15 +252,6 @@
       "address": "0x135e49cc315fed87f989e072ee11132686cf84f3",
       "screen": "SAMPLED-NOT-CHOSEN",
       "median_swaps_per_day": 197
-    },
-    {
-      "slug": "pendle_weth_0p05",
-      "family": "F4-shortlist",
-      "pair": "PENDLE/WETH",
-      "fee_pct": 0.05,
-      "address": "0xb08a8794a5d3ccca3725d92964696858d3201909",
-      "screen": "SAMPLED-NOT-CHOSEN",
-      "median_swaps_per_day": 2933
     },
     {
       "slug": "pendle_weth_0p30",
@@ -370,6 +394,49 @@
   "supported": [],
   "watchlist": [
     {
+      "slug": "link_weth_0p05",
+      "arm": "arm_0.2pct",
+      "fees_over_gamma": 1.1205097397161332,
+      "failed_gates": [
+        "a_fg_ge_1p5",
+        "b_monthly_fg_gt_1",
+        "c_net_ge_target",
+        "d_share_le_1pct"
+      ]
+    },
+    {
+      "slug": "link_weth_0p05",
+      "arm": "arm_0.5pct",
+      "fees_over_gamma": 1.2505453175841297,
+      "failed_gates": [
+        "a_fg_ge_1p5",
+        "b_monthly_fg_gt_1",
+        "c_net_ge_target",
+        "d_share_le_1pct"
+      ]
+    },
+    {
+      "slug": "link_weth_0p05",
+      "arm": "arm_2pct",
+      "fees_over_gamma": 1.2740704332161488,
+      "failed_gates": [
+        "a_fg_ge_1p5",
+        "b_monthly_fg_gt_1",
+        "c_net_ge_target",
+        "d_share_le_1pct"
+      ]
+    },
+    {
+      "slug": "link_weth_0p05",
+      "arm": "arm_8.3pct",
+      "fees_over_gamma": 1.203643403864436,
+      "failed_gates": [
+        "a_fg_ge_1p5",
+        "b_monthly_fg_gt_1",
+        "c_net_ge_target"
+      ]
+    },
+    {
       "slug": "wsteth_weth_0p01",
       "arm": "arm_0.1pct",
       "fees_over_gamma": 36.18440125286944,
@@ -407,6 +474,198 @@
     }
   ],
   "pool_rows": [
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.75,
+      "fee_pct": 0.05,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 202275,
+          "2026-06": 239681,
+          "2026-07": 261962,
+          "2026-08": 165195
+        },
+        "peak": 261962,
+        "worst_over_peak": 0.6306067292202686,
+        "worst_over_peak_perday": 0.7240299483640121,
+        "pass_raw": true,
+        "pass_perday": true
+      },
+      "best_arm": "arm_2pct",
+      "best_fg": 0.6889934724371322,
+      "best_worst_month_fg": 0.526073791938422,
+      "best_net_central": -5.079731896997838,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      }
+    },
+    {
+      "slug": "arb_weth_0p30",
+      "family": "F4",
+      "eligible": true,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.8333333333333334,
+      "fee_pct": 0.3,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 7765,
+          "2026-06": 8310,
+          "2026-07": 8940,
+          "2026-08": 2993
+        },
+        "peak": 8940,
+        "worst_over_peak": 0.3347874720357942,
+        "worst_over_peak_perday": 0.384385616041097,
+        "pass_raw": true,
+        "pass_perday": true
+      },
+      "best_arm": "arm_8.3pct",
+      "best_fg": 0.7432815431080958,
+      "best_worst_month_fg": 0.45178760837158255,
+      "best_net_central": -0.9955709760491269,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      }
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.75,
+      "fee_pct": 0.05,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 31913,
+          "2026-06": 53482,
+          "2026-07": 29423,
+          "2026-08": 49199
+        },
+        "peak": 53482,
+        "worst_over_peak": 0.5501477132493175,
+        "worst_over_peak_perday": 0.5208740801839009,
+        "pass_raw": true,
+        "pass_perday": true
+      },
+      "best_arm": "arm_2pct",
+      "best_fg": 1.2740704332161488,
+      "best_worst_month_fg": 0.6235920815816226,
+      "best_net_central": -0.042590695450965325,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      }
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.75,
+      "fee_pct": 0.05,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 167564,
+          "2026-06": 110021,
+          "2026-07": 113151,
+          "2026-08": 40930
+        },
+        "peak": 167564,
+        "worst_over_peak": 0.2442648778974004,
+        "worst_over_peak_perday": 0.2804522672155338,
+        "pass_raw": false,
+        "pass_perday": true
+      },
+      "best_arm": "arm_8.3pct",
+      "best_fg": 0.9714113381911762,
+      "best_worst_month_fg": 0.5215222009674307,
+      "best_net_central": -0.6596041592915671,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      }
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.75,
+      "fee_pct": 0.05,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 137507,
+          "2026-06": 294203,
+          "2026-07": 214508,
+          "2026-08": 197293
+        },
+        "peak": 294203,
+        "worst_over_peak": 0.4673881639548203,
+        "worst_over_peak_perday": 0.4523111264078907,
+        "pass_raw": true,
+        "pass_perday": true
+      },
+      "best_arm": "arm_0.1pct",
+      "best_fg": 0.7310700192749912,
+      "best_worst_month_fg": 0.6895442742392366,
+      "best_net_central": -11.116904270483095,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      }
+    },
+    {
+      "slug": "wbtc_weth_0p30",
+      "family": "F2",
+      "eligible": false,
+      "hedge_mode": "per-leg",
+      "lp_fee_share": 0.8333333333333334,
+      "fee_pct": 0.3,
+      "volume_persistence": {
+        "monthly_counts": {
+          "2026-05": 3456,
+          "2026-06": 10077,
+          "2026-07": 4746,
+          "2026-08": 4201
+        },
+        "peak": 10077,
+        "worst_over_peak": 0.34295921405180113,
+        "worst_over_peak_perday": 0.3318960135985172,
+        "pass_raw": true,
+        "pass_perday": true
+      },
+      "best_arm": "arm_2pct",
+      "best_fg": 0.965765847885698,
+      "best_worst_month_fg": 0.716005478266973,
+      "best_net_central": -0.4081655786248168,
+      "best_gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      }
+    },
     {
       "slug": "weeth_weth_0p01",
       "family": "F3",
@@ -537,6 +796,916 @@
     }
   ],
   "arm_rows": [
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_0.1pct",
+      "half_ticks": 10,
+      "width_pct": 0.0010004501200209237,
+      "fees_per_day": 27.562619456595133,
+      "gamma_per_day": -41.79400796526493,
+      "fees_over_gamma": 0.6594873475523686,
+      "monthly_fg": {
+        "2026-05": 0.6964688029247692,
+        "2026-06": 0.830716456675998,
+        "2026-07": 0.6138842126703218,
+        "2026-08": 0.5137025712232127
+      },
+      "worst_month_fg": 0.5137025712232127,
+      "onchain_per_day": 5.63177828710327,
+      "hpl_central_per_day": 5.094782682090426,
+      "funding_per_day": 0.10700945751004533,
+      "net_central_per_day": -24.850940020353455,
+      "net_optimistic_per_day": -22.765709028363887,
+      "net_pessimistic_per_day": -32.376857974169866,
+      "breakeven_x": 1.9016174990003414,
+      "implied_pool_share": 0.0789181843767957,
+      "recenters": 2307,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_0.2pct",
+      "half_ticks": 20,
+      "width_pct": 0.0020019011404843745,
+      "fees_per_day": 25.83035151451697,
+      "gamma_per_day": -37.51452791373823,
+      "fees_over_gamma": 0.6885426247109353,
+      "monthly_fg": {
+        "2026-05": 0.7417468716935735,
+        "2026-06": 0.8545886317862403,
+        "2026-07": 0.6251500587050479,
+        "2026-08": 0.5488985333336854
+      },
+      "worst_month_fg": 0.5488985333336854,
+      "onchain_per_day": 4.523578826685992,
+      "hpl_central_per_day": 4.44067827996587,
+      "funding_per_day": 0.12155546304081341,
+      "net_central_per_day": -20.526878042832312,
+      "net_optimistic_per_day": -18.709363822374854,
+      "net_pessimistic_per_day": -27.08656517370817,
+      "breakeven_x": 1.794680553661686,
+      "implied_pool_share": 0.04145550168193076,
+      "recenters": 1818,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_0.5pct",
+      "half_ticks": 50,
+      "width_pct": 0.005012269623050569,
+      "fees_per_day": 18.26551796640113,
+      "gamma_per_day": -26.65693173807801,
+      "fees_over_gamma": 0.6852070653093886,
+      "monthly_fg": {
+        "2026-05": 0.7177411722414536,
+        "2026-06": 0.8587001485949047,
+        "2026-07": 0.6349918653994276,
+        "2026-08": 0.5499853155960416
+      },
+      "worst_month_fg": 0.5499853155960416,
+      "onchain_per_day": 2.440250992855773,
+      "hpl_central_per_day": 3.9695865227694602,
+      "funding_per_day": 0.1264559179845865,
+      "net_central_per_day": -14.674795369317527,
+      "net_optimistic_per_day": -13.050093127991182,
+      "net_pessimistic_per_day": -20.53859454292242,
+      "breakeven_x": 1.8034152328070505,
+      "implied_pool_share": 0.017125814546751494,
+      "recenters": 962,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_2pct",
+      "half_ticks": 200,
+      "width_pct": 0.020200319893931784,
+      "fees_per_day": 6.705970379708402,
+      "gamma_per_day": -9.732995518793242,
+      "fees_over_gamma": 0.6889934724371322,
+      "monthly_fg": {
+        "2026-05": 0.7728958325482176,
+        "2026-06": 0.9062889429171234,
+        "2026-07": 0.6261945509152975,
+        "2026-08": 0.526073791938422
+      },
+      "worst_month_fg": 0.526073791938422,
+      "onchain_per_day": 0.394731859720316,
+      "hpl_central_per_day": 1.7804358966903115,
+      "funding_per_day": 0.12246099849762981,
+      "net_central_per_day": -5.079731896997838,
+      "net_optimistic_per_day": -4.351021696250658,
+      "net_pessimistic_per_day": -7.709758596198082,
+      "breakeven_x": 1.757493935906517,
+      "implied_pool_share": 0.0044148676699551975,
+      "recenters": 152,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p05",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_8.3pct",
+      "half_ticks": 800,
+      "width_pct": 0.08328273482419823,
+      "fees_per_day": 1.8364982685568827,
+      "gamma_per_day": -2.6768720120141465,
+      "fees_over_gamma": 0.6860612910570404,
+      "monthly_fg": {
+        "2026-05": 0.7697148044027718,
+        "2026-06": 0.9155023760028606,
+        "2026-07": 0.6558608986169884,
+        "2026-08": 0.5363681798367199
+      },
+      "worst_month_fg": 0.5363681798367199,
+      "onchain_per_day": 0.047551253815100114,
+      "hpl_central_per_day": 0.4589659869191499,
+      "funding_per_day": 0.1118748597247459,
+      "net_central_per_day": -1.2350161244667681,
+      "net_optimistic_per_day": -1.0471670718354982,
+      "net_pessimistic_per_day": -1.9129921200451787,
+      "breakeven_x": 1.6724842302395644,
+      "implied_pool_share": 0.0011225827449149433,
+      "recenters": 15,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p30",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "half_ticks": 60,
+      "width_pct": 0.006017734268817465,
+      "fees_per_day": 8.244729739243029,
+      "gamma_per_day": -20.52020324918704,
+      "fees_over_gamma": 0.40178596864383714,
+      "monthly_fg": {
+        "2026-05": 0.5190491429483205,
+        "2026-06": 0.6083876902928027,
+        "2026-07": 0.40157686906225165,
+        "2026-08": 0.10142066668506303
+      },
+      "worst_month_fg": 0.10142066668506303,
+      "onchain_per_day": 1.8717828886439254,
+      "hpl_central_per_day": 3.170323484952142,
+      "funding_per_day": 0.11198983270097805,
+      "net_central_per_day": -17.205590050839103,
+      "net_optimistic_per_day": -15.90801619971223,
+      "net_pessimistic_per_day": -21.888732772250997,
+      "breakeven_x": 3.086859193084817,
+      "implied_pool_share": 0.3211788902234011,
+      "recenters": 782,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p30",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_2pct",
+      "half_ticks": 180,
+      "width_pct": 0.01816206010461041,
+      "fees_per_day": 5.537539905388352,
+      "gamma_per_day": -9.584479838799611,
+      "fees_over_gamma": 0.5777611303402658,
+      "monthly_fg": {
+        "2026-05": 0.7054897405461724,
+        "2026-06": 0.8184169588608051,
+        "2026-07": 0.6185461876454187,
+        "2026-08": 0.2273899844589582
+      },
+      "worst_month_fg": 0.2273899844589582,
+      "onchain_per_day": 0.46465057231535717,
+      "hpl_central_per_day": 1.6139754639498711,
+      "funding_per_day": 0.11532385393871306,
+      "net_central_per_day": -6.010242115737775,
+      "net_optimistic_per_day": -5.349662093439726,
+      "net_pessimistic_per_day": -8.39437656839232,
+      "breakeven_x": 2.085363215150731,
+      "implied_pool_share": 0.15421011835376672,
+      "recenters": 181,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "arb_weth_0p30",
+      "family": "F4",
+      "eligible": true,
+      "arm": "arm_8.3pct",
+      "half_ticks": 780,
+      "width_pct": 0.08111844258099676,
+      "fees_per_day": 1.8656043349107898,
+      "gamma_per_day": -2.509956492541984,
+      "fees_over_gamma": 0.7432815431080958,
+      "monthly_fg": {
+        "2026-05": 0.8745081059921456,
+        "2026-06": 0.9959184465266162,
+        "2026-07": 0.790840741758809,
+        "2026-08": 0.45178760837158255
+      },
+      "worst_month_fg": 0.45178760837158255,
+      "onchain_per_day": 0.056400434392457635,
+      "hpl_central_per_day": 0.4173381266183797,
+      "funding_per_day": 0.12251974259290488,
+      "net_central_per_day": -0.9955709760491269,
+      "net_optimistic_per_day": -0.8247596873119906,
+      "net_pessimistic_per_day": -1.6120550728037033,
+      "breakeven_x": 1.533645295210323,
+      "implied_pool_share": 0.047545604107492964,
+      "recenters": 18,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.1pct",
+      "half_ticks": 10,
+      "width_pct": 0.0010004501200209237,
+      "fees_per_day": 15.431390487299938,
+      "gamma_per_day": -17.122756039790055,
+      "fees_over_gamma": 0.9012211849214168,
+      "monthly_fg": {
+        "2026-05": 0.7559873491019513,
+        "2026-06": 2.0662295338027845,
+        "2026-07": 0.7388205963104664,
+        "2026-08": 0.4294770019847291
+      },
+      "worst_month_fg": 0.4294770019847291,
+      "onchain_per_day": 4.386159524597132,
+      "hpl_central_per_day": 4.254362766343154,
+      "funding_per_day": 0.2659505325282878,
+      "net_central_per_day": -10.065937310902115,
+      "net_optimistic_per_day": -8.324679705797507,
+      "net_pessimistic_per_day": -16.35040264007545,
+      "breakeven_x": 1.65230267610598,
+      "implied_pool_share": 0.39711252056225876,
+      "recenters": 1774,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.2pct",
+      "half_ticks": 20,
+      "width_pct": 0.0020019011404843745,
+      "fees_per_day": 15.028914099145322,
+      "gamma_per_day": -13.412568910782252,
+      "fees_over_gamma": 1.1205097397161332,
+      "monthly_fg": {
+        "2026-05": 0.9998270989035298,
+        "2026-06": 2.4785089056210947,
+        "2026-07": 0.9020676074149728,
+        "2026-08": 0.5694064549482591
+      },
+      "worst_month_fg": 0.5694064549482591,
+      "onchain_per_day": 2.8265658010329044,
+      "hpl_central_per_day": 3.7462783636910015,
+      "funding_per_day": 0.25393591004639554,
+      "net_central_per_day": -4.7025630663144415,
+      "net_optimistic_per_day": -3.1692580686254797,
+      "net_pessimistic_per_day": -10.236495592309414,
+      "breakeven_x": 1.3129010542805533,
+      "implied_pool_share": 0.24989258590077726,
+      "recenters": 1117,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.5pct",
+      "half_ticks": 50,
+      "width_pct": 0.005012269623050569,
+      "fees_per_day": 9.7489781890621,
+      "gamma_per_day": -7.795781609814588,
+      "fees_over_gamma": 1.2505453175841297,
+      "monthly_fg": {
+        "2026-05": 1.2132904632761947,
+        "2026-06": 2.8562147359878263,
+        "2026-07": 1.1272083394874646,
+        "2026-08": 0.6377670294727892
+      },
+      "worst_month_fg": 0.6377670294727892,
+      "onchain_per_day": 0.9610836466092013,
+      "hpl_central_per_day": 2.746511385028929,
+      "funding_per_day": 0.2500638546364149,
+      "net_central_per_day": -1.504334597754202,
+      "net_optimistic_per_day": -0.38022175187229923,
+      "net_pessimistic_per_day": -5.5614299897934485,
+      "breakeven_x": 1.1543068995109658,
+      "implied_pool_share": 0.11788148155548955,
+      "recenters": 372,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_2pct",
+      "half_ticks": 200,
+      "width_pct": 0.020200319893931784,
+      "fees_per_day": 3.223963353350635,
+      "gamma_per_day": -2.5304435840429575,
+      "fees_over_gamma": 1.2740704332161488,
+      "monthly_fg": {
+        "2026-05": 1.3245874425313178,
+        "2026-06": 3.3340002342185024,
+        "2026-07": 1.3217107829165011,
+        "2026-08": 0.6235920815816226
+      },
+      "worst_month_fg": 0.6235920815816226,
+      "onchain_per_day": 0.12982627257395,
+      "hpl_central_per_day": 0.8500535798947748,
+      "funding_per_day": 0.24376938771008186,
+      "net_central_per_day": -0.042590695450965325,
+      "net_optimistic_per_day": 0.30532562998511137,
+      "net_pessimistic_per_day": -1.2982739890926667,
+      "breakeven_x": 1.013210663640671,
+      "implied_pool_share": 0.03309844076555311,
+      "recenters": 47,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "link_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_8.3pct",
+      "half_ticks": 800,
+      "width_pct": 0.08328273482419823,
+      "fees_per_day": 0.9185211731951456,
+      "gamma_per_day": -0.7631173570561908,
+      "fees_over_gamma": 1.203643403864436,
+      "monthly_fg": {
+        "2026-05": 1.3399723229459992,
+        "2026-06": 3.4403650833307595,
+        "2026-07": 1.3489377694558626,
+        "2026-08": 0.624309541860356
+      },
+      "worst_month_fg": 0.624309541860356,
+      "onchain_per_day": 0.020217962676103943,
+      "hpl_central_per_day": 0.22829596840111818,
+      "funding_per_day": 0.26751463159209393,
+      "net_central_per_day": 0.17440451665382636,
+      "net_optimistic_per_day": 0.2678432084217262,
+      "net_pessimistic_per_day": -0.16283002985855158,
+      "breakeven_x": 0.8101246637057401,
+      "implied_pool_share": 0.00905676565412857,
+      "recenters": 4,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.1pct",
+      "half_ticks": 10,
+      "width_pct": 0.0010004501200209237,
+      "fees_per_day": 6.975052262167995,
+      "gamma_per_day": -64.07526481413765,
+      "fees_over_gamma": 0.10885717417478405,
+      "monthly_fg": {
+        "2026-05": 0.09628280006585145,
+        "2026-06": 0.10180930723179815,
+        "2026-07": 0.16736685126111936,
+        "2026-08": 0.07977250336031623
+      },
+      "worst_month_fg": 0.07977250336031623,
+      "onchain_per_day": 6.278238674588572,
+      "hpl_central_per_day": 4.073177500727422,
+      "funding_per_day": 0.21286051732385539,
+      "net_central_per_day": -67.23876820996179,
+      "net_optimistic_per_day": -65.57166747370302,
+      "net_pessimistic_per_day": -73.25559004410289,
+      "breakeven_x": 10.639894538806303,
+      "implied_pool_share": 0.864963558631812,
+      "recenters": 2431,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.2pct",
+      "half_ticks": 20,
+      "width_pct": 0.0020019011404843745,
+      "fees_per_day": 11.60917831326434,
+      "gamma_per_day": -59.46112444351616,
+      "fees_over_gamma": 0.19523980452627052,
+      "monthly_fg": {
+        "2026-05": 0.17534726713440546,
+        "2026-06": 0.18181374672088535,
+        "2026-07": 0.30218773940942917,
+        "2026-08": 0.13909554889363074
+      },
+      "worst_month_fg": 0.13909554889363074,
+      "onchain_per_day": 5.299402516561187,
+      "hpl_central_per_day": 3.4112782074281514,
+      "funding_per_day": 0.21898919809064055,
+      "net_central_per_day": -56.34363765615052,
+      "net_optimistic_per_day": -54.94744404313676,
+      "net_pessimistic_per_day": -61.38271419949239,
+      "breakeven_x": 5.853369991894583,
+      "implied_pool_share": 0.763304280575845,
+      "recenters": 2064,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_0.5pct",
+      "half_ticks": 50,
+      "width_pct": 0.005012269623050569,
+      "fees_per_day": 17.684419262860946,
+      "gamma_per_day": -45.5802491158193,
+      "fees_over_gamma": 0.38798426085660215,
+      "monthly_fg": {
+        "2026-05": 0.3396741077478572,
+        "2026-06": 0.3948060430996389,
+        "2026-07": 0.6205939890705742,
+        "2026-08": 0.2520881912797428
+      },
+      "worst_month_fg": 0.2520881912797428,
+      "onchain_per_day": 3.2285023516952336,
+      "hpl_central_per_day": 3.764000824049876,
+      "funding_per_day": 0.2221631189550014,
+      "net_central_per_day": -34.66616990974846,
+      "net_optimistic_per_day": -33.125611330130575,
+      "net_pessimistic_per_day": -40.22628172363917,
+      "breakeven_x": 2.9602662317869206,
+      "implied_pool_share": 0.5666253755562893,
+      "recenters": 1266,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_2pct",
+      "half_ticks": 200,
+      "width_pct": 0.020200319893931784,
+      "fees_per_day": 15.24555990091856,
+      "gamma_per_day": -19.999181754383336,
+      "fees_over_gamma": 0.7623091828532985,
+      "monthly_fg": {
+        "2026-05": 0.6709897794467842,
+        "2026-06": 0.822153346140605,
+        "2026-07": 1.3330153407661045,
+        "2026-08": 0.4115563396340001
+      },
+      "worst_month_fg": 0.4115563396340001,
+      "onchain_per_day": 0.677495457488393,
+      "hpl_central_per_day": 2.3232849245787346,
+      "funding_per_day": 0.22033372907847332,
+      "net_central_per_day": -7.534068506453436,
+      "net_optimistic_per_day": -6.583176970886321,
+      "net_pessimistic_per_day": -10.965981664826652,
+      "breakeven_x": 1.4941811619525696,
+      "implied_pool_share": 0.25097699996052986,
+      "recenters": 266,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "pendle_weth_0p05",
+      "family": "F4-discovered",
+      "eligible": true,
+      "arm": "arm_8.3pct",
+      "half_ticks": 800,
+      "width_pct": 0.08328273482419823,
+      "fees_per_day": 5.598623826626216,
+      "gamma_per_day": -5.76339147641737,
+      "fees_over_gamma": 0.9714113381911762,
+      "monthly_fg": {
+        "2026-05": 0.8441920856804215,
+        "2026-06": 1.1161025047028297,
+        "2026-07": 1.6649764543551888,
+        "2026-08": 0.5215222009674307
+      },
+      "worst_month_fg": 0.5215222009674307,
+      "onchain_per_day": 0.06560797359458384,
+      "hpl_central_per_day": 0.6493740486155875,
+      "funding_per_day": 0.22014551270975727,
+      "net_central_per_day": -0.6596041592915671,
+      "net_optimistic_per_day": -0.39382346243731686,
+      "net_pessimistic_per_day": -1.6188473922557804,
+      "breakeven_x": 1.117815409593084,
+      "implied_pool_share": 0.07870974506088832,
+      "recenters": 23,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": false
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "arm": "arm_0.1pct",
+      "half_ticks": 10,
+      "width_pct": 0.0010004501200209237,
+      "fees_per_day": 9.417850557229631,
+      "gamma_per_day": -12.882282556969576,
+      "fees_over_gamma": 0.7310700192749912,
+      "monthly_fg": {
+        "2026-05": 0.7782864622838241,
+        "2026-06": 0.7155104972568346,
+        "2026-07": 0.7556056964313095,
+        "2026-08": 0.6895442742392366
+      },
+      "worst_month_fg": 0.6895442742392366,
+      "onchain_per_day": 3.52884491646343,
+      "hpl_central_per_day": 4.316076470064319,
+      "funding_per_day": 0.19244911578459772,
+      "net_central_per_day": -11.116904270483095,
+      "net_optimistic_per_day": -9.350388016352655,
+      "net_pessimistic_per_day": -17.492531931754385,
+      "breakeven_x": 2.180407801432906,
+      "implied_pool_share": 0.002869519665711966,
+      "recenters": 1440,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "arm": "arm_0.2pct",
+      "half_ticks": 20,
+      "width_pct": 0.0020019011404843745,
+      "fees_per_day": 7.247588849562708,
+      "gamma_per_day": -9.92082007694413,
+      "fees_over_gamma": 0.730543321353647,
+      "monthly_fg": {
+        "2026-05": 0.7637153311026,
+        "2026-06": 0.707941142778721,
+        "2026-07": 0.778448488552005,
+        "2026-08": 0.6903214037449091
+      },
+      "worst_month_fg": 0.6903214037449091,
+      "onchain_per_day": 2.0318776669215652,
+      "hpl_central_per_day": 3.4225654552184763,
+      "funding_per_day": 0.19250378934671283,
+      "net_central_per_day": -7.935170560174751,
+      "net_optimistic_per_day": -6.5343572174540885,
+      "net_pessimistic_per_day": -12.990920415430976,
+      "breakeven_x": 2.0948704079224263,
+      "implied_pool_share": 0.0014530102905078847,
+      "recenters": 804,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "arm": "arm_0.5pct",
+      "half_ticks": 50,
+      "width_pct": 0.005012269623050569,
+      "fees_per_day": 4.103597888005293,
+      "gamma_per_day": -5.66249492539207,
+      "fees_over_gamma": 0.7246978482230004,
+      "monthly_fg": {
+        "2026-05": 0.7673568700456148,
+        "2026-06": 0.6975521328013604,
+        "2026-07": 0.8155479249891193,
+        "2026-08": 0.6529496974529259
+      },
+      "worst_month_fg": 0.6529496974529259,
+      "onchain_per_day": 0.7306443789716863,
+      "hpl_central_per_day": 2.194751039829323,
+      "funding_per_day": 0.191678023481418,
+      "net_central_per_day": -4.292614432706369,
+      "net_optimistic_per_day": -3.3943302126470303,
+      "net_pessimistic_per_day": -7.534659733847948,
+      "breakeven_x": 2.046061176036172,
+      "implied_pool_share": 0.0005939770746555143,
+      "recenters": 285,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "arm": "arm_2pct",
+      "half_ticks": 200,
+      "width_pct": 0.020200319893931784,
+      "fees_per_day": 1.2963064006575333,
+      "gamma_per_day": -1.9472744653091643,
+      "fees_over_gamma": 0.6657029729251452,
+      "monthly_fg": {
+        "2026-05": 0.721821322450533,
+        "2026-06": 0.6784884823038433,
+        "2026-07": 0.7065113332775199,
+        "2026-08": 0.5849683275257208
+      },
+      "worst_month_fg": 0.5849683275257208,
+      "onchain_per_day": 0.10406679909566084,
+      "hpl_central_per_day": 0.6605760275694301,
+      "funding_per_day": 0.19437161702402783,
+      "net_central_per_day": -1.2212392742926943,
+      "net_optimistic_per_day": -0.9508737472025479,
+      "net_pessimistic_per_day": -2.1970298616363895,
+      "breakeven_x": 1.9420915253316946,
+      "implied_pool_share": 0.0001543129996642742,
+      "recenters": 37,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p05",
+      "family": "F2",
+      "eligible": true,
+      "arm": "arm_8.3pct",
+      "half_ticks": 800,
+      "width_pct": 0.08328273482419823,
+      "fees_per_day": 0.31487571987177976,
+      "gamma_per_day": -0.4955310440598453,
+      "fees_over_gamma": 0.6354308648193435,
+      "monthly_fg": {
+        "2026-05": 0.7200523891139917,
+        "2026-06": 0.6714234314790393,
+        "2026-07": 0.7265142798294584,
+        "2026-08": 0.5091954884667957
+      },
+      "worst_month_fg": 0.5091954884667957,
+      "onchain_per_day": 0.017344392385269698,
+      "hpl_central_per_day": 0.1600380505542717,
+      "funding_per_day": 0.17952379346724726,
+      "net_central_per_day": -0.17851397366035965,
+      "net_optimistic_per_day": -0.11301239611781497,
+      "net_pessimistic_per_day": -0.41491919702623353,
+      "breakeven_x": 1.5669347059628862,
+      "implied_pool_share": 3.63970568482818e-05,
+      "recenters": 3,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p30",
+      "family": "F2",
+      "eligible": false,
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "half_ticks": 60,
+      "width_pct": 0.006017734268817465,
+      "fees_per_day": 3.6000742771164687,
+      "gamma_per_day": -3.740973112342073,
+      "fees_over_gamma": 0.962336314377466,
+      "monthly_fg": {
+        "2026-05": 1.2082164491167096,
+        "2026-06": 0.9506930648831011,
+        "2026-07": 1.3534749295181792,
+        "2026-08": 0.6629356331554964
+      },
+      "worst_month_fg": 0.6629356331554964,
+      "onchain_per_day": 0.4966690899182245,
+      "hpl_central_per_day": 1.1135729425829397,
+      "funding_per_day": 0.1950378496958103,
+      "net_central_per_day": -1.5561030180309579,
+      "net_optimistic_per_day": -1.100331504973564,
+      "net_pessimistic_per_day": -3.201052199264824,
+      "breakeven_x": 1.4322419200965324,
+      "implied_pool_share": 0.031651275443269004,
+      "recenters": 187,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p30",
+      "family": "F2",
+      "eligible": false,
+      "arm": "arm_2pct",
+      "half_ticks": 180,
+      "width_pct": 0.01816206010461041,
+      "fees_per_day": 1.6147147800337998,
+      "gamma_per_day": -1.6719526617852687,
+      "fees_over_gamma": 0.965765847885698,
+      "monthly_fg": {
+        "2026-05": 1.20493623039217,
+        "2026-06": 0.9813101398727518,
+        "2026-07": 1.2718589106470328,
+        "2026-08": 0.716005478266973
+      },
+      "worst_month_fg": 0.716005478266973,
+      "onchain_per_day": 0.10947925615200525,
+      "hpl_central_per_day": 0.43980466728213136,
+      "funding_per_day": 0.19835622656078883,
+      "net_central_per_day": -0.4081655786248168,
+      "net_optimistic_per_day": -0.22815901507457956,
+      "net_pessimistic_per_day": -1.0578368302183703,
+      "breakeven_x": 1.2527787468547684,
+      "implied_pool_share": 0.011776482007335604,
+      "recenters": 37,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": false,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
+    {
+      "slug": "wbtc_weth_0p30",
+      "family": "F2",
+      "eligible": false,
+      "arm": "arm_8.3pct",
+      "half_ticks": 780,
+      "width_pct": 0.08111844258099676,
+      "fees_per_day": 0.4213200363886,
+      "gamma_per_day": -0.4465169665652269,
+      "fees_over_gamma": 0.9435700498226284,
+      "monthly_fg": {
+        "2026-05": 1.2205300479144454,
+        "2026-06": 0.9645902409182249,
+        "2026-07": 1.2597588444943835,
+        "2026-08": 0.7040105591708442
+      },
+      "worst_month_fg": 0.7040105591708442,
+      "onchain_per_day": 0.0238259629734255,
+      "hpl_central_per_day": 0.1137740484462947,
+      "funding_per_day": 0.19920784750263948,
+      "net_central_per_day": 0.0364109059062924,
+      "net_optimistic_per_day": 0.08297720455104485,
+      "net_pessimistic_per_day": -0.13165399642807393,
+      "breakeven_x": 0.9135789832869254,
+      "implied_pool_share": 0.0028878282870263266,
+      "recenters": 5,
+      "gates": {
+        "a_fg_ge_1p5": false,
+        "b_monthly_fg_gt_1": false,
+        "c_net_ge_target": false,
+        "d_share_le_1pct": true,
+        "e_volume_persistence": true
+      },
+      "passes_all": false
+    },
     {
       "slug": "weeth_weth_0p01",
       "family": "F3",
