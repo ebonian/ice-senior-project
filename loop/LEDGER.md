@@ -9,6 +9,7 @@
 | E003 | 2026-08-29 | H-width | Some always-in width nets ≥ +$0.39/day under honest costs (central envelope) | **REFUTED** (strongest clause: no arm ≥ $0 even optimistic) | [E003](experiments/E003-cost-honest-width-race.md) |
 | E004 | 2026-08-29 | Gate-1-instrumentation | Report 01's basket-delta derivation, not the engine's chain read, explains the E002 mismatch | **T5 SUPPORTED · T4 INCONCLUSIVE** (cause located: issue-X boundary) | [E004](experiments/E004-basket-delta-reconciliation.md) |
 | E005 | 2026-08-30 | H-pool | Some Arbitrum V3 pool, HL-hedgeable, pays fees/gamma ≥ 1.5 with margin at our size | **INCONCLUSIVE** (watchlist: wstETH/WETH 0.01% fails only the +$0.389/day floor at +$0.22–0.27/day; LINK/WETH 0.05% f/g 1.20 honest-share; all USD-quoted pools 0.63–0.97) | [E005](experiments/E005-pool-screen.md) |
+| E006 | 2026-09-02 | H-timing | A perfect-foresight in/out timing policy on ETH/USDC 0.05% clears the target with modelable margin | RUNNING | [E006](experiments/E006-timing-oracle-bound.md) |
 
 ## Closed sub-goals
 
