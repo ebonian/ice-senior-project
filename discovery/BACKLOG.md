@@ -7,7 +7,7 @@
 ## B1 — Streak-aware in/out rules buy the contiguity that threshold rules cannot
 
 - **Claim:** a rule that chooses *runs* of hours — hysteresis (enter/exit thresholds), dwell minimums, or a DP over a forecast payoff series — on a C3-quality selector nets ≥ +$0.389/day central on ETH/USDC 0.05%.
-- **From:** [E007 §2/§6](../loop/experiments/E007-causal-signal-test.md) (the contiguity gap); memo **M002** (written by the E008 cycle).
+- **From:** [E007 §2/§6](../loop/experiments/E007-causal-signal-test.md) (the contiguity gap); memo [**M002**](memos/M002-buying-contiguity-with-streak-rules.md) (2026-09-03 — ranked set S1–S6: calendar/blend hysteresis, dwell, debounce, DP-on-calendar-forecast, receding-horizon DP; E008's pre-named candidates).
 - **Why it might work:** selection quality is achievable (K6: AUC 0.616, +$0.42/h held-set mean); the ceiling's substance is contiguity (K4: median 3h oracle streaks); the DP mechanism already exists (E006 stage-1) — replace foresight with a forecast.
 - **Why it might not:** forecast error compounds across a streak; dwell constraints may force holding exactly the hours the selector was right to drop; E007's smooth candidates (4–5h streaks) died on selection, its selective ones on fragmentation — this family must thread both.
 - **Status:** **STAGED → E008** (operator go 2026-09-03). **Operator pre-commitment: if E008 is REFUTED, B2 activates — no further experiments on this pool.**
