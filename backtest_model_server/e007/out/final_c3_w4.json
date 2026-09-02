@@ -1,0 +1,38 @@
+{
+  "candidate": "c3",
+  "width": 4,
+  "param": 0,
+  "theta": [
+    0.41759122459971054
+  ],
+  "tune_per_day_central": -0.32928728933252027,
+  "full_window": {
+    "days": 118.99974537037038,
+    "net_usd": {
+      "optimistic": -64.99422322676097,
+      "central": -94.24508664529318,
+      "pessimistic": -199.8159317995385
+    },
+    "per_day_usd": {
+      "optimistic": -0.5461711117488139,
+      "central": -0.7919772126567858,
+      "pessimistic": -1.6791290702147206
+    }
+  },
+  "months_net_central_usd": {
+    "2026-05": -41.39431520605013,
+    "2026-06": 10.767976803686896,
+    "2026-07": 0.33190778377151986,
+    "2026-08": -63.95065602670131
+  },
+  "months_positive": 2,
+  "heldout_august": {
+    "days": 26.99974537037037,
+    "net_central_usd": -63.95065602670131,
+    "per_day_usd": -2.368565153095148
+  },
+  "held_frac": 0.10119047619047619,
+  "n_streaks": 272,
+  "streak_hours_median": 1.0,
+  "auc_oriented_vs_oracle_held": 0.6157557457395819
+}

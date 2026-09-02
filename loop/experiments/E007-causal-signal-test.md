@@ -2,7 +2,7 @@
 id: E007
 family: H-timing
 date: 2026-09-02
-verdict: RUNNING
+verdict: REFUTED
 ---
 
 # E007 — A pre-named causal signal captures enough of the timing ceiling to clear the target
@@ -108,16 +108,78 @@ AUC for E006's oracle-held hours, full window.
 
 ## Result
 
-_(after the run)_
+Run 2026-09-02 on E003's committed data plus the committed Binance 1m
+reduction; engine, cost model, envelope frozen as pre-registered; all 27
+blocking contracts pass. Full report:
+[`backtest_model_server/e007/REPORT.md`](../../backtest_model_server/e007/REPORT.md);
+artifacts under `backtest_model_server/e007/out/`.
+
+Every one of the six pre-named candidates, tuned on 2026-05→07 per the
+registered grids, is **negative** over the full window at both arms, at all
+three envelope points, and on held-out August. $/day central, full window /
+held-out August:
+
+| Cand (tuned) | w4 full | w4 Aug | w10 full | w10 Aug | months+ (best arm) | AUC |
+|---|---:|---:|---:|---:|---:|---:|
+| C1 payoff-EWMA (λ=24h) | −1.192 | −0.806 | −0.858 | −0.967 | 0/4 | 0.54–0.56 |
+| C2 log-RV-EWMA (λ=4h) | −1.093 | −2.953 | −0.600 | −1.647 | 0/4 | 0.54–0.57 |
+| C3 seasonal dow×hod (κ=0) | −0.792 | −2.369 | −1.010 | −2.112 | 2/4 | **0.59–0.62** |
+| C4 Binance 60m RV | −1.359 | −2.499 | −1.178 | −1.777 | 0/4 | 0.56–0.60 |
+| C5 bipower-EWMA (λ=4h) | −1.000 | −2.716 | −0.560 | −1.530 | 0/4 | 0.55–0.58 |
+| C6 C1∧C3 | −0.140 | −0.196 | **−0.074** | −0.127 | 0/4 | 0.59 |
+
+- **0 of 540 tune-window configurations were positive** — every candidate's
+  optimum sat at its grid's most conservative decile, reaching for
+  `always_cash`. The REFUTED clause would have fired on the tune window alone.
+- Sanity: `always_in` reproduces E003 float-exact; `always_cash` = $0; the
+  E006 oracle mask through the same evaluator returns +$6.058/day (w4) and
+  +$3.718/day (w10) — the machinery rewards a good mask when given one.
+- Mechanism (report §2): two clean failure modes. C1/C2/C5 hold 4–5h streaks
+  but select at AUC 0.54–0.57 (wrong hours, smoothly). C3 selects genuinely
+  good hours — mean stage-1 payoff +$0.42/h, 72% oracle-overlap, AUC 0.616,
+  clear of E006's falsified 0.45–0.53 band — but as 272 median-1-hour
+  fragments whose ~$0.76 round-trip switch costs and stage-2 accounting erase
+  the edge. The oracle's value is *contiguity* (hours chosen jointly with
+  switch costs), which no per-hour threshold rule can buy.
 
 ## Verdict
 
-_(after the run)_
+**REFUTED** — the pre-registered clause fired: no pre-named candidate's
+full-window central net exceeds $0/day (best: C6 at ±0.5%, −$0.074/day).
+The E006 ceiling stands; the M001 candidate set does not capture it through
+the fixed threshold-rule family.
 
 ## Critique
 
-_(after the run)_
+1. **Proxy or goal?** Goal — net $/day through the same stage-2 exact
+   simulator and frozen cost stack as E003/E006; tuning objective and verdict
+   metric were the same quantity.
+2. **Would it survive Gate 2?** The negative results would (costs there are
+   the same or worse — adverse selection/MEV would deepen every number). No
+   positive claim is being made that needs Gate 2.
+3. **Environment faithful enough?** For a refutation, yes: every unmodelled
+   channel (MEV, adverse selection) points further negative. Four months of
+   one market remains the window caveat, but all four months agree.
+4. **Exactly one variable?** Yes — the gating signal; policy family, engine,
+   data, costs, envelope, capital all bit-frozen (verified by contract).
+5. **Symptom-fix of the previous iteration?** No — E007 was E006's
+   pre-registered SUPPORTED route, its candidates pre-named in M001 before
+   any outcome was seen.
 
 ## What this changes
 
-_(after the run)_
+- **The conditional fourth venue option dies as specified.** E006 offered:
+  stay on ETH/USDC 0.05% iff E007 finds a realizable filter clearing ~6–10%
+  capture. It did not — the operator's venue decision reverts to E005's
+  three-way call (accept 5–7% carry venue / re-screen elsewhere / judge the
+  family). The loop remains ESCALATED on that question; nothing here
+  un-blocks G2.
+- **H-timing after E006+E007+M001**: ceiling +$6.06/day real; daily-scale
+  gating dead even with foresight (M001 §2); hour-scale threshold rules dead
+  as a family (this run); the one measured-but-untested residual is
+  streak-aware rules (hysteresis/dwell/DP-on-forecast) on a C3-quality
+  selector — a new policy family, E008-sized, only worth staging if the
+  operator keeps the venue alive.
+- **Recorded for successors**: the dow×hod calendar at AUC 0.62 is the best
+  causal selector measured on this pool; selection quality and contiguity
+  trade off in this family; tune and judge on stage-2 exact only.
