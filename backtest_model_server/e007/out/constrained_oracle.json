@@ -1,0 +1,361 @@
+{
+  "experiment": "E007-memo",
+  "purpose": "constrained stage-1 oracle ceilings + stage-2 exact re-sim (central envelope) \u2014 memo M001 coarseness question",
+  "cost_model_version": "gate1-2026-08-29",
+  "envelope_version": "e003-2026-08-29",
+  "window": {
+    "start": "2026-05-01",
+    "end": "2026-08-28",
+    "days": 118.99974537037038,
+    "n_swaps": 3434113,
+    "n_hours": 2856,
+    "first_swap_utc": "2026-05-01 00:00:00+00:00",
+    "last_swap_utc": "2026-08-27 23:59:38+00:00"
+  },
+  "arms": {
+    "w4": {
+      "unconstrained": {
+        "stage1_value_usd": 1052.6066509235518,
+        "stage1_per_day_usd": 8.84545296838626,
+        "held_frac": 0.5791316526610645,
+        "n_streaks": 435,
+        "streak_hours_median": 3.0,
+        "stage2": {
+          "net_central_usd": 720.9212204016103,
+          "per_day_usd": 6.058174478927177,
+          "n_streaks": 435,
+          "n_simulated": 435,
+          "held_hours": 1647.0222222222226
+        }
+      },
+      "minhold_6h": {
+        "stage1_value_usd": 750.9638205277056,
+        "stage1_per_day_usd": 6.310633843714823,
+        "held_frac": 0.5833333333333334,
+        "n_streaks": 177,
+        "streak_hours_median": 8.0,
+        "stage2": {
+          "net_central_usd": 372.0666469049585,
+          "per_day_usd": 3.1266171683557147,
+          "n_streaks": 177,
+          "n_simulated": 177,
+          "held_hours": 1663.140833333334
+        }
+      },
+      "minhold_12h": {
+        "stage1_value_usd": 558.118602031132,
+        "stage1_per_day_usd": 4.690082321555097,
+        "held_frac": 0.5626750700280112,
+        "n_streaks": 102,
+        "streak_hours_median": 13.0,
+        "stage2": {
+          "net_central_usd": 159.668160981201,
+          "per_day_usd": 1.3417521229499758,
+          "n_streaks": 102,
+          "n_simulated": 102,
+          "held_hours": 1605.0872222222224
+        }
+      },
+      "minhold_24h": {
+        "stage1_value_usd": 311.7532621977198,
+        "stage1_per_day_usd": 2.6197809182484426,
+        "held_frac": 0.5241596638655462,
+        "n_streaks": 50,
+        "streak_hours_median": 26.0,
+        "stage2": {
+          "net_central_usd": -60.86367049651254,
+          "per_day_usd": -0.5114605103320408,
+          "n_streaks": 50,
+          "n_simulated": 50,
+          "held_hours": 1496.208333333334
+        }
+      },
+      "grain_4h": {
+        "stage1_value_usd": 455.24805386061246,
+        "stage1_per_day_usd": 3.8256220838432498,
+        "held_frac": 0.4789915966386555,
+        "n_streaks": 132,
+        "streak_hours_median": 8.0,
+        "stage2": {
+          "net_central_usd": 143.01908718863402,
+          "per_day_usd": 1.2018436404507147,
+          "n_streaks": 132,
+          "n_simulated": 132,
+          "held_hours": 1365.6472222222224
+        }
+      },
+      "grain_24h": {
+        "stage1_value_usd": 45.16547852465004,
+        "stage1_per_day_usd": 0.3795426484660004,
+        "held_frac": 0.2184873949579832,
+        "n_streaks": 14,
+        "streak_hours_median": 24.0,
+        "stage2": {
+          "net_central_usd": -109.04905615270889,
+          "per_day_usd": -0.9163805839525846,
+          "n_streaks": 14,
+          "n_simulated": 14,
+          "held_hours": 623.5138888888889
+        }
+      }
+    },
+    "w10": {
+      "unconstrained": {
+        "stage1_value_usd": 682.2921972579501,
+        "stage1_per_day_usd": 5.733560144472656,
+        "held_frac": 0.6747198879551821,
+        "n_streaks": 292,
+        "streak_hours_median": 4.0,
+        "stage2": {
+          "net_central_usd": 442.4584819030072,
+          "per_day_usd": 3.718146459271118,
+          "n_streaks": 292,
+          "n_simulated": 292,
+          "held_hours": 1923.3127777777775
+        }
+      },
+      "minhold_6h": {
+        "stage1_value_usd": 538.8068742354708,
+        "stage1_per_day_usd": 4.527798547454941,
+        "held_frac": 0.6614145658263305,
+        "n_streaks": 157,
+        "streak_hours_median": 8.0,
+        "stage2": {
+          "net_central_usd": 301.3078699365901,
+          "per_day_usd": 2.532004324873223,
+          "n_streaks": 157,
+          "n_simulated": 157,
+          "held_hours": 1886.8363888888894
+        }
+      },
+      "minhold_12h": {
+        "stage1_value_usd": 418.53215922748916,
+        "stage1_per_day_usd": 3.517084493961439,
+        "held_frac": 0.626750700280112,
+        "n_streaks": 93,
+        "streak_hours_median": 16.0,
+        "stage2": {
+          "net_central_usd": 175.92935906025141,
+          "per_day_usd": 1.4784011386973597,
+          "n_streaks": 93,
+          "n_simulated": 93,
+          "held_hours": 1788.675277777778
+        }
+      },
+      "minhold_24h": {
+        "stage1_value_usd": 268.66484720387365,
+        "stage1_per_day_usd": 2.2576926225152096,
+        "held_frac": 0.5280112044817927,
+        "n_streaks": 48,
+        "streak_hours_median": 26.0,
+        "stage2": {
+          "net_central_usd": 78.18993499033745,
+          "per_day_usd": 0.6570596831697582,
+          "n_streaks": 48,
+          "n_simulated": 48,
+          "held_hours": 1507.1363888888893
+        }
+      },
+      "grain_4h": {
+        "stage1_value_usd": 339.51095756214755,
+        "stage1_per_day_usd": 2.8530393616008696,
+        "held_frac": 0.5434173669467787,
+        "n_streaks": 108,
+        "streak_hours_median": 12.0,
+        "stage2": {
+          "net_central_usd": 163.05868280250877,
+          "per_day_usd": 1.3702439639262336,
+          "n_streaks": 108,
+          "n_simulated": 108,
+          "held_hours": 1550.093888888889
+        }
+      },
+      "grain_24h": {
+        "stage1_value_usd": 57.34661959620632,
+        "stage1_per_day_usd": 0.48190539750923694,
+        "held_frac": 0.2773109243697479,
+        "n_streaks": 17,
+        "streak_hours_median": 48.0,
+        "stage2": {
+          "net_central_usd": -35.761113332361056,
+          "per_day_usd": -0.30051420043849253,
+          "n_streaks": 17,
+          "n_simulated": 17,
+          "held_hours": 791.6586111111112
+        }
+      }
+    },
+    "w40": {
+      "unconstrained": {
+        "stage1_value_usd": 154.02366340991253,
+        "stage1_per_day_usd": 1.2943192687558702,
+        "held_frac": 0.6799719887955182,
+        "n_streaks": 97,
+        "streak_hours_median": 12.0,
+        "stage2": {
+          "net_central_usd": 96.09009564251025,
+          "per_day_usd": 0.8074815231195916,
+          "n_streaks": 97,
+          "n_simulated": 97,
+          "held_hours": 1940.9497222222221
+        }
+      },
+      "minhold_6h": {
+        "stage1_value_usd": 141.2944082109403,
+        "stage1_per_day_usd": 1.1873505087862235,
+        "held_frac": 0.678921568627451,
+        "n_streaks": 77,
+        "streak_hours_median": 15.0,
+        "stage2": {
+          "net_central_usd": 82.72686185880222,
+          "per_day_usd": 0.6951852006180872,
+          "n_streaks": 77,
+          "n_simulated": 77,
+          "held_hours": 1938.066944444445
+        }
+      },
+      "minhold_12h": {
+        "stage1_value_usd": 122.24134320935526,
+        "stage1_per_day_usd": 1.027240376262116,
+        "held_frac": 0.6638655462184874,
+        "n_streaks": 62,
+        "streak_hours_median": 21.0,
+        "stage2": {
+          "net_central_usd": 60.8108280288371,
+          "per_day_usd": 0.511016455031662,
+          "n_streaks": 62,
+          "n_simulated": 62,
+          "held_hours": 1895.185555555556
+        }
+      },
+      "minhold_24h": {
+        "stage1_value_usd": 98.73474176743453,
+        "stage1_per_day_usd": 0.8297054876893744,
+        "held_frac": 0.6225490196078431,
+        "n_streaks": 40,
+        "streak_hours_median": 35.0,
+        "stage2": {
+          "net_central_usd": 34.198592187294764,
+          "per_day_usd": 0.2873837425521907,
+          "n_streaks": 40,
+          "n_simulated": 40,
+          "held_hours": 1777.2397222222223
+        }
+      },
+      "grain_4h": {
+        "stage1_value_usd": 89.72090410864536,
+        "stage1_per_day_usd": 0.7539587906629661,
+        "held_frac": 0.5742296918767507,
+        "n_streaks": 55,
+        "streak_hours_median": 20.0,
+        "stage2": {
+          "net_central_usd": 40.91447299591097,
+          "per_day_usd": 0.3438198364926773,
+          "n_streaks": 55,
+          "n_simulated": 55,
+          "held_hours": 1639.1572222222221
+        }
+      },
+      "grain_24h": {
+        "stage1_value_usd": 31.447701266166355,
+        "stage1_per_day_usd": 0.2642669626585309,
+        "held_frac": 0.3865546218487395,
+        "n_streaks": 16,
+        "streak_hours_median": 48.0,
+        "stage2": {
+          "net_central_usd": -9.813728083848737,
+          "per_day_usd": -0.08246847968711912,
+          "n_streaks": 16,
+          "n_simulated": 16,
+          "held_hours": 1103.6288888888887
+        }
+      }
+    },
+    "w160": {
+      "unconstrained": {
+        "stage1_value_usd": 16.06205694254802,
+        "stage1_per_day_usd": 0.1349755572380182,
+        "held_frac": 0.49229691876750703,
+        "n_streaks": 20,
+        "streak_hours_median": 75.0,
+        "stage2": {
+          "net_central_usd": 7.71354915067807,
+          "per_day_usd": 0.06481987945999974,
+          "n_streaks": 20,
+          "n_simulated": 20,
+          "held_hours": 1405.8527777777779
+        }
+      },
+      "minhold_6h": {
+        "stage1_value_usd": 15.444133165092401,
+        "stage1_per_day_usd": 0.12978290934173561,
+        "held_frac": 0.4950980392156863,
+        "n_streaks": 20,
+        "streak_hours_median": 75.0,
+        "stage2": {
+          "net_central_usd": 6.570548685619109,
+          "per_day_usd": 0.0552148129827436,
+          "n_streaks": 20,
+          "n_simulated": 20,
+          "held_hours": 1413.8530555555556
+        }
+      },
+      "minhold_12h": {
+        "stage1_value_usd": 14.981645150685251,
+        "stage1_per_day_usd": 0.12589644712311726,
+        "held_frac": 0.4891456582633053,
+        "n_streaks": 18,
+        "streak_hours_median": 82.0,
+        "stage2": {
+          "net_central_usd": 6.188166951774514,
+          "per_day_usd": 0.052001514226057324,
+          "n_streaks": 18,
+          "n_simulated": 18,
+          "held_hours": 1396.8702777777778
+        }
+      },
+      "minhold_24h": {
+        "stage1_value_usd": 13.785448691012478,
+        "stage1_per_day_usd": 0.11584435452451734,
+        "held_frac": 0.4842436974789916,
+        "n_streaks": 15,
+        "streak_hours_median": 92.0,
+        "stage2": {
+          "net_central_usd": 5.3825397287102525,
+          "per_day_usd": 0.045231523075598495,
+          "n_streaks": 15,
+          "n_simulated": 15,
+          "held_hours": 1382.8777777777777
+        }
+      },
+      "grain_4h": {
+        "stage1_value_usd": 10.609274856864578,
+        "stage1_per_day_usd": 0.08915376099204807,
+        "held_frac": 0.49299719887955185,
+        "n_streaks": 14,
+        "streak_hours_median": 88.0,
+        "stage2": {
+          "net_central_usd": 2.0569806342192454,
+          "per_day_usd": 0.017285588534808837,
+          "n_streaks": 14,
+          "n_simulated": 14,
+          "held_hours": 1407.773611111111
+        }
+      },
+      "grain_24h": {
+        "stage1_value_usd": 5.859899303509026,
+        "stage1_per_day_usd": 0.04924295665735161,
+        "held_frac": 0.3277310924369748,
+        "n_streaks": 7,
+        "streak_hours_median": 120.0,
+        "stage2": {
+          "net_central_usd": -0.244415653650349,
+          "per_day_usd": -0.0020539174507444432,
+          "n_streaks": 7,
+          "n_simulated": 7,
+          "held_hours": 935.8886111111111
+        }
+      }
+    }
+  }
+}
