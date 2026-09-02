@@ -10,14 +10,14 @@
 - **From:** [E007 §2/§6](../loop/experiments/E007-causal-signal-test.md) (the contiguity gap); memo [**M002**](memos/M002-buying-contiguity-with-streak-rules.md) (2026-09-03 — ranked set S1–S6: calendar/blend hysteresis, dwell, debounce, DP-on-calendar-forecast, receding-horizon DP; E008's pre-named candidates).
 - **Why it might work:** selection quality is achievable (K6: AUC 0.616, +$0.42/h held-set mean); the ceiling's substance is contiguity (K4: median 3h oracle streaks); the DP mechanism already exists (E006 stage-1) — replace foresight with a forecast.
 - **Why it might not:** forecast error compounds across a streak; dwell constraints may force holding exactly the hours the selector was right to drop; E007's smooth candidates (4–5h streaks) died on selection, its selective ones on fragmentation — this family must thread both.
-- **Status:** **STAGED → E008** (operator go 2026-09-03). **Operator pre-commitment: if E008 is REFUTED, B2 activates — no further experiments on this pool.**
+- **Status:** **REFUTED ([E008](../loop/experiments/E008-streak-aware-rules.md), 2026-09-03)** — all six M002 candidates negative full-window and on held-out August at both arms (best S5 w10 −$0.025/day central); the contiguity gradient is negative everywhere; 3/404 tune configs positive, all fail August. The operator pre-commitment executed: **B2 activates; no further experiments on this pool.**
 
 ## B2 — wstETH/WETH 0.01% funding-carry venue
 
 - **Claim:** the wstETH/WETH 0.01% LP + HL hedge package sustains its measured **+$0.22–0.27/day** (5.7–7.0% APR) out of window, with funding persistence and acceptable liquidation risk.
 - **From:** [E005 watchlist](../loop/experiments/E005-pool-screen.md). Note the composition: +$0.210 of +$0.223/day is perp funding carry; the LP leg alone is +$0.014.
 - **Prerequisites:** funding-persistence validation (longer window, funding-regime sensitivity, per-venue perp cost calibration); the K8 margin/liquidation design pass on the bot side **before any capital**.
-- **Status:** **PROPOSED — activates on E008 REFUTED** (operator pre-commitment 2026-09-03).
+- **Status:** **ACTIVATED (2026-09-03 — E008 REFUTED; operator pre-commitment, bot ADR 0009).** Escalated to the operator per loop PROTOCOL §7; the K8 margin/liquidation design pass and funding-persistence validation precede any capital. Not started by the E008 iteration.
 
 ## B3 — Re-screen another chain (Base) with recalibrated gas constants
 

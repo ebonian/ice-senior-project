@@ -2,7 +2,7 @@
 id: E008
 family: H-timing (streak-aware sub-family)
 date: 2026-09-03
-verdict: RUNNING
+verdict: REFUTED
 ---
 
 # E008 — A streak-aware rule buys the contiguity that threshold rules cannot
@@ -119,16 +119,87 @@ length, oriented AUC vs E006 oracle-held.
 
 ## Result
 
-_(pending)_
+Run 2026-09-03 on E003's committed data; engine, cost model, envelope frozen
+as pre-registered; all 38 blocking contracts pass (re-run after the final
+phase). Full report:
+[`backtest_model_server/e008/REPORT.md`](../../backtest_model_server/e008/REPORT.md);
+artifacts under `backtest_model_server/e008/out/`.
+
+Every one of the six pre-named candidates, tuned on 2026-05→07 per the M002
+grids, is **negative** over the full window at both arms, at all three
+envelope points, and on held-out August. $/day central, full window /
+held-out August (best arm details in the report):
+
+| Cand (tuned) | w4 full | w4 Aug | w10 full | w10 Aug | months+ (best arm) | AUC |
+|---|---:|---:|---:|---:|---:|---:|
+| S1 calendar hysteresis (P90/P50) | −1.036 | −2.682 | −1.097 | −2.414 | 1/4 | 0.59–0.62 |
+| S2 blend hysteresis (0.9/0.5) | −0.181 | −0.240 | −0.116 | −0.193 | 0/4 | 0.59 |
+| S3 min dwell (P90, D=2) | −2.208 | −3.474 | −2.330 | −3.221 | 0/4 | 0.59–0.62 |
+| S4 exit debounce (P90, M=2) | −2.481 | −3.468 | −2.483 | −3.312 | 0/4 | 0.59–0.62 |
+| S5 DP on calendar (κ=8, c=0.5) | −0.090 | −0.628 | **−0.025** | −0.458 | 2/4 | 0.59–0.62 |
+| S6 receding-horizon DP (λ=24) | −2.069 | −3.698 | −1.599 | −2.565 | 0/4 | 0.61–0.62 |
+
+- **3 of 404 tune configurations were positive** (the program's first after
+  E007's 0/540) — all three are S5's shrunk-calendar DP holding 0.6–3.0% of
+  hours in median-1h streaks; all three fail held-out August by 4–9× their
+  tune gain.
+- Sanity: `always_in` reproduces E003 float-exact (uncached); `always_cash`
+  = $0; the E006 oracle mask through the same evaluator returns +$6.058/day
+  (w4) and +$3.718/day (w10).
+- Mechanism (report §2): **the contiguity gradient is negative everywhere.**
+  S1's bridge knob: −$0.55/d at lo=P50 → −$6.58/d at lo=P10, monotone. S3's
+  dwell knob: −$1.84/d at D=2 → −$9.51/d at D=12, monotone. S5, which
+  prices every bridge against a round trip, *refuses* contiguity — 7 of 12
+  configs choose the empty mask, and its positive tune cells are singleton
+  holds. S6 held real streaks (median 3–6h) at −$1.6 to −$2.1/day.
+  Selection quality survives out of window (AUC 0.59–0.62) but no point on
+  the selectivity↔contiguity frontier clears the $0.77–0.85 round trip plus
+  honest stage-2 accounting.
 
 ## Verdict
 
-RUNNING
+**REFUTED** — the pre-registered clause fired: no pre-named candidate's
+full-window central net exceeds $0/day (best: S5 at ±0.5%, −$0.025/day;
+also negative at every envelope point and on held-out August). Streak-aware
+rules do buy contiguity; on this pool it is not worth buying.
+
+**The operator pre-commitment (2026-09-03, bot ADR 0009) executes: the
+venue moves to the wstETH/WETH 0.01% funding-carry path (discovery card
+B2); no further experiments on ETH/USDC 0.05% either way.**
 
 ## Critique
 
-_(pending)_
+1. **Proxy or goal?** Goal — net $/day through the same stage-2 exact
+   simulator and frozen cost stack as E003/E006/E007; the tuning objective
+   and the verdict metric were the same quantity.
+2. **Would it survive Gate 2?** The negative results would — every
+   unmodelled channel (adverse selection, MEV) points further negative. No
+   positive claim exists to need Gate 2.
+3. **Environment faithful enough?** For a refutation, yes. Four months of
+   one market remains the window caveat; all four months and both arms
+   agree on the sign.
+4. **Exactly one variable?** Yes — the policy family (threshold → streak-
+   aware), on selectors, data, costs, engine, and capital all bit-frozen
+   (verified by contract; selectors inherited from E007's tuned values or
+   re-tuned only within pre-registered grids).
+5. **Symptom-fix of the previous iteration?** No — E008 tested E007 §6's
+   pre-named residual under an operator decision with the exit
+   pre-committed; candidates were memo-ranked (M002) before any outcome.
 
 ## What this changes
 
-_(pending)_
+- **H-timing closes on ETH/USDC 0.05%.** E006's ceiling stands as a
+  measurement; E007 killed per-hour thresholds; E008 kills the streak-aware
+  family across hysteresis, dwell, debounce, and forecast-DP mechanisms.
+  No further experiments on this pool (operator pre-commitment).
+- **The venue call is resolved**: discovery card B1 → REFUTED, card B2
+  (wstETH/WETH 0.01% funding-carry) → ACTIVATED. Its stated prerequisites
+  bind: funding-persistence validation, per-venue perp cost calibration,
+  and the K8 margin/liquidation design pass on the bot side **before any
+  capital**. Escalated to the operator per loop PROTOCOL §7 — B2 work is
+  not started by this iteration, and bot-repo propagation (tracker /
+  ADR 0009 companion) is the operator's next session.
+- **Recorded for successors**: the calendar selector is real (AUC 0.59–0.62,
+  two experiments, both arms) — the cost structure, not the signal, is what
+  fails here. On a venue with ~10× cheaper switches, test S5 → S1 → S2
+  first. Constraint registry updated (K11).
