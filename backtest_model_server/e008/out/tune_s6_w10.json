@@ -1,0 +1,110 @@
+{
+  "candidate": "s6",
+  "days_tune": 92.0,
+  "consts": {
+    "enter": 0.43090537223500996,
+    "exit": 0.4208327695058681
+  },
+  "grid": [
+    {
+      "key": "K6_lam8",
+      "cfg": {
+        "lam": 8,
+        "K": 6
+      },
+      "per_day_central": -2.1103092783892614,
+      "held_frac": 0.34103260869565216,
+      "n_streaks": 114
+    },
+    {
+      "key": "K12_lam8",
+      "cfg": {
+        "lam": 8,
+        "K": 12
+      },
+      "per_day_central": -2.032233678706394,
+      "held_frac": 0.3555253623188406,
+      "n_streaks": 111
+    },
+    {
+      "key": "K24_lam8",
+      "cfg": {
+        "lam": 8,
+        "K": 24
+      },
+      "per_day_central": -2.032233678706394,
+      "held_frac": 0.3555253623188406,
+      "n_streaks": 111
+    },
+    {
+      "key": "K6_lam16",
+      "cfg": {
+        "lam": 16,
+        "K": 6
+      },
+      "per_day_central": -1.535156291094885,
+      "held_frac": 0.29981884057971014,
+      "n_streaks": 97
+    },
+    {
+      "key": "K12_lam16",
+      "cfg": {
+        "lam": 16,
+        "K": 12
+      },
+      "per_day_central": -1.539053193060368,
+      "held_frac": 0.3129528985507246,
+      "n_streaks": 97
+    },
+    {
+      "key": "K24_lam16",
+      "cfg": {
+        "lam": 16,
+        "K": 24
+      },
+      "per_day_central": -1.539053193060368,
+      "held_frac": 0.3129528985507246,
+      "n_streaks": 97
+    },
+    {
+      "key": "K6_lam24",
+      "cfg": {
+        "lam": 24,
+        "K": 6
+      },
+      "per_day_central": -1.3844577997893612,
+      "held_frac": 0.27807971014492755,
+      "n_streaks": 90
+    },
+    {
+      "key": "K12_lam24",
+      "cfg": {
+        "lam": 24,
+        "K": 12
+      },
+      "per_day_central": -1.3178946554209958,
+      "held_frac": 0.296195652173913,
+      "n_streaks": 88
+    },
+    {
+      "key": "K24_lam24",
+      "cfg": {
+        "lam": 24,
+        "K": 24
+      },
+      "per_day_central": -1.3178946554209958,
+      "held_frac": 0.296195652173913,
+      "n_streaks": 88
+    }
+  ],
+  "best": {
+    "key": "K12_lam24",
+    "cfg": {
+      "lam": 24,
+      "K": 12
+    },
+    "per_day_central": -1.3178946554209958,
+    "held_frac": 0.296195652173913,
+    "n_streaks": 88
+  }
+}

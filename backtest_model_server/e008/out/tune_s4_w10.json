@@ -1,0 +1,290 @@
+{
+  "candidate": "s4",
+  "days_tune": 92.0,
+  "consts": {
+    "enter": 0.43090537223500996,
+    "exit": 0.4208327695058681
+  },
+  "grid": [
+    {
+      "key": "M2_theta_pct10",
+      "cfg": {
+        "theta_pct": 10,
+        "M": 2
+      },
+      "per_day_central": -9.443155166515796,
+      "held_frac": 0.9941123188405797,
+      "n_streaks": 14
+    },
+    {
+      "key": "M3_theta_pct10",
+      "cfg": {
+        "theta_pct": 10,
+        "M": 3
+      },
+      "per_day_central": -9.482571067833957,
+      "held_frac": 1.0,
+      "n_streaks": 1
+    },
+    {
+      "key": "M4_theta_pct10",
+      "cfg": {
+        "theta_pct": 10,
+        "M": 4
+      },
+      "per_day_central": -9.482571067833957,
+      "held_frac": 1.0,
+      "n_streaks": 1
+    },
+    {
+      "key": "M2_theta_pct20",
+      "cfg": {
+        "theta_pct": 20,
+        "M": 2
+      },
+      "per_day_central": -8.894019478244825,
+      "held_frac": 0.9705615942028986,
+      "n_streaks": 40
+    },
+    {
+      "key": "M3_theta_pct20",
+      "cfg": {
+        "theta_pct": 20,
+        "M": 3
+      },
+      "per_day_central": -9.29392783066651,
+      "held_frac": 0.9882246376811594,
+      "n_streaks": 14
+    },
+    {
+      "key": "M4_theta_pct20",
+      "cfg": {
+        "theta_pct": 20,
+        "M": 4
+      },
+      "per_day_central": -9.44052403420168,
+      "held_frac": 0.9941123188405797,
+      "n_streaks": 14
+    },
+    {
+      "key": "M2_theta_pct30",
+      "cfg": {
+        "theta_pct": 30,
+        "M": 2
+      },
+      "per_day_central": -8.219962557138953,
+      "held_frac": 0.9293478260869565,
+      "n_streaks": 105
+    },
+    {
+      "key": "M3_theta_pct30",
+      "cfg": {
+        "theta_pct": 30,
+        "M": 3
+      },
+      "per_day_central": -9.299554918348266,
+      "held_frac": 0.9764492753623188,
+      "n_streaks": 40
+    },
+    {
+      "key": "M4_theta_pct30",
+      "cfg": {
+        "theta_pct": 30,
+        "M": 4
+      },
+      "per_day_central": -9.44052403420168,
+      "held_frac": 0.9941123188405797,
+      "n_streaks": 14
+    },
+    {
+      "key": "M2_theta_pct40",
+      "cfg": {
+        "theta_pct": 40,
+        "M": 2
+      },
+      "per_day_central": -7.414659695387709,
+      "held_frac": 0.8614130434782609,
+      "n_streaks": 173
+    },
+    {
+      "key": "M3_theta_pct40",
+      "cfg": {
+        "theta_pct": 40,
+        "M": 3
+      },
+      "per_day_central": -8.921882895484135,
+      "held_frac": 0.9393115942028986,
+      "n_streaks": 68
+    },
+    {
+      "key": "M4_theta_pct40",
+      "cfg": {
+        "theta_pct": 40,
+        "M": 4
+      },
+      "per_day_central": -9.120343979624893,
+      "held_frac": 0.9696557971014492,
+      "n_streaks": 28
+    },
+    {
+      "key": "M2_theta_pct50",
+      "cfg": {
+        "theta_pct": 50,
+        "M": 2
+      },
+      "per_day_central": -6.335338178910465,
+      "held_frac": 0.7554347826086957,
+      "n_streaks": 277
+    },
+    {
+      "key": "M3_theta_pct50",
+      "cfg": {
+        "theta_pct": 50,
+        "M": 3
+      },
+      "per_day_central": -7.824898384457586,
+      "held_frac": 0.8804347826086957,
+      "n_streaks": 146
+    },
+    {
+      "key": "M4_theta_pct50",
+      "cfg": {
+        "theta_pct": 50,
+        "M": 4
+      },
+      "per_day_central": -8.775089063849213,
+      "held_frac": 0.9461050724637681,
+      "n_streaks": 54
+    },
+    {
+      "key": "M2_theta_pct60",
+      "cfg": {
+        "theta_pct": 60,
+        "M": 2
+      },
+      "per_day_central": -5.311355758781867,
+      "held_frac": 0.6485507246376812,
+      "n_streaks": 303
+    },
+    {
+      "key": "M3_theta_pct60",
+      "cfg": {
+        "theta_pct": 60,
+        "M": 3
+      },
+      "per_day_central": -7.638914911943573,
+      "held_frac": 0.7853260869565217,
+      "n_streaks": 251
+    },
+    {
+      "key": "M4_theta_pct60",
+      "cfg": {
+        "theta_pct": 60,
+        "M": 4
+      },
+      "per_day_central": -8.363574550462262,
+      "held_frac": 0.8985507246376812,
+      "n_streaks": 94
+    },
+    {
+      "key": "M2_theta_pct70",
+      "cfg": {
+        "theta_pct": 70,
+        "M": 2
+      },
+      "per_day_central": -4.708938965426596,
+      "held_frac": 0.5362318840579711,
+      "n_streaks": 303
+    },
+    {
+      "key": "M3_theta_pct70",
+      "cfg": {
+        "theta_pct": 70,
+        "M": 3
+      },
+      "per_day_central": -6.564483922172547,
+      "held_frac": 0.6734601449275363,
+      "n_streaks": 264
+    },
+    {
+      "key": "M4_theta_pct70",
+      "cfg": {
+        "theta_pct": 70,
+        "M": 4
+      },
+      "per_day_central": -7.795893288404586,
+      "held_frac": 0.792572463768116,
+      "n_streaks": 172
+    },
+    {
+      "key": "M2_theta_pct80",
+      "cfg": {
+        "theta_pct": 80,
+        "M": 2
+      },
+      "per_day_central": -3.593066128394224,
+      "held_frac": 0.3759057971014493,
+      "n_streaks": 276
+    },
+    {
+      "key": "M3_theta_pct80",
+      "cfg": {
+        "theta_pct": 80,
+        "M": 3
+      },
+      "per_day_central": -4.7724133566582365,
+      "held_frac": 0.5009057971014492,
+      "n_streaks": 224
+    },
+    {
+      "key": "M4_theta_pct80",
+      "cfg": {
+        "theta_pct": 80,
+        "M": 4
+      },
+      "per_day_central": -6.07721905149961,
+      "held_frac": 0.6019021739130435,
+      "n_streaks": 185
+    },
+    {
+      "key": "M2_theta_pct90",
+      "cfg": {
+        "theta_pct": 90,
+        "M": 2
+      },
+      "per_day_central": -2.240186699536175,
+      "held_frac": 0.19791666666666666,
+      "n_streaks": 198
+    },
+    {
+      "key": "M3_theta_pct90",
+      "cfg": {
+        "theta_pct": 90,
+        "M": 3
+      },
+      "per_day_central": -3.266687924984017,
+      "held_frac": 0.2875905797101449,
+      "n_streaks": 171
+    },
+    {
+      "key": "M4_theta_pct90",
+      "cfg": {
+        "theta_pct": 90,
+        "M": 4
+      },
+      "per_day_central": -4.471051341425314,
+      "held_frac": 0.365036231884058,
+      "n_streaks": 158
+    }
+  ],
+  "best": {
+    "key": "M2_theta_pct90",
+    "cfg": {
+      "theta_pct": 90,
+      "M": 2
+    },
+    "per_day_central": -2.240186699536175,
+    "held_frac": 0.19791666666666666,
+    "n_streaks": 198
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "candidate": "s5",
+  "days_tune": 92.0,
+  "consts": {
+    "enter": 0.3655971740594956,
+    "exit": 0.4042218972611922
+  },
+  "grid": [
+    {
+      "key": "c0.5_kappa0",
+      "cfg": {
+        "kappa": 0,
+        "c": 0.5
+      },
+      "per_day_central": -0.7727557561491633,
+      "held_frac": 0.26132246376811596,
+      "n_streaks": 250
+    },
+    {
+      "key": "c1.0_kappa0",
+      "cfg": {
+        "kappa": 0,
+        "c": 1.0
+      },
+      "per_day_central": -0.2969334944648921,
+      "held_frac": 0.17255434782608695,
+      "n_streaks": 80
+    },
+    {
+      "key": "c2.0_kappa0",
+      "cfg": {
+        "kappa": 0,
+        "c": 2.0
+      },
+      "per_day_central": -0.30112962043447494,
+      "held_frac": 0.11775362318840579,
+      "n_streaks": 26
+    },
+    {
+      "key": "c4.0_kappa0",
+      "cfg": {
+        "kappa": 0,
+        "c": 4.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c0.5_kappa8",
+      "cfg": {
+        "kappa": 8,
+        "c": 0.5
+      },
+      "per_day_central": 0.06738203955054484,
+      "held_frac": 0.029891304347826088,
+      "n_streaks": 40
+    },
+    {
+      "key": "c1.0_kappa8",
+      "cfg": {
+        "kappa": 8,
+        "c": 1.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c2.0_kappa8",
+      "cfg": {
+        "kappa": 8,
+        "c": 2.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c4.0_kappa8",
+      "cfg": {
+        "kappa": 8,
+        "c": 4.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c0.5_kappa32",
+      "cfg": {
+        "kappa": 32,
+        "c": 0.5
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c1.0_kappa32",
+      "cfg": {
+        "kappa": 32,
+        "c": 1.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c2.0_kappa32",
+      "cfg": {
+        "kappa": 32,
+        "c": 2.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    },
+    {
+      "key": "c4.0_kappa32",
+      "cfg": {
+        "kappa": 32,
+        "c": 4.0
+      },
+      "per_day_central": 0.0,
+      "held_frac": 0.0,
+      "n_streaks": 0
+    }
+  ],
+  "best": {
+    "key": "c0.5_kappa8",
+    "cfg": {
+      "kappa": 8,
+      "c": 0.5
+    },
+    "per_day_central": 0.06738203955054484,
+    "held_frac": 0.029891304347826088,
+    "n_streaks": 40
+  }
+}
