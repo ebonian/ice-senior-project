@@ -1,0 +1,118 @@
+{
+ "A_trailing_12m": {
+  "carry_per_day": 0.1725435384821916,
+  "negative_package_day_fraction": 0.13150684931506848,
+  "package_apr_pct_on_1420": 4.790179082616933,
+  "package_per_day": 0.1863576519812615,
+  "window": [
+   "2025-09-03",
+   "2026-09-02"
+  ]
+ },
+ "B_regimes": {
+  "down_regime_day_share": 0.5146551724137931,
+  "down_regime_package_per_day": 0.20412034855183334,
+  "full_history_carry_per_day": 0.39429904053750225,
+  "full_history_package_per_day": 0.4081131540365699,
+  "half_year_package_per_day": {
+   "2023H2": 0.6146465585425477,
+   "2024H1": 0.7656335678067618,
+   "2024H2": 0.4896332505805915,
+   "2025H1": 0.1835060316371913,
+   "2025H2": 0.3176906337517871,
+   "2026H1": 0.12165328254050606,
+   "2026H2": 0.2685867497881322
+  },
+  "up_regime_package_per_day": 0.6244252408472035
+ },
+ "C_stretches": {
+  "longest_negative_package_run_days": 11,
+  "runs_ge_14d": [],
+  "worst_rolling_30d_package_per_day": -0.0863753861675954,
+  "worst_rolling_30d_window_start": "2025-03-30",
+  "worst_rolling_90d_package_per_day": 0.052249716221292444,
+  "worst_rolling_90d_window_start": "2026-01-31"
+ },
+ "D_structure": {
+  "ar1_half_life_days": 3.227740175714237,
+  "ar1_phi_daily_carry": 0.8067456056954664,
+  "n_disjoint_runs_ge_14d": 0,
+  "negative_hour_fraction_by_quarter": {
+   "2023Q3": 0.2085222121486854,
+   "2023Q4": 0.050271739130434784,
+   "2024Q1": 0.03571428571428571,
+   "2024Q2": 0.054945054945054944,
+   "2024Q3": 0.12958767557770728,
+   "2024Q4": 0.05615942028985507,
+   "2025Q1": 0.21388888888888888,
+   "2025Q2": 0.27884615384615385,
+   "2025Q3": 0.09193840579710146,
+   "2025Q4": 0.08288043478260869,
+   "2026Q1": 0.2412037037037037,
+   "2026Q2": 0.2815934065934066,
+   "2026Q3": 0.048302872062663184
+  },
+  "negative_hour_fraction_full": 0.13818129558437825,
+  "negative_run_lengths_top10": [
+   11,
+   8,
+   5,
+   5,
+   5,
+   4,
+   4,
+   3,
+   3,
+   3
+  ]
+ },
+ "E_pin": {
+  "capped_hours_abs_rate_ge_4pct": 0,
+  "fully_pinned_package_per_day": 0.31831411349906963,
+  "pin_carry_share_of_total_full": 0.3812739115341681,
+  "pinned_hour_fraction_full": 0.493838249559875,
+  "pinned_hour_fraction_trailing_12m": 0.5258108725445408
+ },
+ "F_binance": {
+  "binance_full_package_per_day": 0.3758922976454024,
+  "binance_longest_negative_run_days": 15,
+  "binance_runs_ge_21d": [],
+  "binance_worst_rolling_30d": -0.5824151565009308,
+  "binance_worst_rolling_30d_start": "2022-08-26",
+  "overlap_8h_intervals": 3479,
+  "pearson_corr_8h_sums": 0.6724187074941501,
+  "sign_agreement_fraction": 0.8329979879275654
+ },
+ "coverage": {
+  "days_with_lt_20_hours": 0,
+  "era_note": "2023-05-12..06-30 is HL's 8h-interval/transition era; analysis coverage starts 2023-07-01 (hourly era)",
+  "hl_days": 1160,
+  "hl_earliest_record_utc": "2023-05-12T00:00",
+  "hl_last_hour_utc": "2026-09-02T19:00",
+  "hl_rows_hourly_era": 27833
+ },
+ "decision": {
+  "central_package_per_day": 0.1863576519812615,
+  "clauses": {
+   "C1_worst30d_ge_-0.50": true,
+   "C2_longest_run_le_21d": true,
+   "D1_lt_2_runs_ge_14d": true,
+   "D2_neg_frac_le_35pct": true,
+   "central_ge_0.15": true,
+   "central_lt_0.10": false,
+   "cross_venue_guard_ok": true
+  },
+  "verdict": "SUPPORTED"
+ },
+ "frozen": {
+  "coverage_start_day": "2023-07-01",
+  "e005_days": 118.99671296296297,
+  "e005_funding_per_day": 0.2095192337073284,
+  "e005_funding_usd_total": 24.932100113690915,
+  "e005_net_central_per_day": 0.223333347206398,
+  "end_day": "2026-09-03",
+  "notional_usd": 1015.0,
+  "pin_rate": 1.25e-05,
+  "residual_per_day": 0.013814113499069584
+ }
+}
