@@ -2,7 +2,7 @@
 id: E009
 family: new: H-carry
 date: 2026-09-03
-verdict: RUNNING
+verdict: SUPPORTED
 ---
 
 # E009 — The wstETH package's funding carry is representative, not a one-window artifact
@@ -110,16 +110,74 @@ resumable.
 
 ## Result
 
-_(pending)_
+Validity gate PASS exactly as calibrated: fresh HL fetch bit-for-bit equals
+E005's committed 2,856-hour window (V1: 2,856/2,856, max |Δrate| = 0.0); the
+flat-notional recompute gives $0.20054/day vs the committed $0.20952/day =
+−4.28% (V2, ±5% gate; the disclosed calibration). 6/6 contracts PASS
+(coverage census, no-lookahead, byte-determinism).
+
+Central (trailing-12m, 2025-09-03→2026-09-02): package **+$0.186/day**
+(carry +$0.173 + frozen residual $0.0138) = 4.79% APR on $1,420. Full HL
+hourly era (2023-07-01→2026-09-02, 1,160 days): **+$0.408/day** — the past
+was richer; half-year means compress 2024H1 +$0.766 → 2026H1 +$0.122.
+Downside: worst rolling-30d **−$0.086/day** (bound −$0.50); worst rolling-90d
+**+$0.052/day** (still positive); longest negative run **11 days** (bound
+21); 0 runs ≥ 14d; trailing-12m negative-day fraction 13.2% (bound 35%).
+Structure: AR(1) half-life 3.2 days; down-trend-conditional mean **+$0.204/day**
+(positive in both regimes); **49.4% of hours pinned at HL's 1.25e-5/h
+interest floor, contributing 38.1% of all carry**; 0 hours at the ±4%/h cap.
+Binance corroboration: 83.3% sign agreement, r = 0.672 on 3,479 overlapping
+8h sums — market-wide, not HL-idiosyncratic. Binance's longer archive shows
+the one bound-breaking episode: Merge 2022, worst 30d −$0.582/day —
+**outside HL's era** (the pre-stated coverage limit). Companion L: Jan–Apr
+2026 pool volume $12–45M/month vs $7–11M measured May–Aug; fee flow
+stable-to-better backward, at proxy (±60%) precision only.
+
+Deviations, both validity-preserving and disclosed in the report: (1) HL's
+2023-05-12→06-30 records are an 8h-interval/transition era; hourly-era
+analysis coverage starts 2023-07-01 (3 missing hours in 27,836 after);
+(2) companion L used the volume proxy, not the full fee engine — anchors for
+4 new months exceed the pre-registered timebox.
+
+Artifacts: `backtest_model_server/e009/` — `REPORT.md`, `out/results.json`,
+`out/lp_leg_sketch.json`, committed CSVs under `data/`.
 
 ## Verdict
 
-RUNNING
+**SUPPORTED** — central ≥ +$0.15/day and every pre-registered downside bound
+holds (clauses in `out/results.json` §decision, evaluated mechanically).
+The carry is real out of window. It is also compressing: 2026H1 alone
+(+$0.122/day) would have missed the bar, and the certified bounds cover
+HL's observed era only — no full bear market exists in it.
 
 ## Critique
 
-_(pending)_
+1. *Proxy or goal?* The goal's input, measured directly: long-window $/day
+   at the frozen package. But the central is an unconditional historical
+   mean; it certifies representativeness, not the compression trend's
+   asymptote — the forward number is somewhere between 2026H1's $0.12 and
+   2026H2's $0.27.
+2. *Would it survive Gate 2?* Same cost stack as E005 by construction (the
+   only new line is funding itself, replayed not modelled). Still inherits
+   E005's idealizations: per-venue perp costs and the K8 margin dynamics.
+3. *Environment faithful enough?* The flat-notional model understates the
+   replay by 4.28% (bookkeeping, calibrated); the 8h-era trim and the
+   missing bear market are stated, not hidden. The Binance proxy uses a
+   different funding formula — corroboration, not measurement.
+4. *Exactly one variable?* Yes — the window. Notional, residual, thresholds
+   all frozen before the fetch; estimators pre-named in M003.
+5. *Symptom-fix of the previous iteration?* No — E008 closed a family; this
+   validates the successor path's load-bearing assumption before capital.
 
 ## What this changes
 
-_(pending)_
+- **B2's carry prerequisite is met**; the remaining prerequisites are
+  per-venue perp cost calibration and the bot-side K8 margin/liquidation
+  design pass — the K8 stress case should budget a sustained −$0.60/day
+  carry reversal (Binance Merge-era 30d worst, §F).
+- CONSTRAINTS: new K12 (persistence numbers + the bear-market coverage
+  limit + the pin/governance concentration). GOAL Current focus updated;
+  LEDGER row set SUPPORTED.
+- The loop ESCALATES per PROTOCOL §7: the next step is an operator capital
+  decision on a ~4.8%-APR-central package (below the 10% K1 floor), plus
+  bot-side design work — neither is an experiment this loop can run.
