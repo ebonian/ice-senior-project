@@ -10,6 +10,7 @@
 | E004 | 2026-08-29 | Gate-1-instrumentation | Report 01's basket-delta derivation, not the engine's chain read, explains the E002 mismatch | **T5 SUPPORTED · T4 INCONCLUSIVE** (cause located: issue-X boundary) | [E004](experiments/E004-basket-delta-reconciliation.md) |
 | E005 | 2026-08-30 | H-pool | Some Arbitrum V3 pool, HL-hedgeable, pays fees/gamma ≥ 1.5 with margin at our size | **INCONCLUSIVE** (watchlist: wstETH/WETH 0.01% fails only the +$0.389/day floor at +$0.22–0.27/day; LINK/WETH 0.05% f/g 1.20 honest-share; all USD-quoted pools 0.63–0.97) | [E005](experiments/E005-pool-screen.md) |
 | E006 | 2026-09-02 | H-timing | A perfect-foresight in/out timing policy on ETH/USDC 0.05% clears the target with modelable margin | **SUPPORTED** (stage-2 exact oracle +$6.06/day at ±0.2%, +$3.72 at ±0.5%; 6.4% capture reaches target — but named causal signals separate at AUC ≤ 0.53) | [E006](experiments/E006-timing-oracle-bound.md) |
+| E007 | 2026-09-02 | H-timing | Some pre-named causal in/out signal (M001 set) nets ≥ +$0.389/day central via the stage-2 exact simulator, incl. held-out August | **RUNNING** | [E007](experiments/E007-causal-signal-test.md) |
 
 ## Closed sub-goals
 
