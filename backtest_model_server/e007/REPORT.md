@@ -1,7 +1,7 @@
 # E007 — the causal-signal test
 
 > **Experiment:** [`loop/experiments/E007`](../../loop/experiments/E007-causal-signal-test.md).
-> **Memo:** [`loop/memos/M001`](../../loop/memos/M001-short-horizon-vol-signals.md).
+> **Memo:** [`discovery/memos/M001`](../../discovery/memos/M001-short-horizon-vol-signals.md).
 > **Run date:** 2026-09-02. **Cost model:** `gate1-2026-08-29` unmodified.
 > **Envelope:** `e003-2026-08-29`. **Data:** E003's committed parquets +
 > funding CSV, 2026-05-01 → 2026-08-28 (119.00 days), plus Binance ETHUSDT 1m

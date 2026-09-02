@@ -1,0 +1,18 @@
+# Constraint registry
+
+> The problems we actually face, with the numbers that define them. Updated by discovery [§1 Harvest](PROTOCOL.md) every time an experiment verdict lands. **A constraint without a number or a source link is an opinion.**
+>
+> Statuses: **BINDING** (currently blocks the goal or a named path), **INFORMATIVE** (shapes design, doesn't block), **RETIRED** (no longer true — kept for the record).
+
+| ID | Constraint (with its numbers) | Source | Status |
+|---|---|---|---|
+| K1 | The target: net **+$0.389–0.78/day on $1,420** (10–20% APR) under honest costs; arbiter is the frozen Gate-1 engine (`gate1-2026-08-29`, envelope `e003-2026-08-29`) | [GOAL](../loop/GOAL.md) | BINDING (definitional) |
+| K2 | ETH/USDC 0.05% Arbitrum venue economics: always-in **fees/gamma 0.65–0.97 at every width** ±0.2%→±8.3% — width is not a lever on this pool | [E003](../loop/experiments/E003-cost-honest-width-race.md) | BINDING |
+| K3 | The venue property generalizes: every USD-quoted Arbitrum V3 × HL-hedgeable pool posts **fees/gamma 0.63–0.97**; the exceptions are correlated pairs paying via **funding carry at ~5–7% APR** — below K1 | [E005](../loop/experiments/E005-pool-screen.md) | BINDING |
+| K4 | Timing ceiling on ETH/USDC 0.05%: perfect-foresight in/out nets **+$6.06/day at ±0.2%** (+$3.72 at ±0.5%); capture bar 6.4%; the ceiling's substance is **contiguity** — oracle streaks median 3h, chosen jointly with switch costs | [E006](../loop/experiments/E006-timing-oracle-bound.md) | INFORMATIVE |
+| K5 | Switch cost **≈ $0.76 mean round-trip**; daily-grain regime calls lose even with perfect foresight (24h grain negative at every width); the viable decision scale is **1–6h** | [M001 §2](memos/M001-short-horizon-vol-signals.md) | BINDING for any in/out policy |
+| K6 | Signal landscape: ER / trailing-vol / prev-RV falsified at **AUC 0.45–0.53**; next-hour RV levels-ACF(1) 0.22 but **rank persistence 0.62–0.63**; best causal selector is the dow×hod calendar at **AUC 0.616** with a positive-mean held set (+$0.42/h stage-1) | [E006](../loop/experiments/E006-timing-oracle-bound.md) · [E007](../loop/experiments/E007-causal-signal-test.md) | INFORMATIVE |
+| K7 | Per-hour threshold rules cannot monetize selection: **0/540 configs positive**; good picks arrive as median-1h fragments against K5's switch cost. Selection and contiguity must arrive together | [E007](../loop/experiments/E007-causal-signal-test.md) | BINDING (kills the threshold family) |
+| K8 | Hedge margin at $1,420: static ETH-beta hedge ≈ **2.5× leverage on ~$405 HL equity**; liquidation on ETH rallies unmodelled — a bot-side margin/liquidation design pass is prerequisite to any carry-venue capital | [E005 §watchlist](../loop/experiments/E005-pool-screen.md) | BINDING for the wstETH path |
+| K9 | Fee credit assumes **full liquidity share of every in-range swap** — adverse-selection/MEV unmodelled, so every positive number is an upper bound; becomes the next gate if anything clears K1 | E003/E006 critiques | INFORMATIVE |
+| K10 | Process: one variable per experiment; decision rules pre-registered; offline validation before capital (bot ADR 0008) | [../loop/PROTOCOL.md](../loop/PROTOCOL.md) | BINDING (process) |

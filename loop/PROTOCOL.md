@@ -10,13 +10,7 @@ Read [`GOAL.md`](GOAL.md), the last ~10 rows of [`LEDGER.md`](LEDGER.md), and an
 
 ## 1 · Hypothesize — pre-register before touching code
 
-**When the family is new, or the family's obvious hypotheses are exhausted, research before hypothesizing.** Write a research memo `memos/M<NNN>-<slug>.md` first:
-
-1. **Constraints** — the problems actually faced, stated plainly with the numbers that define them (e.g. "must capture 6.4% of a +$6.06/day ceiling; next-hour RV has ACF(1)=0.22; ER-style chop filters measured AUC ≈ 0.5").
-2. **External research** — literature, practitioner methods, cross-domain analogues. Web search encouraged; cite what you find. The operator's Kaufman-ER contribution is the pattern to reproduce: domain knowledge in, testable hypothesis out.
-3. **Ranked candidates** — each with its mechanism (*why* it should address the constraint), what data it needs, and what result would falsify it.
-
-The memo's ranked list becomes the experiment's pre-named candidate set — naming candidates before testing is also the multiple-comparisons guard. Commit the memo before pre-registering the experiment.
+**When the family is new, or the family's obvious hypotheses are exhausted, the hypothesis comes from the discovery loop** ([`../discovery/PROTOCOL.md`](../discovery/PROTOCOL.md)) — run a discovery cycle there first. That loop harvests constraints from this ledger's verdicts, researches the binding one externally, and hands back a memo (`../discovery/memos/M<NNN>-<slug>.md`) plus a hypothesis card in [`../discovery/BACKLOG.md`](../discovery/BACKLOG.md). The memo's ranked list becomes this experiment's **pre-named candidate set** — naming candidates before testing is also the multiple-comparisons guard. Commit the memo before pre-registering here; once cited, the memo is append-only. (The operator's Kaufman-ER contribution is the pattern the discovery loop institutionalizes: domain knowledge in, testable hypothesis out.)
 
 Then create `experiments/E<NNN>-<slug>.md` from [`experiments/TEMPLATE.md`](experiments/TEMPLATE.md) and fill in, BEFORE running anything:
 

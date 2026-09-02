@@ -10,7 +10,7 @@ verdict: REFUTED
 ## Pre-registration (write BEFORE running)
 
 **Hypothesis** — At least one of the six pre-named causal signals from
-[memo M001](../memos/M001-short-horizon-vol-signals.md) §5, turned into an
+[memo M001](../../discovery/memos/M001-short-horizon-vol-signals.md) §5, turned into an
 hour-boundary in/out rule with ≤2 tuned parameters, nets **≥ +$0.389/day
 central** (the 10%-APR target; 6.4% of E006's +$6.06/day ceiling at ±0.2%,
 12.4% of the 6h-coarse ceiling) on ETH/USDC 0.05% through E006's stage-2
