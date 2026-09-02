@@ -18,6 +18,7 @@
 - **From:** [E005 watchlist](../loop/experiments/E005-pool-screen.md). Note the composition: +$0.210 of +$0.223/day is perp funding carry; the LP leg alone is +$0.014.
 - **Prerequisites:** funding-persistence validation (longer window, funding-regime sensitivity, per-venue perp cost calibration); the K8 margin/liquidation design pass on the bot side **before any capital**.
 - **Status:** **ACTIVATED (2026-09-03 — E008 REFUTED; operator pre-commitment, bot ADR 0009).** Escalated to the operator per loop PROTOCOL §7; the K8 margin/liquidation design pass and funding-persistence validation precede any capital. Not started by the E008 iteration.
+- **Progress:** funding-persistence validation running as **[E009](../loop/experiments/E009-funding-persistence.md)** against memo [**M003**](memos/M003-eth-funding-persistence.md) (2026-09-03 — pre-named estimator set A–F: trailing-12m central carry, regime-conditional means, worst-stretch bounds, mean-reversion structure, clamp-pin decomposition, Binance cross-venue context). HL funding history covers 2023-05-12→present (~40 months). The K8 margin pass and per-venue perp cost calibration remain untouched by E009.
 
 ## B3 — Re-screen another chain (Base) with recalibrated gas constants
 
