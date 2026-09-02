@@ -1,0 +1,184 @@
+{
+  "experiment": "E006",
+  "stage": 1,
+  "cost_model_version": "gate1-2026-08-29",
+  "envelope_version": "e003-2026-08-29",
+  "window": {
+    "start": "2026-05-01",
+    "end": "2026-08-28",
+    "days": 118.99974537037038,
+    "n_swaps": 3434113,
+    "n_hours": 2856,
+    "first_swap_utc": "2026-05-01 00:00:00+00:00",
+    "last_swap_utc": "2026-08-27 23:59:38+00:00"
+  },
+  "lp_capital_usd": 1015.0,
+  "target_usd_per_day": 0.38904109589041097,
+  "arms": {
+    "w4": {
+      "width": 4,
+      "width_pct": 0.0020019011404843745,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 2787.383564504815,
+      "sum_funding_usd": 8.891085875817485,
+      "sum_gamma_pnl_usd": -3741.310749542956,
+      "sum_payoff_usd": -945.0360991623232,
+      "points": {
+        "optimistic": {
+          "value_usd": 1094.0170173945469,
+          "per_day_usd": 9.193439985855171,
+          "held_hours": 1659,
+          "held_frac": 0.5808823529411765,
+          "n_streaks": 468,
+          "alwaysin_stage1_usd": -945.73955264134,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "central": {
+          "value_usd": 1052.6066509235518,
+          "per_day_usd": 8.84545296838626,
+          "held_hours": 1654,
+          "held_frac": 0.5791316526610645,
+          "n_streaks": 435,
+          "alwaysin_stage1_usd": -945.8629683056048,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "pessimistic": {
+          "value_usd": 932.8197535445373,
+          "per_day_usd": 7.838838231470697,
+          "held_hours": 1638,
+          "held_frac": 0.5735294117647058,
+          "n_streaks": 358,
+          "alwaysin_stage1_usd": -946.308394336122,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        }
+      }
+    },
+    "w10": {
+      "width": 10,
+      "width_pct": 0.005012269623050569,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 1999.2655885210045,
+      "sum_funding_usd": 10.716835034870133,
+      "sum_gamma_pnl_usd": -2728.6655470379546,
+      "sum_payoff_usd": -718.68312348208,
+      "points": {
+        "optimistic": {
+          "value_usd": 717.6714582176774,
+          "per_day_usd": 6.030865494577517,
+          "held_hours": 1965,
+          "held_frac": 0.6880252100840336,
+          "n_streaks": 313,
+          "alwaysin_stage1_usd": -719.4366434701917,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "central": {
+          "value_usd": 682.2921972579501,
+          "per_day_usd": 5.733560144472656,
+          "held_hours": 1927,
+          "held_frac": 0.6747198879551821,
+          "n_streaks": 292,
+          "alwaysin_stage1_usd": -719.569699732177,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "pessimistic": {
+          "value_usd": 574.9530089183576,
+          "per_day_usd": 4.831548228350365,
+          "held_hours": 1835,
+          "held_frac": 0.6425070028011205,
+          "n_streaks": 221,
+          "alwaysin_stage1_usd": -720.0499201560967,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        }
+      }
+    },
+    "w40": {
+      "width": 40,
+      "width_pct": 0.020200319893931784,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 767.3425803540594,
+      "sum_funding_usd": 11.629655832574274,
+      "sum_gamma_pnl_usd": -1073.1724950076355,
+      "sum_payoff_usd": -294.2002588210019,
+      "points": {
+        "optimistic": {
+          "value_usd": 167.6927670295773,
+          "per_day_usd": 1.4091859315131858,
+          "held_hours": 1990,
+          "held_frac": 0.6967787114845938,
+          "n_streaks": 107,
+          "alwaysin_stage1_usd": -294.9788093059159,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "central": {
+          "value_usd": 154.02366340991261,
+          "per_day_usd": 1.2943192687558709,
+          "held_hours": 1942,
+          "held_frac": 0.6799719887955182,
+          "n_streaks": 97,
+          "alwaysin_stage1_usd": -295.1166853357416,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "pessimistic": {
+          "value_usd": 117.66552979093406,
+          "per_day_usd": 0.9887880803838381,
+          "held_hours": 1750,
+          "held_frac": 0.6127450980392157,
+          "n_streaks": 61,
+          "alwaysin_stage1_usd": -295.61430103983025,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        }
+      }
+    },
+    "w160": {
+      "width": 160,
+      "width_pct": 0.08328273482419823,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 209.08271686804818,
+      "sum_funding_usd": 11.85784847821236,
+      "sum_gamma_pnl_usd": -293.02990649694965,
+      "sum_payoff_usd": -72.08934115068915,
+      "points": {
+        "optimistic": {
+          "value_usd": 19.18096645789578,
+          "per_day_usd": 0.16118493697778644,
+          "held_hours": 1580,
+          "held_frac": 0.5532212885154062,
+          "n_streaks": 24,
+          "alwaysin_stage1_usd": -72.87414878194704,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "central": {
+          "value_usd": 16.062056942548047,
+          "per_day_usd": 0.13497555723801843,
+          "held_hours": 1406,
+          "held_frac": 0.49229691876750703,
+          "n_streaks": 20,
+          "alwaysin_stage1_usd": -73.01322966171877,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        },
+        "pessimistic": {
+          "value_usd": 9.282296236657583,
+          "per_day_usd": 0.07800265628945431,
+          "held_hours": 891,
+          "held_frac": 0.3119747899159664,
+          "n_streaks": 9,
+          "alwaysin_stage1_usd": -73.51519385375681,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true
+        }
+      }
+    }
+  },
+  "best_arm_central": "w4"
+}
