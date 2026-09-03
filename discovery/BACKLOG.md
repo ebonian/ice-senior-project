@@ -24,4 +24,13 @@
 
 - **Claim:** E005's screen, re-run with Base cost calibration, finds a pool passing all gates.
 - **From:** [E005](../loop/experiments/E005-pool-screen.md) (Arbitrum-only scope was a validity choice, not a finding).
-- **Status:** **PROPOSED, parked** — the operator picked B2 as the fallback path (2026-09-03).
+- **Status:** **FOLDED INTO B4** (2026-09-03) — the operator's capital amendment made the chain re-screen part of a larger question; Base is a pre-named secondary scope inside E010.
+
+## B4 — Capital unlocks a venue where the strategy (and the model) can work
+
+- **Claim:** at a $10k reference, some HL-hedgeable Uniswap V3 venue — with Ethereum mainnet now in scope — passes the full E005 gate set with best-arm fees/gamma ≥ 1.0 (model headroom) and net ≥ 10% APR central (target).
+- **From:** operator capital amendment 2026-09-03; the mainnet **feeProtocol hypothesis** (Arbitrum 0x44 takes 25% of fees; mainnet fee switch off ⇒ ×1.33 fee income ⇒ E005's 0.86–0.97 near-misses map to 0.87–1.29 — must be read on-chain per pool); memo **M004** (written by the E010 cycle).
+- **Why it might work:** the near-misses were dense just under 1.0 and the haircut is exactly the missing margin; mainnet pools are 10–100× deeper (share gates relax at $10k there); gas at $10k is bps-scale, not ruinous.
+- **Why it might not:** mainnet JIT liquidity and MEV make the full-share fee-credit assumption *more* optimistic there, not less; the fee switch may have been enabled since; mainnet gas envelopes are volatile and need honest calibration.
+- **Both lenses, always:** static-carry APR *and* model headroom (any arm f/g ≥ 1.0) — B4 exists to answer whether the range/timing model thesis gets a venue, not just where carry is highest.
+- **Status:** **STAGED → E010** (operator go 2026-09-03). The B2 go/no-go is on hold pending this card's verdict.

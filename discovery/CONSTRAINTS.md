@@ -6,7 +6,7 @@
 
 | ID | Constraint (with its numbers) | Source | Status |
 |---|---|---|---|
-| K1 | The target: net **+$0.389–0.78/day on $1,420** (10–20% APR) under honest costs; arbiter is the frozen Gate-1 engine (`gate1-2026-08-29`, envelope `e003-2026-08-29`) | [GOAL](../loop/GOAL.md) | BINDING (definitional) |
+| K1 | The target is a **rate: 10–20%+ APR under honest costs** (operator amendment 2026-09-03: capital is a test size — $10,000+ deployable; venue evaluation at a $10k reference with scaling law). Arbiter: the frozen Gate-1 engine (`gate1-2026-08-29`, envelope `e003-2026-08-29`); the cost stack is bps-proportional except $0.0101/tx Arbitrum gas, so per-dollar verdicts are size-invariant on that chain | [GOAL](../loop/GOAL.md) | BINDING (definitional) |
 | K2 | ETH/USDC 0.05% Arbitrum venue economics: always-in **fees/gamma 0.65–0.97 at every width** ±0.2%→±8.3% — width is not a lever on this pool | [E003](../loop/experiments/E003-cost-honest-width-race.md) | INFORMATIVE (venue retired 2026-09-03, K11) |
 | K3 | The venue property generalizes: every USD-quoted Arbitrum V3 × HL-hedgeable pool posts **fees/gamma 0.63–0.97**; the exceptions are correlated pairs paying via **funding carry at ~5–7% APR** — below K1 | [E005](../loop/experiments/E005-pool-screen.md) | BINDING |
 | K4 | Timing ceiling on ETH/USDC 0.05%: perfect-foresight in/out nets **+$6.06/day at ±0.2%** (+$3.72 at ±0.5%); capture bar 6.4%; the ceiling's substance is **contiguity** — oracle streaks median 3h, chosen jointly with switch costs | [E006](../loop/experiments/E006-timing-oracle-bound.md) | INFORMATIVE |
