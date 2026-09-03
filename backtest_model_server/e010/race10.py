@@ -129,6 +129,21 @@ def main() -> int:
         swaps = R5.load_swaps(spec, R.WINDOW_START, R.WINDOW_END, None,
                               BMS / "e003" / "data" / "swaps")
         lp_capital = 1015.0
+    elif args.slug.startswith("e005:"):
+        # Part B measured re-bind: an E005 Arbitrum pool re-raced at the
+        # reference capital on its own committed parquets, funding and marks.
+        # Frozen Arbitrum gas; gas-point is ignored by construction.
+        slug5 = args.slug.split(":", 1)[1]
+        spec = R5.load_spec(slug5)
+        chain = "arbitrum"
+        marks = R5.load_marks(spec.token1)
+        funding = {}
+        for coin in {spec.coin0, spec.coin1,
+                     "ETH" if spec.hedge_mode == "static-beta" else None}:
+            if coin:
+                funding[coin] = R5.load_funding_csv(coin)
+        swaps = R5.load_swaps(spec, R.WINDOW_START, R.WINDOW_END, marks, None)
+        lp_capital = R.lp_notional(args.capital)
     else:
         spec, chain = load_spec10(args.slug)
         marks = load_marks10(spec.token1)
