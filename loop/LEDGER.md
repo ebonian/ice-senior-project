@@ -19,3 +19,4 @@
 ## Closed sub-goals
 
 _None yet._
+| E012 | 2026-09-04 | H-timing (LINK venue, causal) | Some pre-named causal trailing-vol gate (M006 set V1–V6: hysteresis / dwell / HAR-blend at 4–24h grain, in/out only, width fixed per arm) nets ≥ +$2.7397/day central full-window (10% APR at $10k) AND > $0 central on held-out August AND beats same-arm always-in, through E011's unmodified exact evaluator at the coupled envelope | RUNNING | [E012](experiments/E012-vol-gate-capture.md) |
