@@ -143,16 +143,95 @@ recipes + reduced CSVs committed).
 
 ## Result
 
-*(pending)*
+Run 2026-09-03 on E010's committed hash-verified parquets (41,194 swaps,
+118.99 days), engine and constants frozen as pre-registered. Full report:
+[`backtest_model_server/e011/REPORT.md`](../../backtest_model_server/e011/REPORT.md);
+artifacts under `backtest_model_server/e011/out/`.
+
+$/day, coupled central (opt/pess in the report):
+
+| Arm | always_in (E010) | stage-1 UB | stage-2 exact | held % | streaks (med) | capture 10% |
+|---|---:|---:|---:|---:|---:|---:|
+| ±0.60% | −4.456 | +20.50 | **+5.785** | 96.7% | 14 (93h) | **47%** |
+| ±1.82% | −0.874 | +8.87 | +3.636 | 97.9% | 8 (86h) | 75% |
+| ±8.11% | +0.915 | +2.96 | +2.017 | 98.8% | 5 (86h) | 136% |
+
+- REFUTED could not fire (UB ≥ +$2.96/day at every arm); the SUPPORTED net
+  clause fired at ±0.6% (+$5.785 ≥ +$5.4795), **F1 passed** (trailing-12m
+  two-leg package +$1.58/day ≫ −$1.00 floor) and **F2 passed** (funding
+  substitution −$0.139/day → adjusted +$5.65 ≥ +$2.74).
+- **The ceiling's substance is regime-dodging, not hour-picking**: ~97%
+  held in ~90h-median streaks = always-in minus a dozen bad multi-day
+  stretches; every month positive including August (+$52 vs always-in's
+  −$941); held-hours f/g 2.10 vs 1.34.
+- **Coarseness inverts M001 §2**: daily-grain decisions retain 78% of the
+  exact ceiling (+$4.50/day, still > the 10% bar); min-hold 24h retains
+  85%. The viable decision scale is "up to daily", not 1–6h.
+- **Wick-clean (K15)**: held-hours top-10 swap weight 1.47% vs 1.73%
+  full-window; no dislocation income.
+- **Funding**: LINK-PERP full-history +15.8% ann on notional (t12m +10.1%,
+  floor-pinned 59.7%); worst 30d −$1.97/day (2023 early-listing); longest
+  negative run 21d.
+- Descriptive (NOT the verdict): trailing-vol signals separate here,
+  inverted — prev-hour RV AUC 0.15 for held (0.85 as a skip signal) vs
+  0.45–0.53 useless on the control; calendar weak (Aug OOS 0.56).
+- Contracts: 59 blocking checks all PASS — E010 race rows reproduce
+  float-consistently at all 3 coupled gas points (worst gap 6.0e-12);
+  funding recompute exact on 2,856/2,856 hours; DP dominates every
+  baseline and constrained variant; determinism byte-identical.
 
 ## Verdict
 
-*(pending)*
+**SUPPORTED** — by the pre-registered rule, at ±0.6%, central coupled
+envelope, with both funding bounds passing. Scope discipline: this prices
+the *ceiling only*. The pessimistic coupled point is **−$13.51/day** at the
+qualifying arm (envelope-thin); the capture bar to reach even 10% APR is
+47% of the ceiling; and no causal-signal claim is made or implied
+(E007/E008 inheritance). Every positive number is a K9 upper bound; no
+capital moves on these numbers (bot ADR 0008).
 
 ## Critique
 
-*(pending)*
+1. *Proxy or goal?* Goal — net $/day through the frozen stack at $10k,
+   judged by the pre-registered clauses only. The one soft spot is F2's
+   granularity: the substitution runs on stage-1 held-hour notionals, not
+   stage-2's booked exposure (engine unmodified was the harder constraint);
+   at −$0.14/day vs a +$2.9/day margin, no plausible refinement flips it.
+2. *Would it survive Gate 2?* Unknown and explicitly not claimed — K9
+   (full-share fee credit) is the binding idealization; the wick check
+   removes the dislocation failure mode but not ordinary-swap dilution.
+   The number that decides anything (the 20%-band clause) clears by only
+   5.6% at central and dies at pessimistic — Gate 2 headroom is thin.
+3. *Environment faithful enough?* For a ceiling measurement, yes: exact
+   engine reproduction of E010's committed rows is contract-tested, and
+   stage 2 re-simulates through the real loop. LINK perp slippage remains
+   ETH-calibrated (named caveat).
+4. *Exactly one variable?* Yes — the in/out timing dimension vs E010's
+   committed always-in rows; venue, window, capital, cost stack, envelope
+   and hedge model all frozen and verified by the reproduction contract.
+5. *Symptom-fix of the previous iteration?* No — E010 §11 pre-named this
+   exact measurement; the operator staged it (card B5) before any number
+   existed; the memo (M005) pre-named all four measurements and the file
+   ran only those.
 
 ## What this changes
 
-*(pending)*
+- **The model thesis has a venue with a measured, honest, clean ceiling
+  for the first time**: mainnet LINK/WETH 0.30% at ±0.6% carries
+  +$5.79/day central (21.1% APR at $10k) of perfect-foresight value, and —
+  unlike the control — the ceiling survives coarsening to daily decisions
+  (+$4.50/day), which is the shape a realizable model can actually have.
+- **The E010 (iii) fork's E011 arm is answered.** The three-way venue call
+  (wstETH carry ~5–6% / LINK fee-edge / both) is now the operator's, per
+  PROTOCOL §7, with: carry = validated, deployable after K8/T1;
+  fee-edge = ceiling SUPPORTED but *unrealized* — it needs an E012
+  (causal vol-gate at 4–24h grain, M002 S1/S2 shapes on a trailing-vol
+  selector) to prove capture ≥ 47% before any capital.
+- **Harvest**: new K16 (the LINK ceiling + coarseness numbers); B5 →
+  SUPPORTED (measurement complete; modeling question open); **B2 stays
+  HELD** (not resolved by this experiment — operator's call). M005 is
+  append-only history.
+- Descriptive lead for E012, recorded without a claim: the skip episodes
+  are multi-day vol regimes; trailing vol finds them at 0.72–0.85
+  (flipped AUC) where the control gave 0.5 — selection and contiguity may
+  finally arrive *together* here, which is exactly what K7 said they must.

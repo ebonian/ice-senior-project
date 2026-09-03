@@ -1,0 +1,179 @@
+{
+  "experiment": "E011",
+  "part": "coarseness",
+  "constraint_set": "M001 \u00a72 (min-hold 6/12/24h, grain 4/24h)",
+  "point": "central (coupled)",
+  "arms": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "unconstrained": {
+        "stage1_value_usd": 2439.3928901722416,
+        "stage1_per_day": 20.500158661602377,
+        "stage2_net_usd": 688.3470677677055,
+        "stage2_per_day": 5.784727896985203,
+        "held_frac": 0.9670639308033049,
+        "n_streaks": 14
+      },
+      "constraints": {
+        "minhold_6h": {
+          "stage1_value_usd": 2426.1105967698386,
+          "stage1_per_day": 20.388536985882894,
+          "stage2_net_usd": 674.033437234109,
+          "stage2_per_day": 5.664439075063791,
+          "held_frac": 0.968476357267951,
+          "n_streaks": 12,
+          "max_lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        "minhold_12h": {
+          "stage1_value_usd": 2426.1105967698386,
+          "stage1_per_day": 20.388536985882894,
+          "stage2_net_usd": 674.033437234109,
+          "stage2_per_day": 5.664439075063791,
+          "held_frac": 0.968476357267951,
+          "n_streaks": 12,
+          "max_lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        "minhold_24h": {
+          "stage1_value_usd": 2309.3569417182007,
+          "stage1_per_day": 19.407363160820392,
+          "stage2_net_usd": 587.4303204139328,
+          "stage2_per_day": 4.936644203415403,
+          "held_frac": 0.9635726795096322,
+          "n_streaks": 11,
+          "max_lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        "grain_4h": {
+          "stage1_value_usd": 2306.529580753933,
+          "stage1_per_day": 19.383602597856292,
+          "stage2_net_usd": 629.4775642503505,
+          "stage2_per_day": 5.290000636240286,
+          "held_frac": 0.9597197898423818,
+          "n_streaks": 11,
+          "max_lp_value_abs_gap_usd": 1.7053025658242404e-13
+        },
+        "grain_24h": {
+          "stage1_value_usd": 2124.4987512808652,
+          "stage1_per_day": 17.853852757010653,
+          "stage2_net_usd": 535.8157290468137,
+          "stage2_per_day": 4.502885739765456,
+          "held_frac": 0.9078809106830122,
+          "n_streaks": 9,
+          "max_lp_value_abs_gap_usd": 3.410605131648481e-13
+        }
+      }
+    },
+    "arm_2pct": {
+      "unconstrained": {
+        "stage1_value_usd": 1056.062188440704,
+        "stage1_per_day": 8.874930523399543,
+        "stage2_net_usd": 432.71600866345557,
+        "stage2_per_day": 3.636456787569713,
+        "held_frac": 0.9786904455169009,
+        "n_streaks": 8
+      },
+      "constraints": {
+        "minhold_6h": {
+          "stage1_value_usd": 1056.062188440704,
+          "stage1_per_day": 8.874930523399543,
+          "stage2_net_usd": 432.71600866345557,
+          "stage2_per_day": 3.636456787569713,
+          "held_frac": 0.9793345008756568,
+          "n_streaks": 8,
+          "max_lp_value_abs_gap_usd": 1.1368683772161603e-12
+        },
+        "minhold_12h": {
+          "stage1_value_usd": 1056.062188440704,
+          "stage1_per_day": 8.874930523399543,
+          "stage2_net_usd": 432.71600866345557,
+          "stage2_per_day": 3.636456787569713,
+          "held_frac": 0.9793345008756568,
+          "n_streaks": 8,
+          "max_lp_value_abs_gap_usd": 1.1368683772161603e-12
+        },
+        "minhold_24h": {
+          "stage1_value_usd": 1014.3491081607326,
+          "stage1_per_day": 8.524382332721169,
+          "stage2_net_usd": 397.008897110445,
+          "stage2_per_day": 3.3363815290357888,
+          "held_frac": 0.9733800350262697,
+          "n_streaks": 7,
+          "max_lp_value_abs_gap_usd": 1.1368683772161603e-12
+        },
+        "grain_4h": {
+          "stage1_value_usd": 1020.2080272729531,
+          "stage1_per_day": 8.573619489994975,
+          "stage2_net_usd": 381.05557941461745,
+          "stage2_per_day": 3.2023131117418773,
+          "held_frac": 0.9709281961471103,
+          "n_streaks": 7,
+          "max_lp_value_abs_gap_usd": 1.5916157281026244e-12
+        },
+        "grain_24h": {
+          "stage1_value_usd": 949.7206330926417,
+          "stage1_per_day": 7.981257853556303,
+          "stage2_net_usd": 371.0748783644595,
+          "stage2_per_day": 3.118437342526278,
+          "held_frac": 0.9499124343257443,
+          "n_streaks": 5,
+          "max_lp_value_abs_gap_usd": 2.8421709430404007e-12
+        }
+      }
+    },
+    "arm_8.3pct": {
+      "unconstrained": {
+        "stage1_value_usd": 352.5836924134435,
+        "stage1_per_day": 2.9630411997547648,
+        "stage2_net_usd": 239.99467017202804,
+        "stage2_per_day": 2.0168660965959107,
+        "held_frac": 0.9882117316788751,
+        "n_streaks": 5
+      },
+      "constraints": {
+        "minhold_6h": {
+          "stage1_value_usd": 352.5836924134434,
+          "stage1_per_day": 2.9630411997547634,
+          "stage2_net_usd": 239.99467017202804,
+          "stage2_per_day": 2.0168660965959107,
+          "held_frac": 0.9887915936952715,
+          "n_streaks": 5,
+          "max_lp_value_abs_gap_usd": 3.353761712787673e-12
+        },
+        "minhold_12h": {
+          "stage1_value_usd": 352.5836924134434,
+          "stage1_per_day": 2.9630411997547634,
+          "stage2_net_usd": 239.99467017202804,
+          "stage2_per_day": 2.0168660965959107,
+          "held_frac": 0.9887915936952715,
+          "n_streaks": 5,
+          "max_lp_value_abs_gap_usd": 3.353761712787673e-12
+        },
+        "minhold_24h": {
+          "stage1_value_usd": 351.5830588673425,
+          "stage1_per_day": 2.954632080198897,
+          "stage2_net_usd": 236.13830675248715,
+          "stage2_per_day": 1.9844580075685603,
+          "held_frac": 0.9901926444833625,
+          "n_streaks": 4,
+          "max_lp_value_abs_gap_usd": 3.353761712787673e-12
+        },
+        "grain_4h": {
+          "stage1_value_usd": 346.5847987404483,
+          "stage1_per_day": 2.9126277249160313,
+          "stage2_net_usd": 235.85577218183738,
+          "stage2_per_day": 1.982083644853541,
+          "held_frac": 0.9737302977232924,
+          "n_streaks": 3,
+          "max_lp_value_abs_gap_usd": 6.821210263296962e-13
+        },
+        "grain_24h": {
+          "stage1_value_usd": 334.49155680081776,
+          "stage1_per_day": 2.8109985943670504,
+          "stage2_net_usd": 179.3883190103282,
+          "stage2_per_day": 1.507542723669334,
+          "held_frac": 0.9499124343257443,
+          "n_streaks": 3,
+          "max_lp_value_abs_gap_usd": 1.5916157281026244e-12
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "experiment": "E011",
+  "verdict": "SUPPORTED",
+  "rule": {
+    "refuted_if": "stage-1 UB < 2.7397/day central at every arm",
+    "refuted_fires": false,
+    "supported_if": "stage-2 exact >= 5.4795/day central at some arm AND F1 AND F2 on that arm",
+    "qualifying_arms_net": [
+      "arm_0.1pct_0.2pct_0.5pct"
+    ],
+    "f1_passes": true,
+    "f2_passes_on_qualifying": [
+      "arm_0.1pct_0.2pct_0.5pct"
+    ],
+    "supported_fires": true
+  },
+  "per_arm": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "width_pct": 0.006017734268817465,
+      "stage1_ub_per_day": {
+        "optimistic": 20.787394097724942,
+        "central": 20.500158661602377,
+        "pessimistic": 19.529022397473845
+      },
+      "stage2_exact_per_day": {
+        "optimistic": 10.743857126751754,
+        "central": 5.784727896985203,
+        "pessimistic": -13.513463362380982
+      },
+      "held_frac": 0.9670639308033049,
+      "n_streaks": 14,
+      "streak_len_median_h": 93.0,
+      "capture_bar_10pct": 0.47361363856459165,
+      "capture_bar_20pct": 0.9472272771291833
+    },
+    "arm_2pct": {
+      "width_pct": 0.01816206010461041,
+      "stage1_ub_per_day": {
+        "optimistic": 9.032553096811814,
+        "central": 8.874930523399543,
+        "pessimistic": 8.342544045302787
+      },
+      "stage2_exact_per_day": {
+        "optimistic": 5.5095820890292755,
+        "central": 3.636456787569713,
+        "pessimistic": -3.4199426560005985
+      },
+      "held_frac": 0.9786904455169009,
+      "n_streaks": 8,
+      "streak_len_median_h": 86.0,
+      "capture_bar_10pct": 0.7534053578643654,
+      "capture_bar_20pct": 1.5068107157287307
+    },
+    "arm_8.3pct": {
+      "width_pct": 0.08111844258099676,
+      "stage1_ub_per_day": {
+        "optimistic": 3.0546282631928334,
+        "central": 2.9630411997547648,
+        "pessimistic": 2.765507264352668
+      },
+      "stage2_exact_per_day": {
+        "optimistic": 2.504820357949237,
+        "central": 2.0168660965959107,
+        "pessimistic": 0.19199969063608208
+      },
+      "held_frac": 0.9882117316788751,
+      "n_streaks": 5,
+      "streak_len_median_h": 86.0,
+      "capture_bar_10pct": 1.3584074976625373,
+      "capture_bar_20pct": 2.7168149953250746
+    }
+  },
+  "funding": {
+    "f1_trailing_12m_package_per_day": 1.5827383740728849,
+    "f2": {
+      "arm_0.1pct_0.2pct_0.5pct": {
+        "stage2_central_per_day": 5.784727896985203,
+        "dfund_per_day": -0.1387885978969072,
+        "stage2_adj_per_day": 5.645939299088296,
+        "passes_f2_floor": true
+      },
+      "arm_2pct": {
+        "stage2_central_per_day": 3.636456787569713,
+        "dfund_per_day": -0.12575034616522685,
+        "stage2_adj_per_day": 3.510706441404486,
+        "passes_f2_floor": true
+      },
+      "arm_8.3pct": {
+        "stage2_central_per_day": 2.0168660965959107,
+        "dfund_per_day": -0.13334533418676509,
+        "stage2_adj_per_day": 1.8835207624091455,
+        "passes_f2_floor": false
+      }
+    }
+  },
+  "wick_clean": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "held_top10_swap_weight": 0.014673025469629996,
+      "full_window_top10": 0.0172772012865639
+    },
+    "arm_2pct": {
+      "held_top10_swap_weight": 0.013882428756665424,
+      "full_window_top10": 0.0172772012865639
+    },
+    "arm_8.3pct": {
+      "held_top10_swap_weight": 0.013563178421545525,
+      "full_window_top10": 0.0172772012865639
+    }
+  }
+}

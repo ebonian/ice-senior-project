@@ -1,0 +1,106 @@
+{
+  "experiment": "E011",
+  "part": "funding-persistence",
+  "end_day_frozen": "2026-09-02",
+  "notionals_usd": {
+    "link_leg_N0": 3435.3291479627183,
+    "eth_leg_N1": 3712.5581759809447,
+    "source": "stage-1 wide-arm time-average"
+  },
+  "link_leg": {
+    "first_utc": "2023-05-18",
+    "last_utc": "2026-09-02",
+    "n_hours": 28451,
+    "mean_ann_pct": 15.793220292784085,
+    "trailing_12m_ann_pct": 10.115935030000001,
+    "pinned_frac_full": 0.5972022073037855,
+    "negative_frac_full": 0.12358089346595902,
+    "halves_ann_pct": {
+      "2023H1": -48.05599449576546,
+      "2023H2": 17.691616695604896,
+      "2024H1": 34.82282130989012,
+      "2024H2": 19.89835968271801,
+      "2025H1": 9.705755815469615,
+      "2025H2": 13.995297259510867,
+      "2026H1": 8.95709830607735,
+      "2026H2": 11.664376688281253
+    }
+  },
+  "eth_leg": {
+    "first_utc": "2023-05-12",
+    "last_utc": "2026-09-02",
+    "n_hours": 28466,
+    "mean_ann_pct": 14.482072085631984,
+    "trailing_12m_ann_pct": 6.207602161534949,
+    "pinned_frac_full": 0.48352420431391835,
+    "negative_frac_full": 0.13693529122461884,
+    "halves_ann_pct": {
+      "2023H1": 27.641383850236966,
+      "2023H2": 21.61607978685999,
+      "2024H1": 27.03587200219781,
+      "2024H2": 17.114613033567384,
+      "2025H1": 6.102221686740332,
+      "2025H2": 10.92757929972826,
+      "2026H1": 3.8779602660220993,
+      "2026H2": 9.185695687989561
+    }
+  },
+  "trailing_12m_rate_hourly": {
+    "link": 1.1547871038812787e-05,
+    "eth": 7.086303837368663e-06
+  },
+  "package_daily_usd": {
+    "coverage": [
+      "2023-05-19",
+      "2026-09-02"
+    ],
+    "n_days": 1203,
+    "full_mean_per_day": 2.9254181098830725,
+    "trailing_12m_mean_per_day": 1.5827383740728849,
+    "worst_rolling_30d_per_day": -1.9665907951610968,
+    "worst_rolling_30d_start": "2023-08-16",
+    "worst_rolling_90d_per_day": -0.5314923684423357,
+    "worst_rolling_90d_start": "2023-07-26",
+    "longest_negative_run_days": 21,
+    "negative_day_fraction_full": 0.1113881961762261,
+    "negative_day_fraction_trailing_12m": 0.052054794520547946,
+    "ar1": [
+      0.8443095258610573,
+      4.0957403289225685
+    ],
+    "up_regime_mean_per_day": 4.314167189296795,
+    "down_regime_mean_per_day": 1.5753718736661257,
+    "down_regime_day_share": 0.5070656691604323
+  },
+  "cross_venue_sign_agreement_8h": 0.7904090267983075,
+  "window_vs_long": {
+    "window_link_ann_pct": 10.64,
+    "window_eth_ann_pct": 7.21,
+    "note": "window figures from committed e005 CSVs (M005 \u00a73)"
+  },
+  "F1": {
+    "floor_per_day": -1.0,
+    "trailing_12m_package_per_day": 1.5827383740728849,
+    "passes": true
+  },
+  "F2": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "stage2_central_per_day": 5.784727896985203,
+      "dfund_per_day": -0.1387885978969072,
+      "stage2_adj_per_day": 5.645939299088296,
+      "passes_f2_floor": true
+    },
+    "arm_2pct": {
+      "stage2_central_per_day": 3.636456787569713,
+      "dfund_per_day": -0.12575034616522685,
+      "stage2_adj_per_day": 3.510706441404486,
+      "passes_f2_floor": true
+    },
+    "arm_8.3pct": {
+      "stage2_central_per_day": 2.0168660965959107,
+      "dfund_per_day": -0.13334533418676509,
+      "stage2_adj_per_day": 1.8835207624091455,
+      "passes_f2_floor": false
+    }
+  }
+}

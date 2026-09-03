@@ -37,4 +37,17 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 
 ## Current focus
 
-**Operator resolved E010's fork to (iii) — both tracks in parallel, capital held (2026-09-03).** Track 1: **E011** (card [B5](../discovery/BACKLOG.md)) — the E006-method timing/width ceiling on mainnet LINK/WETH 0.30% under E010's measured gas envelope, plus the E009-method LINK-PERP funding-persistence look; memo M005 first. Track 2 (bot repo): the K8 design doc's **T1 margin-distance alerting** build (alert-only, default-on tier) as wstETH deployment prep. **No capital deploys until E011 reports** — the venue choice (carry vs fee-edge vs both) is made with the LINK ceiling known. The north-star revision question (honest menu tops out ~5–6% carry unless E011 finds more) stays open at the operator. No capital moves on any of these numbers (bot ADR 0008).
+**E011 has reported (2026-09-03): SUPPORTED.** The LINK/WETH 0.30% ceiling is
++$5.79/day central at ±0.6% (21% APR at $10k), wick-clean, funding bounds
+passing, and it survives coarsening to daily decisions (+$4.50/day) — the
+first venue where a realizable-shaped model has honest headroom (K16). The
+ceiling is measured, **not captured**: capture bar 47%, pessimistic point
+−$13.5/day, K9 unpriced. **Escalated to the operator per PROTOCOL §7** —
+the three-way venue call is now fully informed: (a) wstETH carry ~5–6% APR
+(validated, deployable after K8/T1), (b) LINK fee-edge (ceiling SUPPORTED;
+needs an E012 — causal trailing-vol gate at 4–24h grain — to prove capture
+before any capital), (c) both. Track 2 (bot repo T1 margin alerting)
+continues. The north-star revision question is now concrete: the honest
+menu tops out at ~5–6% carry *unless* E012 captures ≥ 47% of the LINK
+ceiling. **Capital stays held; no capital moves on any of these numbers
+(bot ADR 0008).**
