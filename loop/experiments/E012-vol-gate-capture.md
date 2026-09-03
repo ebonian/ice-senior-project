@@ -181,12 +181,100 @@ every grid point's result committed).
 
 ## Result
 
-*(to be filled after the run)*
+Run 2026-09-04 on the frozen stack; 66 blocking contracts PASS (parquet
+sha 4/4; E010 race rows and E011 oracle stage-2 both reproduced
+float-exactly; causality-by-truncation exact; isolation raise verified;
+determinism). Full report:
+[`backtest_model_server/e012/REPORT.md`](../../backtest_model_server/e012/REPORT.md);
+artifacts under `backtest_model_server/e012/out/` (all 120 tune cells
+committed).
+
+$/day central (opt/pess in the report); tune = May–Jul, Aug = held-out
+calendar bucket:
+
+| best cells | tune | full-window | August ($) | held % | streaks |
+|---|---:|---:|---:|---:|---:|
+| best overall: V1 ±8.1% (n48, q.50/.95) | +1.95 | **+0.58** | −117.7 | 84.9 | 3 |
+| best verdict-arm: V4 ±0.6% (m4, q.30/.95) | +1.63 | **−1.43** | −326.1 | 71.8 | 20 |
+| always-in ±8.1% (baseline) | +2.32 | **+0.92** | −111.3 | 100 | 1 |
+| always-in ±0.6% (baseline) | +4.40 | **−4.46** | −941.5 | 100 | 1 |
+
+- **No cell reached any bar**: best full-window central +$0.577/day <
+  the +$0.915/day static bar < the +$2.7397/day target; all 12 frozen
+  cells fail August (−$68 to −$896); the SUPPORTED clause could not fire.
+- **0/120 tune configs beat same-arm always-in in-sample** (91/120 were
+  positive — but always-in tune was +$4.40/+$2.32/day; May–Jul's
+  dodgeable damage was −$194 stage-1 ≈ one round-trip budget). The
+  family's objective had no positive in-sample instance to tune toward.
+- **Mechanism, two-horned**: the 12–168h gates (V1/V2/V3/V5/V6) exit
+  *after* August's 1–18h bursts — skip coverage 0 on five of the seven
+  oracle August episodes, holding 9 of the window's 10 worst hours (incl.
+  −$230.5, Aug 19 15:00). The 1h swap-RV gate (V4) selects genuinely —
+  6/7 episodes dodged causally, 8/10 worst hours, August halved, and it
+  beats its own arm's always-in on both clauses, the first candidate in
+  three campaigns to do so out-of-sample — but pays 20 streaks and a 28%
+  fee sacrifice and stays negative everywhere.
+- Wick check (K15): slow gates' held sets 1.96–2.19% top-10 vs 1.73%
+  pool (hold through dislocations); V4 1.61% (dodges them). F2 not run —
+  no SUPPORTED cell (pre-registered condition).
+- **Deviation, recorded**: the prereg's all-ones-mask baseline contract
+  is float-unsatisfiable jointly with the oracle-mask contract (committed
+  E010 is swap-anchored, committed E011 stage-2 hour-anchored). Run as
+  E011's own spanning-streak contract + a ≤$0.27/0.87h bound on the mask
+  path's head sliver; gate cells hour-anchored like the ceiling. No
+  reported number moves beyond the sliver bound under either choice.
 
 ## Verdict
 
-*(to be filled after the run)*
+**REFUTED** — by the pre-registered rule, clause 1: no pre-named
+candidate's full-window central exceeds max(+$0.915/day, the best static
+arm). The gate family adds negative value at both arms: nothing beats
+simply holding ±8.1% always-in, and at the verdict arm nothing beats
+cash. E011's ceiling (K16) stands, unrealized: its only earnable causal
+edge — 1–18h vol bursts — sits below the reaction floor of trailing-vol
+rules priced at ~$12.7 round trips. Scope: one venue, one window, one
+(pre-named, vol-only) candidate family; the negative is judged central
+and survives the envelope (pessimistic deepens every cell).
 
 ## Critique
 
-*(to be filled after the run)*
+1. *Proxy or goal?* Goal — net $/day through the same stage-2 exact
+   evaluator and frozen cost stack for tuning and verdict alike; the
+   decision program (`tables12.py`) applied the prereg clauses verbatim.
+2. *Would it survive Gate 2?* The negative would — K9's unmodelled costs
+   (JIT, adverse selection) only deepen every cell; no positive claim
+   needs defending.
+3. *Environment faithful enough?* For a refutation, yes: both committed
+   baselines reproduce float-exactly through the judging evaluator; the
+   one anchoring deviation is bounded at $0.27. LINK perp slippage stays
+   ETH-calibrated (inherited caveat, moot for negatives).
+4. *Exactly one variable?* Yes — the causal gating rule; venue, window,
+   capital, costs, envelope, arms and hedge model all frozen and
+   contract-verified. Width never changed within an arm.
+5. *Symptom-fix of the previous iteration?* No — B6 was staged by the
+   operator before any E012 number existed; M006 was committed before the
+   prereg; only its pre-named candidates ran. E012 is E011's designated
+   follow-through, not a reaction to E008.
+
+## What this changes
+
+- **The LINK fee-edge path now has both halves measured**: a real,
+  clean, wick-honest ceiling (+$5.79/day central, K16) and a refuted
+  first causal key (K17). The model thesis on this venue is "ceiling
+  without a key" — exactly the state E006 left the control in, but with
+  the failure mechanism now measured at burst-timescale resolution.
+- **The three-way venue call is fully briefed for the operator** (per
+  PROTOCOL §7): carry = validated (E009, ~$0.19/day at current sizing,
+  compressing); fee-edge = ceiling SUPPORTED, capture REFUTED for
+  trailing-vol gates; the K8/T1 margin design (bot PR #32) remains the
+  prerequisite for the carry path. **B2 stays HELD; no capital moves on
+  any of this (bot ADR 0008).**
+- **Harvest**: new **K17** (the capture refutation + the two-horned
+  mechanism + the tune-window-emptiness pattern); **B6 → REFUTED**; K16's
+  status annotated (ceiling stands, unrealized). M006 is append-only
+  history.
+- What would re-open the family (recorded, not proposed): a candidate
+  faster than the bursts with cost-aware exits (V4's genuine selection
+  minus its fee sacrifice), a non-vol causal lead (order-flow, liquidity
+  migration), or a window whose winters are tunable in-sample. Each
+  needs a new memo and prereg against K17 — not a tweak of this one.
