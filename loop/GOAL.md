@@ -37,17 +37,4 @@ G2's anti-collapse design (bot synthesis §4a / tracker item F): fix **γ≈0.95
 
 ## Current focus
 
-**E011 has reported (2026-09-03): SUPPORTED.** The LINK/WETH 0.30% ceiling is
-+$5.79/day central at ±0.6% (21% APR at $10k), wick-clean, funding bounds
-passing, and it survives coarsening to daily decisions (+$4.50/day) — the
-first venue where a realizable-shaped model has honest headroom (K16). The
-ceiling is measured, **not captured**: capture bar 47%, pessimistic point
-−$13.5/day, K9 unpriced. **Escalated to the operator per PROTOCOL §7** —
-the three-way venue call is now fully informed: (a) wstETH carry ~5–6% APR
-(validated, deployable after K8/T1), (b) LINK fee-edge (ceiling SUPPORTED;
-needs an E012 — causal trailing-vol gate at 4–24h grain — to prove capture
-before any capital), (c) both. Track 2 (bot repo T1 margin alerting)
-continues. The north-star revision question is now concrete: the honest
-menu tops out at ~5–6% carry *unless* E012 captures ≥ 47% of the LINK
-ceiling. **Capital stays held; no capital moves on any of these numbers
-(bot ADR 0008).**
+**E012 is the current iteration (operator go, 2026-09-03): the capture test.** E011 priced the ceiling (+$5.79/day central at ±0.6%, 21% APR at $10k, regime-dodging with ~90h streaks, daily grain retains 78%) and nominated the first plausible causal key (trailing vol as a skip signal, AUC 0.85 descriptive). E012 tests it under full E007/E008 discipline — memo M006's pre-named candidates only, tune May–Jul, August held out, stage-2 exact, judged central — against card [B6](../discovery/BACKLOG.md)'s bar: ≥ +$2.74/day (10% APR at $10k) full-window AND held-out survival AND beating the best static arm (+$0.915/day). If SUPPORTED: the path is LINK two-leg margin design + K9 adverse-selection pricing → trial. If REFUTED: the wstETH ~5.5% carry fallback stands (B2 held; T1 = bot PR #32). Capital stays parked either way until the operator moves it (bot ADR 0008).

@@ -45,3 +45,11 @@
 - **Why it might work:** the static wide arm already nets +3.3% APR; E006 showed hour-picking on a *losing* pool found +$6.06/day of structure — on a pool whose every width is fee-positive, the held-hours surface starts above water; worst-month f/g 0.70 means timing has real winter to dodge.
 - **Why it might not:** E007/E008's lesson — a ceiling without a causal key is a museum piece; LINK's two-leg hedge (LINK-PERP + ETH-PERP) doubles funding/execution surfaces; mainnet gas prices out narrow/frequent switching (E010 §6).
 - **Status:** **SUPPORTED ([E011](../loop/experiments/E011-link-ceiling.md), 2026-09-03)** — stage-2 exact ceiling **+$5.79/day central at ±0.6%** (21% APR at $10k), every month positive incl. August, wick-clean (K15 check), funding bounds F1/F2 pass; coarseness inverts M001 §2 — daily-grain retains 78% (+$4.50/day). The ceiling is measured, **not captured**: capture bar 47%, pessimistic −$13.5/day, K9 unpriced. The modeling question (causal trailing-vol gate; prev-hour-RV skip-AUC 0.85 descriptive) is a would-be **E012**, operator's call per PROTOCOL §7. **B2 stays HELD** — this card does not resolve the venue choice.
+
+## B6 — A causal vol-gate captures the LINK/WETH 0.30% ceiling
+
+- **Claim:** a pre-named causal regime-gate — trailing-vol skip rules (hysteresis / dwell shapes from M002) at 4–24h decision grain — on mainnet LINK/WETH 0.30% nets ≥ +$2.74/day central (10% APR at $10k) full-window AND holds up on held-out August, beating the best static arm (+$0.915/day, ±8.1%).
+- **From:** [E011](../loop/experiments/E011-link-ceiling.md) §5 (trailing signals separate inverted: prev-1h RV AUC 0.85 as skip; skip episodes are multi-day vol regimes) + §2 (daily grain retains 78% of +$5.79/day); memo **M006** (written by the E012 cycle).
+- **Why it might work:** for the first time the required timescale (multi-day) matches the signal's persistence timescale; the coarse grain means ~a dozen decisions per season against a ~$12.7 switch cost — fragmentation (E007's killer) is structurally absent.
+- **Why it might not:** E007/E008's ghost — selection quality without capture; August's winter must be dodged *causally*, and vol gates react late by construction; the pessimistic envelope already eats the ceiling (−$13.51/day).
+- **Status:** **STAGED → E012** (operator go 2026-09-03).
