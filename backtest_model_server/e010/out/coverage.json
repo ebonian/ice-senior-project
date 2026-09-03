@@ -1,0 +1,2375 @@
+{
+  "pools": {
+    "m_weth_usdc_0p05": {
+      "address": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 134171,
+          "sha256": "b7b5ea7c3334db9f3796a100189ffe7a2e0d58acc119927cbbea068318673c9c",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 14185,
+                "n_stored": 14185,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 17476,
+                "n_stored": 17476,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 26,
+            "p95_abs_error_s": 23.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 201103,
+          "sha256": "441bf71ba409e0a0ec92ba882853cd224f9e814a92b182e3548aedf1bc5371cd",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 720,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 21977,
+                "n_stored": 21977,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 35299,
+                "n_stored": 35299,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 23,
+            "p95_abs_error_s": 16.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 146593,
+          "sha256": "2ec7834b392c5ba2347cf8f39d4205fea459de8689003e47c66b214220fe5a45",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 13639,
+                "n_stored": 13639,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 18201,
+                "n_stored": 18201,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 22,
+            "p95_abs_error_s": 17.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 133183,
+          "sha256": "afeb8e805628730d0938a9e2bf7583a2f29f76a340c4bdd79232f5bec4a207ab",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 648,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 23817,
+                "n_stored": 23817,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 13614,
+                "n_stored": 13614,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 26,
+            "p95_abs_error_s": 15.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 615050,
+        "median_swaps_per_day": 4649.0,
+        "min_swaps_per_day": 1902,
+        "p10_swaps_per_day": 3234.2000000000003,
+        "monthly_swap_counts": {
+          "2026-05": 134171,
+          "2026-06": 201103,
+          "2026-07": 146593,
+          "2026-08": 133183
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_wsteth_weth_0p01": {
+      "address": "0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 7563,
+          "sha256": "71e3912836f486226d35ad13d17839bef6f82fe2104143fb3a4b7314a3489f5b",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 738,
+            "hour_coverage_pct": 99.194,
+            "n_empty_hours": 6,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 1096,
+                "n_stored": 1096,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 756,
+                "n_stored": 756,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 21,
+            "p95_abs_error_s": 17.39999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 13160,
+          "sha256": "857139637aef7016c649b228afe6e8800d38df6e03a6e30c71c7294246416588",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 717,
+            "hour_coverage_pct": 99.583,
+            "n_empty_hours": 3,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 2386,
+                "n_stored": 2386,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 2830,
+                "n_stored": 2830,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 23,
+            "p95_abs_error_s": 20.999999999999986,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 7209,
+          "sha256": "a637de4927b7b2224bd0f2ff8fc10d859e2cdc665f6f047da3b9d508b27b820a",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 734,
+            "hour_coverage_pct": 98.656,
+            "n_empty_hours": 10,
+            "max_contiguous_empty_hours": 2,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 496,
+                "n_stored": 496,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 880,
+                "n_stored": 880,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 20,
+            "p95_abs_error_s": 15.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 8232,
+          "sha256": "c43f28798e12458d40061b9345751572cae689b79e41135a3ef658ead50e135c",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 642,
+            "hour_coverage_pct": 99.074,
+            "n_empty_hours": 6,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 916,
+                "n_stored": 916,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 864,
+                "n_stored": 864,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 16,
+            "p95_abs_error_s": 13.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 36164,
+        "median_swaps_per_day": 254.0,
+        "min_swaps_per_day": 85,
+        "p10_swaps_per_day": 154.0,
+        "monthly_swap_counts": {
+          "2026-05": 7563,
+          "2026-06": 13160,
+          "2026-07": 7209,
+          "2026-08": 8232
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_weth_usdc_0p30": {
+      "address": "0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 10807,
+          "sha256": "bce668fe61bd64a578abb39b97765218368f7c61332bc5251b9cd929e7c9a0c9",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 737,
+            "hour_coverage_pct": 99.059,
+            "n_empty_hours": 7,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 1167,
+                "n_stored": 1167,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 1456,
+                "n_stored": 1456,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 22,
+            "p95_abs_error_s": 18.199999999999974,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 24370,
+          "sha256": "63fca12c4c353b8f847fb0fe373225f105eb616509d7e24fc489432a0c47a000",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 720,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 3089,
+                "n_stored": 3089,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 5411,
+                "n_stored": 5411,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 25,
+            "p95_abs_error_s": 19.99999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 14761,
+          "sha256": "c210e8ce086f95394916eb6c7f994b9b0e19252f3fa749030244ff53948148fe",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 739,
+            "hour_coverage_pct": 99.328,
+            "n_empty_hours": 5,
+            "max_contiguous_empty_hours": 2,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 1283,
+                "n_stored": 1283,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 1869,
+                "n_stored": 1869,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 28,
+            "p95_abs_error_s": 17.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 11594,
+          "sha256": "dfd639756579ba338ead29cabc75f3ad16faf8f1b54b5cf3915864d96ff58bdd",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 647,
+            "hour_coverage_pct": 99.846,
+            "n_empty_hours": 1,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 1902,
+                "n_stored": 1902,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 1159,
+                "n_stored": 1159,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 44,
+            "p95_abs_error_s": 19.79999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 61532,
+        "median_swaps_per_day": 432.0,
+        "min_swaps_per_day": 81,
+        "p10_swaps_per_day": 216.0,
+        "monthly_swap_counts": {
+          "2026-05": 10807,
+          "2026-06": 24370,
+          "2026-07": 14761,
+          "2026-08": 11594
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_weth_usdt_0p05": {
+      "address": "0x11b815efb8f581194ae79006d24e0d814b7697f6",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 83893,
+          "sha256": "40113c699cf5ceb0b0b4e0e3c78f4ded2e051998b4fa0325cf5a5baff3aa339b",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 10029,
+                "n_stored": 10029,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 10101,
+                "n_stored": 10101,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 29,
+            "p95_abs_error_s": 20.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 140756,
+          "sha256": "c0c46a5c7f3e6cd6b8828496e673a3d7265d26393ecc540b7d5e5eeda979f469",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 720,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 18308,
+                "n_stored": 18308,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 21526,
+                "n_stored": 21526,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 22,
+            "p95_abs_error_s": 12.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 102925,
+          "sha256": "5e191ecbb06566cc325efb0e2b178b44a84574f7549b1046f6f58fcef9f2cbd5",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 8305,
+                "n_stored": 8305,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 16655,
+                "n_stored": 16655,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 22,
+            "p95_abs_error_s": 18.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 77433,
+          "sha256": "fd03ea34c5b61244c0789b629ebbe5a70d1b75bf9ce7220cf5a1078476ad3a1a",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 648,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 13494,
+                "n_stored": 13494,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 7290,
+                "n_stored": 7290,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 29,
+            "p95_abs_error_s": 21.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 405007,
+        "median_swaps_per_day": 3244.0,
+        "min_swaps_per_day": 1052,
+        "p10_swaps_per_day": 1921.0,
+        "monthly_swap_counts": {
+          "2026-05": 83893,
+          "2026-06": 140756,
+          "2026-07": 102925,
+          "2026-08": 77433
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_wbtc_weth_0p05": {
+      "address": "0x4585fe77225b41b697c938b018e2ac67ac5a20c0",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 33874,
+          "sha256": "214c891d6f8956ad74f04459eb0e5894a8fb987d9bb9ba145c8a94a005807aad",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 3873,
+                "n_stored": 3873,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 4475,
+                "n_stored": 4475,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 24,
+            "p95_abs_error_s": 20.39999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 50678,
+          "sha256": "1486d8b5f76ba741efd3bf68b9cb7acd8774e989221046252d55b8ec5a00d406",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 720,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 5909,
+                "n_stored": 5909,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 10365,
+                "n_stored": 10365,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 36,
+            "p95_abs_error_s": 19.19999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 37232,
+          "sha256": "4833a56e5ca3c13f5e2d15cdf27bf6616fe8fa3e1aecc699a2d68c8f52e2cd8c",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 3145,
+                "n_stored": 3145,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 4333,
+                "n_stored": 4333,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 24,
+            "p95_abs_error_s": 20.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 31688,
+          "sha256": "f609f9ffcfa17e901f3034cb0c0495d5401b2184b322899f2278a2790c83662d",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 648,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 4921,
+                "n_stored": 4921,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 2907,
+                "n_stored": 2907,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 42,
+            "p95_abs_error_s": 12.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 153472,
+        "median_swaps_per_day": 1158.0,
+        "min_swaps_per_day": 338,
+        "p10_swaps_per_day": 701.0,
+        "monthly_swap_counts": {
+          "2026-05": 33874,
+          "2026-06": 50678,
+          "2026-07": 37232,
+          "2026-08": 31688
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_link_weth_0p30": {
+      "address": "0xa6cc3c2531fdaa6ae1a3ca84c2855806728693e8",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 9391,
+          "sha256": "348217e2e15da73fc77c12fd449ebf6dd23424135443bed31fb2b08c8da74979",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 625,
+            "hour_coverage_pct": 84.005,
+            "n_empty_hours": 119,
+            "max_contiguous_empty_hours": 4,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 855,
+                "n_stored": 855,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 850,
+                "n_stored": 850,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 31,
+            "p95_abs_error_s": 22.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 8270,
+          "sha256": "a607e72a11029c3e4b5a93eed26afd4b87aa95bd855b7969dae33521127bf4b0",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 614,
+            "hour_coverage_pct": 85.278,
+            "n_empty_hours": 106,
+            "max_contiguous_empty_hours": 4,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 716,
+                "n_stored": 716,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 1276,
+                "n_stored": 1276,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 21,
+            "p95_abs_error_s": 19.39999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 6067,
+          "sha256": "76076cc69911a288fd9268559b1c6e1bddde300bedeedf3a644ddd3d70ebb7d6",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 611,
+            "hour_coverage_pct": 82.124,
+            "n_empty_hours": 133,
+            "max_contiguous_empty_hours": 6,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 791,
+                "n_stored": 791,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 583,
+                "n_stored": 583,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 36,
+            "p95_abs_error_s": 28.19999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 17466,
+          "sha256": "3ed1f592ac670f90b6143bc87c2928930a7128b847786ad01704bbae1b7271f6",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 637,
+            "hour_coverage_pct": 98.302,
+            "n_empty_hours": 11,
+            "max_contiguous_empty_hours": 2,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 4469,
+                "n_stored": 4469,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 1358,
+                "n_stored": 1358,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 23,
+            "p95_abs_error_s": 19.19999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 41194,
+        "median_swaps_per_day": 259.0,
+        "min_swaps_per_day": 68,
+        "p10_swaps_per_day": 136.6,
+        "monthly_swap_counts": {
+          "2026-05": 9391,
+          "2026-06": 8270,
+          "2026-07": 6067,
+          "2026-08": 17466
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_wbtc_weth_0p30": {
+      "address": "0xcbcdf9626bc03e24f779434178a73a0b4bad62ed",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 2518,
+          "sha256": "74d36e379fb018330109866ee7f661b1489f2b0ed2fe1a80d8e848e8ee372764",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 489,
+            "hour_coverage_pct": 65.726,
+            "n_empty_hours": 255,
+            "max_contiguous_empty_hours": 9,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 374,
+                "n_stored": 374,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 234,
+                "n_stored": 234,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 18,
+            "p95_abs_error_s": 14.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 5232,
+          "sha256": "bcb4a4204c21608f24c2c1cb3f1f1cea61da37c4f335de1ae7d83545c765fd00",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 586,
+            "hour_coverage_pct": 81.389,
+            "n_empty_hours": 134,
+            "max_contiguous_empty_hours": 6,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 547,
+                "n_stored": 547,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 1201,
+                "n_stored": 1201,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 33,
+            "p95_abs_error_s": 30.399999999999977,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 3737,
+          "sha256": "46a5ac8512da8bb0ba360bf117cd8d11652c3148be173e4ee1970336113c2d0f",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 577,
+            "hour_coverage_pct": 77.554,
+            "n_empty_hours": 167,
+            "max_contiguous_empty_hours": 8,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 262,
+                "n_stored": 262,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 557,
+                "n_stored": 557,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 38,
+            "p95_abs_error_s": 24.59999999999998,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 2714,
+          "sha256": "89f4fece7ada3770727e7fc58baa0da6e4ebdb28255a5e08e354d477accdc0c5",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 447,
+            "hour_coverage_pct": 68.981,
+            "n_empty_hours": 201,
+            "max_contiguous_empty_hours": 9,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 367,
+                "n_stored": 367,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 170,
+                "n_stored": 170,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 19,
+            "p95_abs_error_s": 16.19999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 14201,
+        "median_swaps_per_day": 99.0,
+        "min_swaps_per_day": 8,
+        "p10_swaps_per_day": 48.0,
+        "monthly_swap_counts": {
+          "2026-05": 2518,
+          "2026-06": 5232,
+          "2026-07": 3737,
+          "2026-08": 2714
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_uni_weth_0p30": {
+      "address": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 7459,
+          "sha256": "cbee62cc76d91ee32eeb21e720122f41f5f137cf1650c4dcd233990367fd549a",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 709,
+            "hour_coverage_pct": 95.296,
+            "n_empty_hours": 35,
+            "max_contiguous_empty_hours": 2,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 598,
+                "n_stored": 598,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 640,
+                "n_stored": 640,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 38,
+            "p95_abs_error_s": 20.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 12688,
+          "sha256": "81311c570383ccfeb010f217e02b52b209394206aeb1296c64ccc76b07f76feb",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 698,
+            "hour_coverage_pct": 96.944,
+            "n_empty_hours": 22,
+            "max_contiguous_empty_hours": 3,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 1305,
+                "n_stored": 1305,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 958,
+                "n_stored": 958,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 18,
+            "p95_abs_error_s": 16.19999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 13883,
+          "sha256": "d232952d6b278f3aaa83feebddc2eb66926b3e56ac47cda978de087cb67c805b",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 729,
+            "hour_coverage_pct": 97.984,
+            "n_empty_hours": 15,
+            "max_contiguous_empty_hours": 2,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 1515,
+                "n_stored": 1515,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 1173,
+                "n_stored": 1173,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 19,
+            "p95_abs_error_s": 17.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 20198,
+          "sha256": "35e0341e8d9e53552576508e9b009e7a203b5278696277d3977df76ee7dfdcef",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 646,
+            "hour_coverage_pct": 99.691,
+            "n_empty_hours": 2,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 5082,
+                "n_stored": 5082,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 2045,
+                "n_stored": 2045,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 18,
+            "p95_abs_error_s": 16.0,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 54228,
+        "median_swaps_per_day": 367.0,
+        "min_swaps_per_day": 70,
+        "p10_swaps_per_day": 156.20000000000002,
+        "monthly_swap_counts": {
+          "2026-05": 7459,
+          "2026-06": 12688,
+          "2026-07": 13883,
+          "2026-08": 20198
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "m_link_weth_0p05": {
+      "address": "0x5d4f3c6fa16908609bac31ff148bd002aa6b8c83",
+      "chain": "mainnet",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 19854,
+          "sha256": "faebfad8eceaa68bd3ebb64537595b82055a8c7f63bd411dab4c07c0aeac7033",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222430,
+            "blocks_in_range": 222430,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25163989,
+                "to_block": 25187988,
+                "n_refetched": 2187,
+                "n_stored": 2187,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25025552,
+                "to_block": 25049551,
+                "n_refetched": 2410,
+                "n_stored": 2410,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 13,
+            "p95_abs_error_s": 9.799999999999997,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 22220,
+          "sha256": "57ddf90d039e52002d8f5fb1b6d3dfe4b454ecf6df8a2cee18f617d64f9c0934",
+          "T1_chunk_tiling": {
+            "n_chunks": 27,
+            "blocks_claimed": 215141,
+            "blocks_in_range": 215141,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 720,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25386419,
+                "to_block": 25410418,
+                "n_refetched": 2713,
+                "n_stored": 2713,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25247982,
+                "to_block": 25271981,
+                "n_refetched": 3835,
+                "n_stored": 3835,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 30,
+            "p95_abs_error_s": 20.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 21326,
+          "sha256": "abfd567795fe60f96dd0fc82d65e858d134de30168ca51367dd3f6de2926277f",
+          "T1_chunk_tiling": {
+            "n_chunks": 28,
+            "blocks_claimed": 222354,
+            "blocks_in_range": 222354,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25601560,
+                "to_block": 25625559,
+                "n_refetched": 2297,
+                "n_stored": 2297,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25463123,
+                "to_block": 25487122,
+                "n_refetched": 1966,
+                "n_stored": 1966,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 27,
+            "p95_abs_error_s": 21.599999999999994,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 36754,
+          "sha256": "72675d50e49f3d7a415b0f41566a69410c1e4f9d9196d3b5a6b95f83cb1825ac",
+          "T1_chunk_tiling": {
+            "n_chunks": 25,
+            "blocks_claimed": 193717,
+            "blocks_in_range": 193717,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 648,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 2000,
+            "probes": [
+              {
+                "from_block": 25823914,
+                "to_block": 25847913,
+                "n_refetched": 4587,
+                "n_stored": 4587,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 25685477,
+                "to_block": 25709476,
+                "n_refetched": 2495,
+                "n_stored": 2495,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 23,
+            "p95_abs_error_s": 21.39999999999999,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 100154,
+        "median_swaps_per_day": 698.0,
+        "min_swaps_per_day": 222,
+        "p10_swaps_per_day": 494.0,
+        "monthly_swap_counts": {
+          "2026-05": 19854,
+          "2026-06": 22220,
+          "2026-07": 21326,
+          "2026-08": 36754
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    },
+    "b_weth_usdc_0p05": {
+      "address": "0xd0b53d9277642d899df5c87a3966a349a798f224",
+      "chain": "base",
+      "months": [
+        {
+          "month": "2026-05",
+          "n_swaps": 663930,
+          "sha256": "d2471e54f6eeee40768c218b748a42c9b320aa44d6303cb9a8c602649154679c",
+          "T1_chunk_tiling": {
+            "n_chunks": 112,
+            "blocks_claimed": 1339200,
+            "blocks_in_range": 1339200,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 3000,
+            "probes": [
+              {
+                "from_block": 45635605,
+                "to_block": 45659604,
+                "n_refetched": 14468,
+                "n_stored": 14468,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 45454578,
+                "to_block": 45478577,
+                "n_refetched": 6411,
+                "n_stored": 6411,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 0,
+            "p95_abs_error_s": 0.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-06",
+          "n_swaps": 759888,
+          "sha256": "840d0446c32ecbc70e58de9c54a24a843270aa5d34084bbbce49cb4ed5baf6bb",
+          "T1_chunk_tiling": {
+            "n_chunks": 108,
+            "blocks_claimed": 1296000,
+            "blocks_in_range": 1296000,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 720,
+            "hours_with_swaps": 719,
+            "hour_coverage_pct": 99.861,
+            "n_empty_hours": 1,
+            "max_contiguous_empty_hours": 1,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 3000,
+            "probes": [
+              {
+                "from_block": 46974805,
+                "to_block": 46998804,
+                "n_refetched": 15461,
+                "n_stored": 15461,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 46793778,
+                "to_block": 46817777,
+                "n_refetched": 16259,
+                "n_stored": 16259,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 0,
+            "p95_abs_error_s": 0.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-07",
+          "n_swaps": 555271,
+          "sha256": "d1f95506d8d20efbf0a35cb090ddacf4028ab97acab949f593b1e4e59581498e",
+          "T1_chunk_tiling": {
+            "n_chunks": 112,
+            "blocks_claimed": 1339200,
+            "blocks_in_range": 1339200,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 744,
+            "hours_with_swaps": 744,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 3000,
+            "probes": [
+              {
+                "from_block": 48270805,
+                "to_block": 48294804,
+                "n_refetched": 13878,
+                "n_stored": 13878,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 48089778,
+                "to_block": 48113777,
+                "n_refetched": 15146,
+                "n_stored": 15146,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 0,
+            "p95_abs_error_s": 0.0,
+            "pass": true
+          },
+          "enters_race": true
+        },
+        {
+          "month": "2026-08",
+          "n_swaps": 469981,
+          "sha256": "20ec521bba1ef9f5eca030036bf8dc85a033e96864af8566aa0fcf66518b00a8",
+          "T1_chunk_tiling": {
+            "n_chunks": 98,
+            "blocks_claimed": 1166400,
+            "blocks_in_range": 1166400,
+            "gaps": [],
+            "overlaps": [],
+            "pass": true
+          },
+          "T2_participation": {
+            "hours_expected": 648,
+            "hours_with_swaps": 648,
+            "hour_coverage_pct": 100.0,
+            "n_empty_hours": 0,
+            "max_contiguous_empty_hours": 0,
+            "zero_swap_days": [],
+            "n_zero_swap_days": 0,
+            "pass": true
+          },
+          "T3_refetch": {
+            "probe_span_blocks": 3000,
+            "probes": [
+              {
+                "from_block": 49610005,
+                "to_block": 49634004,
+                "n_refetched": 6748,
+                "n_stored": 6748,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              },
+              {
+                "from_block": 49428978,
+                "to_block": 49452977,
+                "n_refetched": 4752,
+                "n_stored": 4752,
+                "missing_from_store": 0,
+                "extra_in_store": 0,
+                "pass": true
+              }
+            ],
+            "pass": true
+          },
+          "T5_interpolation": {
+            "n_probed": 25,
+            "max_abs_error_s": 0,
+            "p95_abs_error_s": 0.0,
+            "pass": true
+          },
+          "enters_race": true
+        }
+      ],
+      "all_months_enter_race": true,
+      "daily": {
+        "n_swaps": 2449070,
+        "median_swaps_per_day": 19909.0,
+        "min_swaps_per_day": 6421,
+        "p10_swaps_per_day": 11837.2,
+        "monthly_swap_counts": {
+          "2026-05": 663930,
+          "2026-06": 759888,
+          "2026-07": 555271,
+          "2026-08": 469981
+        },
+        "eligible_median_ge_48": true
+      },
+      "data_status": "OK"
+    }
+  },
+  "seed": 42
+}
