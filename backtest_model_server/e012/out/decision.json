@@ -1,0 +1,333 @@
+{
+  "experiment": "E012",
+  "verdict": "REFUTED",
+  "target_per_day_usd": 2.73972602739726,
+  "refuted_bar_per_day_usd": 0.915,
+  "best_static_arm_per_day_usd": 0.9146056607298577,
+  "supported_cells": [],
+  "refuted_clause_1_no_gate_beats_wide_static": true,
+  "refuted_clause_2_all_qualifiers_fail_august": false,
+  "refuted_clause_2_vacuous": true,
+  "best_cell": {
+    "cell": "V1|arm_8.3pct",
+    "full_per_day_central": 0.5769878828001316
+  },
+  "tune_framing": {
+    "always_in_tune": {
+      "arm_0.1pct_0.2pct_0.5pct": {
+        "net_usd": 405.12029869667845,
+        "per_day_usd": 4.403761839634143
+      },
+      "arm_8.3pct": {
+        "net_usd": 213.77210838647403,
+        "per_day_usd": 2.323757798162896
+      }
+    },
+    "cells_beating_same_arm_always_in": {
+      "arm_0.1pct_0.2pct_0.5pct": "0/60",
+      "arm_8.3pct": "0/60"
+    },
+    "cells_positive_in_tune": 91,
+    "n_cells": 120
+  },
+  "cells": [
+    {
+      "cell": "V1|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "tune_per_day": 3.4752907020808523,
+      "full_per_day": {
+        "optimistic": -0.04538939795597094,
+        "central": -4.327749760659595,
+        "pessimistic": -21.058763086931116
+      },
+      "august_net": {
+        "optimistic": -693.081184205992,
+        "central": -840.5658598102477,
+        "pessimistic": -1427.8967349475765
+      },
+      "held_frac": 0.8430823117338003,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": true,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V1|arm_8.3pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 1.9487021718872408,
+      "full_per_day": {
+        "optimistic": 0.9840263114104523,
+        "central": 0.5769878828001316,
+        "pessimistic": -0.9449548992585648
+      },
+      "august_net": {
+        "optimistic": -100.65806847624023,
+        "central": -117.66065188756069,
+        "pessimistic": -182.01162324631662
+      },
+      "held_frac": 0.8486865148861646,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": false,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V2|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 24,
+        "q": 0.9,
+        "D": 96
+      },
+      "tune_per_day": 2.8728059915861364,
+      "full_per_day": {
+        "optimistic": -1.1260631622758648,
+        "central": -5.256510070131586,
+        "pessimistic": -21.472283773907204
+      },
+      "august_net": {
+        "optimistic": -755.8860181372336,
+        "central": -895.6575637063818,
+        "pessimistic": -1459.1171576388633
+      },
+      "held_frac": 0.7982486865148861,
+      "n_streaks": 7,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V2|arm_8.3pct",
+      "cfg": {
+        "n": 24,
+        "q": 0.9,
+        "D": 96
+      },
+      "tune_per_day": 1.4780346297168956,
+      "full_per_day": {
+        "optimistic": 0.6300471459415374,
+        "central": 0.14641733038449486,
+        "pessimistic": -1.6737314996211492
+      },
+      "august_net": {
+        "optimistic": -103.62263932262123,
+        "central": -125.7062033962192,
+        "pessimistic": -209.01961580011908
+      },
+      "held_frac": 0.7982486865148861,
+      "n_streaks": 7,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": false,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V3|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 3.0262956841185162,
+      "full_per_day": {
+        "optimistic": 0.04857004225495449,
+        "central": -4.1728239135064795,
+        "pessimistic": -20.71183555865871
+      },
+      "august_net": {
+        "optimistic": -624.7933049388075,
+        "central": -780.8257240259379,
+        "pessimistic": -1403.01043984318
+      },
+      "held_frac": 0.8066549912434325,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": true,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V3|arm_8.3pct",
+      "cfg": {
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 1.6508210807634844,
+      "full_per_day": {
+        "optimistic": 0.7505995802853394,
+        "central": 0.36111551845591455,
+        "pessimistic": -1.0806217164538636
+      },
+      "august_net": {
+        "optimistic": -98.6241072604013,
+        "central": -115.28839675458676,
+        "pessimistic": -176.41446336461973
+      },
+      "held_frac": 0.8066549912434325,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": false,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V4|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "m": 4,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "tune_per_day": 1.6342418064695594,
+      "full_per_day": {
+        "optimistic": 1.8697476853071069,
+        "central": -1.4276447980531044,
+        "pessimistic": -14.261962770731689
+      },
+      "august_net": {
+        "optimistic": -267.9612085884268,
+        "central": -326.1054764943501,
+        "pessimistic": -552.5661812231585
+      },
+      "held_frac": 0.7183887915936953,
+      "n_streaks": 20,
+      "beats_same_arm_always_in_full": true,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V4|arm_8.3pct",
+      "cfg": {
+        "m": 4,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "tune_per_day": -0.32331113758162555,
+      "full_per_day": {
+        "optimistic": -0.20726584818068777,
+        "central": -0.7745561913399961,
+        "pessimistic": -2.987317714575968
+      },
+      "august_net": {
+        "optimistic": -57.22751042707074,
+        "central": -68.36450033647762,
+        "pessimistic": -111.82327690419385
+      },
+      "held_frac": 0.7183887915936953,
+      "n_streaks": 20,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V5|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "lam": 0.97,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 2.950938573582505,
+      "full_per_day": {
+        "optimistic": -0.5281189268884814,
+        "central": -4.733126368562005,
+        "pessimistic": -21.18496808739377
+      },
+      "august_net": {
+        "optimistic": -693.081184205992,
+        "central": -840.5658598102477,
+        "pessimistic": -1427.8967349475765
+      },
+      "held_frac": 0.8290718038528897,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V5|arm_8.3pct",
+      "cfg": {
+        "lam": 0.97,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 1.8871438986298215,
+      "full_per_day": {
+        "optimistic": 0.9338294128789759,
+        "central": 0.5316380268425462,
+        "pessimistic": -0.9728111069830522
+      },
+      "august_net": {
+        "optimistic": -100.26712522256061,
+        "central": -117.3552280428625,
+        "pessimistic": -182.01482371287813
+      },
+      "held_frac": 0.8290718038528897,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": false,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V6|arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 72,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 3.5203214936411924,
+      "full_per_day": {
+        "optimistic": 0.5990073444146387,
+        "central": -3.790892581494777,
+        "pessimistic": -20.966114044156495
+      },
+      "august_net": {
+        "optimistic": -624.7933049388075,
+        "central": -780.8257240259379,
+        "pessimistic": -1403.01043984318
+      },
+      "held_frac": 0.8486865148861646,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": true,
+      "beats_same_arm_always_in_august": true,
+      "meets_target": false,
+      "august_positive": false
+    },
+    {
+      "cell": "V6|arm_8.3pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "tune_per_day": 1.939229496541857,
+      "full_per_day": {
+        "optimistic": 0.9709171832803986,
+        "central": 0.5276560687537838,
+        "pessimistic": -1.125019575865626
+      },
+      "august_net": {
+        "optimistic": -101.97888844025722,
+        "central": -122.70894283806018,
+        "pessimistic": -200.51291607803427
+      },
+      "held_frac": 0.8654991243432575,
+      "n_streaks": 3,
+      "beats_same_arm_always_in_full": false,
+      "beats_same_arm_always_in_august": false,
+      "meets_target": false,
+      "august_positive": false
+    }
+  ]
+}

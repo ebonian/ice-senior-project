@@ -1,0 +1,1923 @@
+{
+  "experiment": "E012",
+  "phase": "final",
+  "policy": "frozen masks over the full window; three coupled points; August = 2026-08 bucket",
+  "cells": {
+    "V1|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V1",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.00452716323559375,
+        "thr_out": 0.011436327625003994
+      },
+      "tune": {
+        "net_usd": 319.7063916157989,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1917.2505555555556,
+        "n_recenters": 141.0,
+        "max_lp_value_abs_gap_usd": 9.094947017729282e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1919,
+        "per_day_usd": 3.4752907020808523
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2407,
+      "held_frac_mask": 0.8430823117338003,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": -5.401059401085604,
+          "per_day_usd": -0.04538939795597094,
+          "august_net_usd": -693.081184205992,
+          "months_net_usd": {
+            "2026-05": 58.7143305153821,
+            "2026-06": 242.52307927804014,
+            "2026-07": 386.44271501148523,
+            "2026-08": -693.081184205992
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2405.296388888889,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 2.7284841053187847e-12
+        },
+        "central": {
+          "net_usd": -514.9756238897544,
+          "per_day_usd": -4.327749760659595,
+          "august_net_usd": -840.5658598102477,
+          "months_net_usd": {
+            "2026-05": -104.93913801358161,
+            "2026-06": 146.35344280879096,
+            "2026-07": 284.1759311252854,
+            "2026-08": -840.5658598102477
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2405.296388888889,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 3.183231456205249e-12
+        },
+        "pessimistic": {
+          "net_usd": -2505.863383696664,
+          "per_day_usd": -21.058763086931116,
+          "august_net_usd": -1427.8967349475765,
+          "months_net_usd": {
+            "2026-05": -750.3046924373477,
+            "2026-06": -224.05735201610992,
+            "2026-07": -103.60460429562858,
+            "2026-08": -1427.8967349475765
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2405.296388888889,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-05 08:00:00+00:00",
+          "hours": 846.6388888888889,
+          "n_recenters": 92,
+          "lp_fees_usd": 1567.9983507537477,
+          "funding_usd": 59.70535471878841,
+          "onchain_cost_usd": 211.51581019290597,
+          "rehedge_notional_usd": 1365422.942558135,
+          "net_usd": -44.32321966961257,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-06-14 08:00:00+00:00",
+          "end_utc": "2026-06-25 16:00:00+00:00",
+          "hours": 270.6769444444444,
+          "n_recenters": 19,
+          "lp_fees_usd": 453.52203727588915,
+          "funding_usd": 17.779723347253427,
+          "onchain_cost_usd": 55.11470187133884,
+          "rehedge_notional_usd": 353596.3913796612,
+          "net_usd": 89.66803330091714,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-28 16:00:00+00:00",
+          "end_utc": "2026-08-21 08:00:00+00:00",
+          "hours": 1287.9805555555556,
+          "n_recenters": 112,
+          "lp_fees_usd": 2143.1872237493235,
+          "funding_usd": 91.0211557269842,
+          "onchain_cost_usd": 262.8147124050277,
+          "rehedge_notional_usd": 1746898.7596257273,
+          "net_usd": -560.3204375210591,
+          "lp_value_abs_gap_usd": 3.183231456205249e-12
+        }
+      ]
+    },
+    "V1|arm_8.3pct": {
+      "candidate": "V1",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.005335475768309775,
+        "thr_out": 0.011436327625003994
+      },
+      "tune": {
+        "net_usd": 179.26918727544356,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1933.1430555555555,
+        "n_recenters": 1.0,
+        "max_lp_value_abs_gap_usd": 2.2737367544323206e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1935,
+        "per_day_usd": 1.9487021718872408
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2423,
+      "held_frac_mask": 0.8486865148861646,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 117.09308339613827,
+          "per_day_usd": 0.9840263114104523,
+          "august_net_usd": -100.65806847624023,
+          "months_net_usd": {
+            "2026-05": 63.51562285462283,
+            "2026-06": 44.80124183968723,
+            "2026-07": 109.43428717806846,
+            "2026-08": -100.65806847624023
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2421.188888888889,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 3.183231456205249e-12
+        },
+        "central": {
+          "net_usd": 68.65801198185261,
+          "per_day_usd": 0.5769878828001316,
+          "august_net_usd": -117.66065188756069,
+          "months_net_usd": {
+            "2026-05": 49.824032119633365,
+            "2026-06": 35.00497255633961,
+            "2026-07": 101.48965919343867,
+            "2026-08": -117.66065188756069
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2421.188888888889,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "pessimistic": {
+          "net_usd": -112.44382547645085,
+          "per_day_usd": -0.9449548992585648,
+          "august_net_usd": -182.01162324631662,
+          "months_net_usd": {
+            "2026-05": -0.9234468891958727,
+            "2026-06": -2.320933723321893,
+            "2026-07": 72.81217838238298,
+            "2026-08": -182.01162324631662
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2421.188888888889,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 9.094947017729282e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-05 08:00:00+00:00",
+          "hours": 846.6388888888889,
+          "n_recenters": 1,
+          "lp_fees_usd": 155.6074376784788,
+          "funding_usd": 56.506550701239924,
+          "onchain_cost_usd": 9.034979296932747,
+          "rehedge_notional_usd": 116767.30470098832,
+          "net_usd": 65.11872472404757,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-13 20:00:00+00:00",
+          "end_utc": "2026-06-25 16:00:00+00:00",
+          "hours": 283.7627777777778,
+          "n_recenters": 0,
+          "lp_fees_usd": 42.673611393269084,
+          "funding_usd": 19.64316015600829,
+          "onchain_cost_usd": 7.568495355887309,
+          "rehedge_notional_usd": 38541.538760432646,
+          "net_usd": 23.311461953868687,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-06-28 12:00:00+00:00",
+          "end_utc": "2026-08-21 08:00:00+00:00",
+          "hours": 1290.7872222222222,
+          "n_recenters": 4,
+          "lp_fees_usd": 241.70356466153348,
+          "funding_usd": 99.49373606448086,
+          "onchain_cost_usd": 17.873355514113864,
+          "rehedge_notional_usd": 187014.67470468592,
+          "net_usd": -19.77217469606329,
+          "lp_value_abs_gap_usd": 1.3642420526593924e-12
+        }
+      ]
+    },
+    "V2|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V2",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 24,
+        "q": 0.9,
+        "D": 96
+      },
+      "thresholds_abs": {
+        "thr": 0.008127037811515535
+      },
+      "tune": {
+        "net_usd": 264.28132669083493,
+        "n_streaks_simulated": 5,
+        "held_hours_simulated": 1817.7119444444443,
+        "n_recenters": 138.0,
+        "max_lp_value_abs_gap_usd": 1.1368683772161603e-12,
+        "n_streaks_selected": 5,
+        "held_hours_mask_tune": 1823,
+        "per_day_usd": 2.8728059915861364
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2279,
+      "held_frac_mask": 0.7982486865148861,
+      "n_streaks": 7,
+      "points": {
+        "optimistic": {
+          "net_usd": -133.99459571430975,
+          "per_day_usd": -1.1260631622758648,
+          "august_net_usd": -755.8860181372336,
+          "months_net_usd": {
+            "2026-05": 31.78474047643644,
+            "2026-06": 203.47148626893068,
+            "2026-07": 386.63519567755816,
+            "2026-08": -755.8860181372336
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        "central": {
+          "net_usd": -625.4923927108528,
+          "per_day_usd": -5.256510070131586,
+          "august_net_usd": -895.6575637063818,
+          "months_net_usd": {
+            "2026-05": -115.53894295513555,
+            "2026-06": 101.38068899864263,
+            "2026-07": 284.32342495202334,
+            "2026-08": -895.6575637063818
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "pessimistic": {
+          "net_usd": -2555.0698040175967,
+          "per_day_usd": -21.472283773907204,
+          "august_net_usd": -1459.1171576388633,
+          "months_net_usd": {
+            "2026-05": -696.9463785407038,
+            "2026-06": -295.38811561462967,
+            "2026-07": -103.61815222339851,
+            "2026-08": -1459.1171576388633
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 1.1368683772161603e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-05-24 00:00:00+00:00",
+          "hours": 550.7830555555555,
+          "n_recenters": 65,
+          "lp_fees_usd": 952.0324391167367,
+          "funding_usd": 39.575620792274805,
+          "onchain_cost_usd": 148.64999903409566,
+          "rehedge_notional_usd": 863277.7217737369,
+          "net_usd": -128.26097238549872,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-05-28 00:00:00+00:00",
+          "end_utc": "2026-06-03 08:00:00+00:00",
+          "hours": 151.75916666666666,
+          "n_recenters": 15,
+          "lp_fees_usd": 316.72921298201334,
+          "funding_usd": 11.027357670859033,
+          "onchain_cost_usd": 41.76399074406519,
+          "rehedge_notional_usd": 284469.0447250609,
+          "net_usd": -1.8176078224066288,
+          "lp_value_abs_gap_usd": 1.7053025658242404e-13
+        },
+        {
+          "start_utc": "2026-06-07 08:00:00+00:00",
+          "end_utc": "2026-06-18 16:00:00+00:00",
+          "hours": 270.58666666666664,
+          "n_recenters": 25,
+          "lp_fees_usd": 506.0345710958459,
+          "funding_usd": 15.065015839183681,
+          "onchain_cost_usd": 69.19454643050317,
+          "rehedge_notional_usd": 409542.8133102571,
+          "net_usd": 74.42658314426907,
+          "lp_value_abs_gap_usd": 3.979039320256561e-13
+        },
+        {
+          "start_utc": "2026-06-22 16:00:00+00:00",
+          "end_utc": "2026-06-26 16:00:00+00:00",
+          "hours": 92.64555555555556,
+          "n_recenters": 5,
+          "lp_fees_usd": 141.56243185091347,
+          "funding_usd": -0.514486991974049,
+          "onchain_cost_usd": 18.24546969604697,
+          "rehedge_notional_usd": 119615.69543836148,
+          "net_usd": 44.65429883855446,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-06-30 16:00:00+00:00",
+          "end_utc": "2026-08-15 04:00:00+00:00",
+          "hours": 1091.9808333333333,
+          "n_recenters": 77,
+          "lp_fees_usd": 1445.9797172766068,
+          "funding_usd": 81.97840887126337,
+          "onchain_cost_usd": 180.9878501513708,
+          "rehedge_notional_usd": 1268682.2437936286,
+          "net_usd": 51.77293470153444,
+          "lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        {
+          "start_utc": "2026-08-19 04:00:00+00:00",
+          "end_utc": "2026-08-23 04:00:00+00:00",
+          "hours": 95.92,
+          "n_recenters": 31,
+          "lp_fees_usd": 709.4616862503165,
+          "funding_usd": 16.842138255488322,
+          "onchain_cost_usd": 78.87342049629875,
+          "rehedge_notional_usd": 335125.79645684024,
+          "net_usd": -668.8212381709944,
+          "lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        {
+          "start_utc": "2026-08-27 04:00:00+00:00",
+          "end_utc": "2026-08-28 00:00:00+00:00",
+          "hours": 19.98,
+          "n_recenters": 5,
+          "lp_fees_usd": 50.2272777194035,
+          "funding_usd": 1.2377632529575124,
+          "onchain_cost_usd": 15.30267590480447,
+          "rehedge_notional_usd": 47438.053798331835,
+          "net_usd": 2.553608983689255,
+          "lp_value_abs_gap_usd": 2.842170943040401e-14
+        }
+      ]
+    },
+    "V2|arm_8.3pct": {
+      "candidate": "V2",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "n": 24,
+        "q": 0.9,
+        "D": 96
+      },
+      "thresholds_abs": {
+        "thr": 0.008127037811515535
+      },
+      "tune": {
+        "net_usd": 135.97052985151646,
+        "n_streaks_simulated": 5,
+        "held_hours_simulated": 1817.7119444444443,
+        "n_recenters": 1.0,
+        "max_lp_value_abs_gap_usd": 2.5011104298755527e-12,
+        "n_streaks_selected": 5,
+        "held_hours_mask_tune": 1823,
+        "per_day_usd": 1.4780346297168956
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2279,
+      "held_frac_mask": 0.7982486865148861,
+      "n_streaks": 7,
+      "points": {
+        "optimistic": {
+          "net_usd": 74.97173820229186,
+          "per_day_usd": 0.6300471459415374,
+          "august_net_usd": -103.62263932262123,
+          "months_net_usd": {
+            "2026-05": 44.698621638574494,
+            "2026-06": 22.971722583567058,
+            "2026-07": 110.92403330277111,
+            "2026-08": -103.62263932262123
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 3.0,
+          "max_lp_value_abs_gap_usd": 9.094947017729282e-13
+        },
+        "central": {
+          "net_usd": 17.422762459245234,
+          "per_day_usd": 0.14641733038449486,
+          "august_net_usd": -125.7062033962192,
+          "months_net_usd": {
+            "2026-05": 29.732751307747918,
+            "2026-06": 10.528054462659362,
+            "2026-07": 102.86816008505876,
+            "2026-08": -125.7062033962192
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 3.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "pessimistic": {
+          "net_usd": -199.16376198007532,
+          "per_day_usd": -1.6737314996211492,
+          "august_net_usd": -209.01961580011908,
+          "months_net_usd": {
+            "2026-05": -26.598639191663814,
+            "2026-06": -37.33463181555115,
+            "2026-07": 73.7891248272596,
+            "2026-08": -209.01961580011908
+          },
+          "n_streaks_simulated": 7,
+          "held_hours_simulated": 2273.6552777777774,
+          "n_recenters": 3.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-05-24 00:00:00+00:00",
+          "hours": 550.7830555555555,
+          "n_recenters": 1,
+          "lp_fees_usd": 102.53545397770239,
+          "funding_usd": 38.58754995482452,
+          "onchain_cost_usd": 9.787453992064648,
+          "rehedge_notional_usd": 88237.4072336788,
+          "net_usd": 27.177742518147785,
+          "lp_value_abs_gap_usd": 1.9895196601282805e-13
+        },
+        {
+          "start_utc": "2026-05-28 00:00:00+00:00",
+          "end_utc": "2026-06-03 08:00:00+00:00",
+          "hours": 151.75916666666666,
+          "n_recenters": 0,
+          "lp_fees_usd": 27.67104862679242,
+          "funding_usd": 10.992088020147811,
+          "onchain_cost_usd": 7.61174368713938,
+          "rehedge_notional_usd": 32115.01453174605,
+          "net_usd": 3.5892334711095426,
+          "lp_value_abs_gap_usd": 1.7053025658242404e-13
+        },
+        {
+          "start_utc": "2026-06-07 08:00:00+00:00",
+          "end_utc": "2026-06-18 16:00:00+00:00",
+          "hours": 270.58666666666664,
+          "n_recenters": 0,
+          "lp_fees_usd": 47.31706196274328,
+          "funding_usd": 17.078056287728828,
+          "onchain_cost_usd": 8.036149948381306,
+          "rehedge_notional_usd": 42955.581259609215,
+          "net_usd": 20.25983498616528,
+          "lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        {
+          "start_utc": "2026-06-22 16:00:00+00:00",
+          "end_utc": "2026-06-26 16:00:00+00:00",
+          "hours": 92.64555555555556,
+          "n_recenters": 0,
+          "lp_fees_usd": 12.091349559172928,
+          "funding_usd": 0.21270427539453352,
+          "onchain_cost_usd": 7.539650803968256,
+          "rehedge_notional_usd": 20045.833106500926,
+          "net_usd": -5.130522649714778,
+          "lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        {
+          "start_utc": "2026-06-30 16:00:00+00:00",
+          "end_utc": "2026-08-15 04:00:00+00:00",
+          "hours": 1091.9808333333333,
+          "n_recenters": 1,
+          "lp_fees_usd": 161.12494225530543,
+          "funding_usd": 96.06311212835222,
+          "onchain_cost_usd": 9.979564892975764,
+          "rehedge_notional_usd": 132714.62242757683,
+          "net_usd": 88.9534642033808,
+          "lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        {
+          "start_utc": "2026-08-19 04:00:00+00:00",
+          "end_utc": "2026-08-23 04:00:00+00:00",
+          "hours": 95.92,
+          "n_recenters": 1,
+          "lp_fees_usd": 102.28022117379908,
+          "funding_usd": 15.004539727740744,
+          "onchain_cost_usd": 10.842848170049436,
+          "rehedge_notional_usd": 70904.46950678507,
+          "net_usd": -109.5725397960604,
+          "lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        {
+          "start_utc": "2026-08-27 04:00:00+00:00",
+          "end_utc": "2026-08-28 00:00:00+00:00",
+          "hours": 19.98,
+          "n_recenters": 0,
+          "lp_fees_usd": 6.868450438869716,
+          "funding_usd": 1.3493417995156116,
+          "onchain_cost_usd": 7.955581162421755,
+          "rehedge_notional_usd": 17511.913919326125,
+          "net_usd": -7.854450273782899,
+          "lp_value_abs_gap_usd": 0.0
+        }
+      ]
+    },
+    "V3|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V3",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": -0.199059277915548,
+        "thr_out": 2.091064770569437
+      },
+      "tune": {
+        "net_usd": 278.40147949427194,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1798.5911111111113,
+        "n_recenters": 140.0,
+        "max_lp_value_abs_gap_usd": 5.684341886080801e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1799,
+        "per_day_usd": 3.0262956841185162
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2303,
+      "held_frac_mask": 0.8066549912434325,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 5.779536524954892,
+          "per_day_usd": 0.04857004225495449,
+          "august_net_usd": -624.7933049388075,
+          "months_net_usd": {
+            "2026-05": 58.7143305153821,
+            "2026-06": 242.4269911833749,
+            "2026-07": 329.43151976500343,
+            "2026-08": -624.7933049388075
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 228.0,
+          "max_lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        "central": {
+          "net_usd": -496.54040022696927,
+          "per_day_usd": -4.1728239135064795,
+          "august_net_usd": -780.8257240259379,
+          "months_net_usd": {
+            "2026-05": -104.93913801358161,
+            "2026-06": 144.08913372604894,
+            "2026-07": 245.13532808650055,
+            "2026-08": -780.8257240259379
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 228.0,
+          "max_lp_value_abs_gap_usd": 5.684341886080801e-13
+        },
+        "pessimistic": {
+          "net_usd": -2464.5811399910153,
+          "per_day_usd": -20.71183555865871,
+          "august_net_usd": -1403.01043984318,
+          "months_net_usd": {
+            "2026-05": -750.3046924373477,
+            "2026-06": -236.81865550357162,
+            "2026-07": -74.44735220691729,
+            "2026-08": -1403.01043984318
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 228.0,
+          "max_lp_value_abs_gap_usd": 4.547473508864641e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-06 00:00:00+00:00",
+          "hours": 862.98,
+          "n_recenters": 96,
+          "lp_fees_usd": 1631.1543001779578,
+          "funding_usd": 59.803102439018424,
+          "onchain_cost_usd": 215.50872810654425,
+          "rehedge_notional_usd": 1399980.583335008,
+          "net_usd": -43.948969703205364,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-14 00:00:00+00:00",
+          "end_utc": "2026-06-26 00:00:00+00:00",
+          "hours": 287.7936111111111,
+          "n_recenters": 22,
+          "lp_fees_usd": 467.43749301373106,
+          "funding_usd": 17.44238262437878,
+          "onchain_cost_usd": 61.52781531756992,
+          "rehedge_notional_usd": 377713.919630376,
+          "net_usd": 83.09896541567255,
+          "lp_value_abs_gap_usd": 5.684341886080801e-13
+        },
+        {
+          "start_utc": "2026-07-05 00:00:00+00:00",
+          "end_utc": "2026-08-22 00:00:00+00:00",
+          "hours": 1151.8152777777777,
+          "n_recenters": 110,
+          "lp_fees_usd": 2143.8435895998923,
+          "funding_usd": 86.15781539707962,
+          "onchain_cost_usd": 254.48525329792818,
+          "rehedge_notional_usd": 1630148.152796576,
+          "net_usd": -535.6903959394364,
+          "lp_value_abs_gap_usd": 0.0
+        }
+      ]
+    },
+    "V3|arm_8.3pct": {
+      "candidate": "V3",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": -0.199059277915548,
+        "thr_out": 2.091064770569437
+      },
+      "tune": {
+        "net_usd": 151.86587142715183,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1798.5911111111113,
+        "n_recenters": 1.0,
+        "max_lp_value_abs_gap_usd": 4.547473508864641e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1799,
+        "per_day_usd": 1.6508210807634844
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2303,
+      "held_frac_mask": 0.8066549912434325,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 89.31673699403488,
+          "per_day_usd": 0.7505995802853394,
+          "august_net_usd": -98.6241072604013,
+          "months_net_usd": {
+            "2026-05": 63.51562285462283,
+            "2026-06": 45.72864308514313,
+            "2026-07": 78.69657831467,
+            "2026-08": -98.6241072604013
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 2.0,
+          "max_lp_value_abs_gap_usd": 2.2737367544323206e-12
+        },
+        "central": {
+          "net_usd": 42.97052734046332,
+          "per_day_usd": 0.36111551845591455,
+          "august_net_usd": -115.28839675458676,
+          "months_net_usd": {
+            "2026-05": 49.824032119633365,
+            "2026-06": 36.91974963568643,
+            "2026-07": 71.51514233972989,
+            "2026-08": -115.28839675458676
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 2.0,
+          "max_lp_value_abs_gap_usd": 1.8189894035458565e-12
+        },
+        "pessimistic": {
+          "net_usd": -128.58734293704407,
+          "per_day_usd": -1.0806217164538636,
+          "august_net_usd": -176.41446336461973,
+          "months_net_usd": {
+            "2026-05": -0.9234468891958727,
+            "2026-06": 3.8239098397079516,
+            "2026-07": 44.92665747706305,
+            "2026-08": -176.41446336461973
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2302.588888888889,
+          "n_recenters": 2.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-06 00:00:00+00:00",
+          "hours": 862.98,
+          "n_recenters": 1,
+          "lp_fees_usd": 161.24769362963025,
+          "funding_usd": 56.589267405286556,
+          "onchain_cost_usd": 8.948497289414632,
+          "rehedge_notional_usd": 120225.47569728881,
+          "net_usd": 63.848453762192975,
+          "lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        {
+          "start_utc": "2026-06-14 00:00:00+00:00",
+          "end_utc": "2026-06-26 00:00:00+00:00",
+          "hours": 287.7936111111111,
+          "n_recenters": 0,
+          "lp_fees_usd": 43.49395019671044,
+          "funding_usd": 19.248701910745385,
+          "onchain_cost_usd": 7.580233165934651,
+          "rehedge_notional_usd": 39257.29797743984,
+          "net_usd": 22.895327993126845,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-07-05 00:00:00+00:00",
+          "end_utc": "2026-08-22 00:00:00+00:00",
+          "hours": 1151.8152777777777,
+          "n_recenters": 1,
+          "lp_fees_usd": 249.76131121368698,
+          "funding_usd": 93.23231304154055,
+          "onchain_cost_usd": 11.161765292724777,
+          "rehedge_notional_usd": 170826.9826599817,
+          "net_usd": -43.77325441485686,
+          "lp_value_abs_gap_usd": 1.8189894035458565e-12
+        }
+      ]
+    },
+    "V4|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V4",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "m": 4,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.00013053430845139154,
+        "thr_out": 0.001137113944047215
+      },
+      "tune": {
+        "net_usd": 150.3406752883236,
+        "n_streaks_simulated": 17,
+        "held_hours_simulated": 1797.5955555555558,
+        "n_recenters": 117.0,
+        "max_lp_value_abs_gap_usd": 3.410605131648481e-13,
+        "n_streaks_selected": 17,
+        "held_hours_mask_tune": 1807,
+        "per_day_usd": 1.6342418064695594
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2051,
+      "held_frac_mask": 0.7183887915936953,
+      "n_streaks": 20,
+      "points": {
+        "optimistic": {
+          "net_usd": 222.48848339389644,
+          "per_day_usd": 1.8697476853071069,
+          "august_net_usd": -267.9612085884268,
+          "months_net_usd": {
+            "2026-05": 4.400074275250546,
+            "2026-06": 181.44422548049513,
+            "2026-07": 304.60539222657803,
+            "2026-08": -267.9612085884268
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 137.0,
+          "max_lp_value_abs_gap_usd": 2.984279490192421e-13
+        },
+        "central": {
+          "net_usd": -169.8809569013314,
+          "per_day_usd": -1.4276447980531044,
+          "august_net_usd": -326.1054764943501,
+          "months_net_usd": {
+            "2026-05": -126.94099725957707,
+            "2026-06": 79.96452672325239,
+            "2026-07": 203.20099012934418,
+            "2026-08": -326.1054764943501
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 137.0,
+          "max_lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        "pessimistic": {
+          "net_usd": -1697.0859180708758,
+          "per_day_usd": -14.261962770731689,
+          "august_net_usd": -552.5661812231585,
+          "months_net_usd": {
+            "2026-05": -646.8739435799943,
+            "2026-06": -314.5984959472987,
+            "2026-07": -183.04729732042392,
+            "2026-08": -552.5661812231585
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 137.0,
+          "max_lp_value_abs_gap_usd": 3.410605131648481e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-05-04 12:00:00+00:00",
+          "hours": 82.64,
+          "n_recenters": 6,
+          "lp_fees_usd": 99.28530643970825,
+          "funding_usd": 6.4237350236525925,
+          "onchain_cost_usd": 24.941793640861757,
+          "rehedge_notional_usd": 113664.1796788954,
+          "net_usd": -21.419125827148708,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-05-06 04:00:00+00:00",
+          "end_utc": "2026-05-06 12:00:00+00:00",
+          "hours": 7.960833333333333,
+          "n_recenters": 3,
+          "lp_fees_usd": 20.859143468794016,
+          "funding_usd": 0.4366885049741787,
+          "onchain_cost_usd": 12.493014731301882,
+          "rehedge_notional_usd": 29483.832362248388,
+          "net_usd": -23.096802803749036,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-05-06 20:00:00+00:00",
+          "end_utc": "2026-05-07 12:00:00+00:00",
+          "hours": 15.985555555555555,
+          "n_recenters": 3,
+          "lp_fees_usd": 34.56258206832605,
+          "funding_usd": 0.829265648218042,
+          "onchain_cost_usd": 13.703174048733606,
+          "rehedge_notional_usd": 33182.358736486305,
+          "net_usd": -5.151516984767483,
+          "lp_value_abs_gap_usd": 3.552713678800501e-15
+        },
+        {
+          "start_utc": "2026-05-08 00:00:00+00:00",
+          "end_utc": "2026-05-08 20:00:00+00:00",
+          "hours": 17.22833333333333,
+          "n_recenters": 5,
+          "lp_fees_usd": 40.796515295572654,
+          "funding_usd": 1.3386465512111259,
+          "onchain_cost_usd": 16.20884955906579,
+          "rehedge_notional_usd": 43647.484767630514,
+          "net_usd": -53.78109073922444,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-05-09 12:00:00+00:00",
+          "end_utc": "2026-05-13 12:00:00+00:00",
+          "hours": 95.35,
+          "n_recenters": 13,
+          "lp_fees_usd": 164.99727961281195,
+          "funding_usd": 8.862075334516467,
+          "onchain_cost_usd": 33.179097973569924,
+          "rehedge_notional_usd": 149844.03742311115,
+          "net_usd": -46.251334457248674,
+          "lp_value_abs_gap_usd": 8.526512829121202e-14
+        },
+        {
+          "start_utc": "2026-05-15 04:00:00+00:00",
+          "end_utc": "2026-05-22 16:00:00+00:00",
+          "hours": 179.50583333333333,
+          "n_recenters": 14,
+          "lp_fees_usd": 296.24994802492324,
+          "funding_usd": 11.950408473548134,
+          "onchain_cost_usd": 38.67274049580354,
+          "rehedge_notional_usd": 270541.0539376178,
+          "net_usd": 9.551504653721295,
+          "lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        {
+          "start_utc": "2026-05-23 20:00:00+00:00",
+          "end_utc": "2026-05-28 12:00:00+00:00",
+          "hours": 111.35305555555556,
+          "n_recenters": 8,
+          "lp_fees_usd": 189.70745995288158,
+          "funding_usd": 5.982199223391532,
+          "onchain_cost_usd": 28.44659837175642,
+          "rehedge_notional_usd": 165384.2332797824,
+          "net_usd": 34.12221867059704,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-05-28 20:00:00+00:00",
+          "end_utc": "2026-05-30 04:00:00+00:00",
+          "hours": 31.04111111111111,
+          "n_recenters": 3,
+          "lp_fees_usd": 44.25552509722513,
+          "funding_usd": 2.4629154684942827,
+          "onchain_cost_usd": 10.693863632951984,
+          "rehedge_notional_usd": 42628.032607636385,
+          "net_usd": -21.31259374748119,
+          "lp_value_abs_gap_usd": 1.4210854715202004e-14
+        },
+        {
+          "start_utc": "2026-05-30 16:00:00+00:00",
+          "end_utc": "2026-06-03 00:00:00+00:00",
+          "hours": 79.15055555555556,
+          "n_recenters": 8,
+          "lp_fees_usd": 158.96911195127936,
+          "funding_usd": 6.199436128644611,
+          "onchain_cost_usd": 29.042976142675506,
+          "rehedge_notional_usd": 170349.57469950867,
+          "net_usd": -17.63820812795708,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-06-09 04:00:00+00:00",
+          "end_utc": "2026-06-18 12:00:00+00:00",
+          "hours": 223.66055555555556,
+          "n_recenters": 20,
+          "lp_fees_usd": 392.1224493917432,
+          "funding_usd": 13.342294255326458,
+          "onchain_cost_usd": 56.389775087185434,
+          "rehedge_notional_usd": 311531.8234026871,
+          "net_usd": 52.91654196395562,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-06-19 08:00:00+00:00",
+          "end_utc": "2026-06-25 12:00:00+00:00",
+          "hours": 147.485,
+          "n_recenters": 7,
+          "lp_fees_usd": 161.07327231499679,
+          "funding_usd": 7.370347086978462,
+          "onchain_cost_usd": 26.48044121226996,
+          "rehedge_notional_usd": 162408.02850554313,
+          "net_usd": 47.206353717311096,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-06-26 08:00:00+00:00",
+          "end_utc": "2026-07-02 12:00:00+00:00",
+          "hours": 147.87833333333333,
+          "n_recenters": 6,
+          "lp_fees_usd": 122.95342774287317,
+          "funding_usd": 3.2698044610557786,
+          "onchain_cost_usd": 21.07709954931592,
+          "rehedge_notional_usd": 119541.7482833995,
+          "net_usd": 7.9220347585871735,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-07-03 04:00:00+00:00",
+          "end_utc": "2026-07-14 16:00:00+00:00",
+          "hours": 275.90527777777777,
+          "n_recenters": 11,
+          "lp_fees_usd": 302.5188862772373,
+          "funding_usd": 24.75837295262018,
+          "onchain_cost_usd": 36.873881908002915,
+          "rehedge_notional_usd": 277544.63215679204,
+          "net_usd": 99.58039558530602,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-07-15 00:00:00+00:00",
+          "end_utc": "2026-07-15 16:00:00+00:00",
+          "hours": 15.403611111111111,
+          "n_recenters": 2,
+          "lp_fees_usd": 48.58346599400068,
+          "funding_usd": 1.3456161431349918,
+          "onchain_cost_usd": 11.369371155399211,
+          "rehedge_notional_usd": 46801.50564724312,
+          "net_usd": 5.98785116424415,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-07-15 20:00:00+00:00",
+          "end_utc": "2026-07-16 12:00:00+00:00",
+          "hours": 15.850277777777778,
+          "n_recenters": 2,
+          "lp_fees_usd": 43.106011734323424,
+          "funding_usd": 1.3359205146309971,
+          "onchain_cost_usd": 11.809888117492111,
+          "rehedge_notional_usd": 31601.581185802785,
+          "net_usd": 4.478215114512821,
+          "lp_value_abs_gap_usd": 2.842170943040401e-14
+        },
+        {
+          "start_utc": "2026-07-16 20:00:00+00:00",
+          "end_utc": "2026-07-21 08:00:00+00:00",
+          "hours": 107.47527777777778,
+          "n_recenters": 2,
+          "lp_fees_usd": 122.32048500214887,
+          "funding_usd": 9.575888758069098,
+          "onchain_cost_usd": 11.622762017972839,
+          "rehedge_notional_usd": 98701.79876530636,
+          "net_usd": 14.009333725548345,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-07-21 20:00:00+00:00",
+          "end_utc": "2026-08-02 04:00:00+00:00",
+          "hours": 271.7397222222222,
+          "n_recenters": 8,
+          "lp_fees_usd": 288.8619731426167,
+          "funding_usd": 16.434910268150524,
+          "onchain_cost_usd": 29.233528091150763,
+          "rehedge_notional_usd": 271637.68558879464,
+          "net_usd": 55.20111155667455,
+          "lp_value_abs_gap_usd": 7.105427357601002e-14
+        },
+        {
+          "start_utc": "2026-08-02 16:00:00+00:00",
+          "end_utc": "2026-08-06 12:00:00+00:00",
+          "hours": 91.80361111111111,
+          "n_recenters": 7,
+          "lp_fees_usd": 103.12253492964958,
+          "funding_usd": 5.734314028369812,
+          "onchain_cost_usd": 28.938944784432604,
+          "rehedge_notional_usd": 139009.23789035357,
+          "net_usd": -29.002120705271697,
+          "lp_value_abs_gap_usd": 7.105427357601002e-15
+        },
+        {
+          "start_utc": "2026-08-07 00:00:00+00:00",
+          "end_utc": "2026-08-10 12:00:00+00:00",
+          "hours": 83.85777777777778,
+          "n_recenters": 6,
+          "lp_fees_usd": 101.208296789209,
+          "funding_usd": 5.725897354980123,
+          "onchain_cost_usd": 21.228554602049645,
+          "rehedge_notional_usd": 104012.11124993823,
+          "net_usd": -9.332412649569807,
+          "lp_value_abs_gap_usd": 3.552713678800501e-14
+        },
+        {
+          "start_utc": "2026-08-18 00:00:00+00:00",
+          "end_utc": "2026-08-19 16:00:00+00:00",
+          "hours": 39.678333333333335,
+          "n_recenters": 3,
+          "lp_fees_usd": 159.65185334041936,
+          "funding_usd": -0.27175671665121665,
+          "onchain_cost_usd": 16.947426954831975,
+          "rehedge_notional_usd": 96289.4286241424,
+          "net_usd": -273.87131176937055,
+          "lp_value_abs_gap_usd": 5.240252676230739e-14
+        }
+      ]
+    },
+    "V4|arm_8.3pct": {
+      "candidate": "V4",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "m": 4,
+        "q_in": 0.3,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.00013053430845139154,
+        "thr_out": 0.001137113944047215
+      },
+      "tune": {
+        "net_usd": -29.742731191819544,
+        "n_streaks_simulated": 17,
+        "held_hours_simulated": 1797.5955555555558,
+        "n_recenters": 0.0,
+        "max_lp_value_abs_gap_usd": 3.410605131648481e-13,
+        "n_streaks_selected": 17,
+        "held_hours_mask_tune": 1807,
+        "per_day_usd": -0.32331113758162555
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2051,
+      "held_frac_mask": 0.7183887915936953,
+      "n_streaks": 20,
+      "points": {
+        "optimistic": {
+          "net_usd": -24.663362112143233,
+          "per_day_usd": -0.20726584818068777,
+          "august_net_usd": -57.22751042707074,
+          "months_net_usd": {
+            "2026-05": -28.26292778429267,
+            "2026-06": 25.485948810260275,
+            "2026-07": 35.34112728895972,
+            "2026-08": -57.22751042707074
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 0.0,
+          "max_lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        "central": {
+          "net_usd": -92.16742647620026,
+          "per_day_usd": -0.7745561913399961,
+          "august_net_usd": -68.36450033647762,
+          "months_net_usd": {
+            "2026-05": -54.92353612654419,
+            "2026-06": 13.19418254981327,
+            "2026-07": 17.92642743700805,
+            "2026-08": -68.36450033647762
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 0.0,
+          "max_lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        "pessimistic": {
+          "net_usd": -355.4724484777527,
+          "per_day_usd": -2.987317714575968,
+          "august_net_usd": -111.82327690419385,
+          "months_net_usd": {
+            "2026-05": -159.6810696240762,
+            "2026-06": -34.1206187979695,
+            "2026-07": -49.847483151513416,
+            "2026-08": -111.82327690419385
+          },
+          "n_streaks_simulated": 20,
+          "held_hours_simulated": 2040.953055555556,
+          "n_recenters": 0.0,
+          "max_lp_value_abs_gap_usd": 2.8421709430404007e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-05-04 12:00:00+00:00",
+          "hours": 82.64,
+          "n_recenters": 0,
+          "lp_fees_usd": 12.920806794347515,
+          "funding_usd": 6.626703376073227,
+          "onchain_cost_usd": 8.005708128554641,
+          "rehedge_notional_usd": 21939.47996028054,
+          "net_usd": -6.318648725937276,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-05-06 04:00:00+00:00",
+          "end_utc": "2026-05-06 12:00:00+00:00",
+          "hours": 7.960833333333333,
+          "n_recenters": 0,
+          "lp_fees_usd": 3.9455024039280446,
+          "funding_usd": 0.4809298362498584,
+          "onchain_cost_usd": 7.965974769674258,
+          "rehedge_notional_usd": 16060.647813379677,
+          "net_usd": -11.190348736817066,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-05-06 20:00:00+00:00",
+          "end_utc": "2026-05-07 12:00:00+00:00",
+          "hours": 15.985555555555555,
+          "n_recenters": 0,
+          "lp_fees_usd": 3.7857695927463992,
+          "funding_usd": 0.8913881242269679,
+          "onchain_cost_usd": 7.8725138843940705,
+          "rehedge_notional_usd": 15730.239348247122,
+          "net_usd": -9.768649630700988,
+          "lp_value_abs_gap_usd": 3.552713678800501e-15
+        },
+        {
+          "start_utc": "2026-05-08 00:00:00+00:00",
+          "end_utc": "2026-05-08 20:00:00+00:00",
+          "hours": 17.22833333333333,
+          "n_recenters": 0,
+          "lp_fees_usd": 6.440365598570961,
+          "funding_usd": 1.4139820959739693,
+          "onchain_cost_usd": 7.984785472411327,
+          "rehedge_notional_usd": 18739.04896802148,
+          "net_usd": -14.772109012703115,
+          "lp_value_abs_gap_usd": 2.842170943040401e-14
+        },
+        {
+          "start_utc": "2026-05-09 12:00:00+00:00",
+          "end_utc": "2026-05-13 12:00:00+00:00",
+          "hours": 95.35,
+          "n_recenters": 0,
+          "lp_fees_usd": 17.122396372230956,
+          "funding_usd": 9.153618853402913,
+          "onchain_cost_usd": 7.893522192833835,
+          "rehedge_notional_usd": 25522.558056998932,
+          "net_usd": -3.0879820620622045,
+          "lp_value_abs_gap_usd": 3.907985046680551e-14
+        },
+        {
+          "start_utc": "2026-05-15 04:00:00+00:00",
+          "end_utc": "2026-05-22 16:00:00+00:00",
+          "hours": 179.50583333333333,
+          "n_recenters": 0,
+          "lp_fees_usd": 25.507906654154077,
+          "funding_usd": 11.629174041410833,
+          "onchain_cost_usd": 7.641147635582674,
+          "rehedge_notional_usd": 31381.89649519467,
+          "net_usd": 3.772004860445156,
+          "lp_value_abs_gap_usd": 3.410605131648481e-13
+        },
+        {
+          "start_utc": "2026-05-23 20:00:00+00:00",
+          "end_utc": "2026-05-28 12:00:00+00:00",
+          "hours": 111.35305555555556,
+          "n_recenters": 0,
+          "lp_fees_usd": 16.479345851564183,
+          "funding_usd": 6.471822482521276,
+          "onchain_cost_usd": 7.709346906509891,
+          "rehedge_notional_usd": 23763.548460992617,
+          "net_usd": 0.9479570946039644,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-05-28 20:00:00+00:00",
+          "end_utc": "2026-05-30 04:00:00+00:00",
+          "hours": 31.04111111111111,
+          "n_recenters": 0,
+          "lp_fees_usd": 5.502948472321918,
+          "funding_usd": 2.493444291595175,
+          "onchain_cost_usd": 7.935658614613692,
+          "rehedge_notional_usd": 18305.632839681453,
+          "net_usd": -11.152687111811318,
+          "lp_value_abs_gap_usd": 1.4210854715202004e-14
+        },
+        {
+          "start_utc": "2026-05-30 16:00:00+00:00",
+          "end_utc": "2026-06-03 00:00:00+00:00",
+          "hours": 79.15055555555556,
+          "n_recenters": 0,
+          "lp_fees_usd": 12.915185043261335,
+          "funding_usd": 6.3752787624846565,
+          "onchain_cost_usd": 7.57736070567192,
+          "rehedge_notional_usd": 22626.671120119598,
+          "net_usd": -3.334486856675004,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-06-09 04:00:00+00:00",
+          "end_utc": "2026-06-18 12:00:00+00:00",
+          "hours": 223.66055555555556,
+          "n_recenters": 0,
+          "lp_fees_usd": 35.68908881728986,
+          "funding_usd": 14.475084792792357,
+          "onchain_cost_usd": 7.999957361966578,
+          "rehedge_notional_usd": 36321.90628899033,
+          "net_usd": 12.550847997937273,
+          "lp_value_abs_gap_usd": 2.5579538487363607e-13
+        },
+        {
+          "start_utc": "2026-06-19 08:00:00+00:00",
+          "end_utc": "2026-06-25 12:00:00+00:00",
+          "hours": 147.485,
+          "n_recenters": 0,
+          "lp_fees_usd": 14.169443350443364,
+          "funding_usd": 7.911756183604149,
+          "onchain_cost_usd": 7.723729405158797,
+          "rehedge_notional_usd": 22098.685081668853,
+          "net_usd": 3.485983315181662,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-06-26 08:00:00+00:00",
+          "end_utc": "2026-07-02 12:00:00+00:00",
+          "hours": 147.87833333333333,
+          "n_recenters": 0,
+          "lp_fees_usd": 12.000079781396579,
+          "funding_usd": 4.926097882301713,
+          "onchain_cost_usd": 8.045241716624208,
+          "rehedge_notional_usd": 22582.195948648332,
+          "net_usd": -4.173359416915491,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-07-03 04:00:00+00:00",
+          "end_utc": "2026-07-14 16:00:00+00:00",
+          "hours": 275.90527777777777,
+          "n_recenters": 0,
+          "lp_fees_usd": 26.747348803258795,
+          "funding_usd": 25.316995865647414,
+          "onchain_cost_usd": 8.200293110998487,
+          "rehedge_notional_usd": 32737.935724148865,
+          "net_usd": 24.07731042784163,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-07-15 00:00:00+00:00",
+          "end_utc": "2026-07-15 16:00:00+00:00",
+          "hours": 15.403611111111111,
+          "n_recenters": 0,
+          "lp_fees_usd": 4.312143750277419,
+          "funding_usd": 1.3403658210547202,
+          "onchain_cost_usd": 7.974566697780714,
+          "rehedge_notional_usd": 16558.56302552432,
+          "net_usd": -9.427908327723317,
+          "lp_value_abs_gap_usd": 2.842170943040401e-14
+        },
+        {
+          "start_utc": "2026-07-15 20:00:00+00:00",
+          "end_utc": "2026-07-16 12:00:00+00:00",
+          "hours": 15.850277777777778,
+          "n_recenters": 0,
+          "lp_fees_usd": 4.23134851630891,
+          "funding_usd": 1.334262439708641,
+          "onchain_cost_usd": 7.8372947517138245,
+          "rehedge_notional_usd": 15820.830653663983,
+          "net_usd": -8.982241972922601,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-07-16 20:00:00+00:00",
+          "end_utc": "2026-07-21 08:00:00+00:00",
+          "hours": 107.47527777777778,
+          "n_recenters": 0,
+          "lp_fees_usd": 9.85472243366469,
+          "funding_usd": 9.495922674258981,
+          "onchain_cost_usd": 8.008688789325818,
+          "rehedge_notional_usd": 21948.616385231333,
+          "net_usd": -1.778967752036027,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-07-21 20:00:00+00:00",
+          "end_utc": "2026-08-02 04:00:00+00:00",
+          "hours": 271.7397222222222,
+          "n_recenters": 0,
+          "lp_fees_usd": 23.68601022723179,
+          "funding_usd": 16.5787508776423,
+          "onchain_cost_usd": 7.7549796760159495,
+          "rehedge_notional_usd": 31797.34908941279,
+          "net_usd": 11.231527472687532,
+          "lp_value_abs_gap_usd": 5.684341886080802e-14
+        },
+        {
+          "start_utc": "2026-08-02 16:00:00+00:00",
+          "end_utc": "2026-08-06 12:00:00+00:00",
+          "hours": 91.80361111111111,
+          "n_recenters": 0,
+          "lp_fees_usd": 10.00835768361524,
+          "funding_usd": 4.926734681935327,
+          "onchain_cost_usd": 7.875541846560466,
+          "rehedge_notional_usd": 21380.47521444705,
+          "net_usd": -6.146601475712088,
+          "lp_value_abs_gap_usd": 1.9539925233402755e-14
+        },
+        {
+          "start_utc": "2026-08-07 00:00:00+00:00",
+          "end_utc": "2026-08-10 12:00:00+00:00",
+          "hours": 83.85777777777778,
+          "n_recenters": 0,
+          "lp_fees_usd": 9.349837989414649,
+          "funding_usd": 5.646295570285538,
+          "onchain_cost_usd": 7.916940535092062,
+          "rehedge_notional_usd": 21416.928781810115,
+          "net_usd": -5.495564251274809,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-08-18 00:00:00+00:00",
+          "end_utc": "2026-08-19 16:00:00+00:00",
+          "hours": 39.678333333333335,
+          "n_recenters": 0,
+          "lp_fees_usd": 18.472255859346554,
+          "funding_usd": -0.06256247811017486,
+          "onchain_cost_usd": 7.8909766960180825,
+          "rehedge_notional_usd": 23010.282536901163,
+          "net_usd": -52.60350231160622,
+          "lp_value_abs_gap_usd": 3.552713678800501e-14
+        }
+      ]
+    },
+    "V5|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V5",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "lam": 0.97,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.005412151901050326,
+        "thr_out": 0.010438251445884793
+      },
+      "tune": {
+        "net_usd": 271.4690666524813,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1876.4758333333334,
+        "n_recenters": 141.0,
+        "max_lp_value_abs_gap_usd": 7.389644451905042e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1879,
+        "per_day_usd": 2.950938573582505
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2367,
+      "held_frac_mask": 0.8290718038528897,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": -62.842906568824446,
+          "per_day_usd": -0.5281189268884814,
+          "august_net_usd": -693.081184205992,
+          "months_net_usd": {
+            "2026-05": 58.7143305153821,
+            "2026-06": 185.08123211030045,
+            "2026-07": 386.44271501148523,
+            "2026-08": -693.081184205992
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "central": {
+          "net_usd": -563.2129488530718,
+          "per_day_usd": -4.733126368562005,
+          "august_net_usd": -840.5658598102477,
+          "months_net_usd": {
+            "2026-05": -104.93913801358161,
+            "2026-06": 98.11611784547284,
+            "2026-07": 284.1759311252854,
+            "2026-08": -840.5658598102477
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 2.2737367544323206e-12
+        },
+        "pessimistic": {
+          "net_usd": -2520.8810031168214,
+          "per_day_usd": -21.18496808739377,
+          "august_net_usd": -1427.8967349475765,
+          "months_net_usd": {
+            "2026-05": -750.3046924373477,
+            "2026-06": -239.07497143626807,
+            "2026-07": -103.60460429562858,
+            "2026-08": -1427.8967349475765
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 223.0,
+          "max_lp_value_abs_gap_usd": 1.8189894035458565e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-04 04:00:00+00:00",
+          "hours": 817.995,
+          "n_recenters": 91,
+          "lp_fees_usd": 1450.3629569441857,
+          "funding_usd": 57.59811252850664,
+          "onchain_cost_usd": 207.99407232134908,
+          "rehedge_notional_usd": 1296274.4728075354,
+          "net_usd": -86.47623616816435,
+          "lp_value_abs_gap_usd": 0.0
+        },
+        {
+          "start_utc": "2026-06-13 20:00:00+00:00",
+          "end_utc": "2026-06-25 16:00:00+00:00",
+          "hours": 283.7627777777778,
+          "n_recenters": 21,
+          "lp_fees_usd": 460.06991324237566,
+          "funding_usd": 18.197201848217347,
+          "onchain_cost_usd": 60.340760137722555,
+          "rehedge_notional_usd": 371688.6205062644,
+          "net_usd": 85.02504484631031,
+          "lp_value_abs_gap_usd": 7.389644451905042e-13
+        },
+        {
+          "start_utc": "2026-06-29 16:00:00+00:00",
+          "end_utc": "2026-08-21 08:00:00+00:00",
+          "hours": 1262.763888888889,
+          "n_recenters": 111,
+          "lp_fees_usd": 2129.736977732635,
+          "funding_usd": 91.67708132296599,
+          "onchain_cost_usd": 260.8104105447334,
+          "rehedge_notional_usd": 1730997.89796473,
+          "net_usd": -561.7617575312177,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-12
+        }
+      ]
+    },
+    "V5|arm_8.3pct": {
+      "candidate": "V5",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "lam": 0.97,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.005412151901050326,
+        "thr_out": 0.010438251445884793
+      },
+      "tune": {
+        "net_usd": 173.60618665064834,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1876.4758333333334,
+        "n_recenters": 1.0,
+        "max_lp_value_abs_gap_usd": 1.3642420526593924e-12,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1879,
+        "per_day_usd": 1.8871438986298215
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2367,
+      "held_frac_mask": 0.8290718038528897,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 111.11996097266481,
+          "per_day_usd": 0.9338294128789759,
+          "august_net_usd": -100.26712522256061,
+          "months_net_usd": {
+            "2026-05": 63.51562285462283,
+            "2026-06": 38.80626086054911,
+            "2026-07": 109.06520248005322,
+            "2026-08": -100.26712522256061
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 5.4569682106375694e-12
+        },
+        "central": {
+          "net_usd": 63.26165783555636,
+          "per_day_usd": 0.5316380268425462,
+          "august_net_usd": -117.3552280428625,
+          "months_net_usd": {
+            "2026-05": 49.824032119633365,
+            "2026-06": 29.643604976229376,
+            "2026-07": 101.1492487825551,
+            "2026-08": -117.3552280428625
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 5.002220859751105e-12
+        },
+        "pessimistic": {
+          "net_usd": -115.75854299605487,
+          "per_day_usd": -0.9728111069830522,
+          "august_net_usd": -182.01482371287813,
+          "months_net_usd": {
+            "2026-05": -0.9234468891958727,
+            "2026-06": -5.395542621624529,
+            "2026-07": 72.57527022764232,
+            "2026-08": -182.01482371287813
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2364.5216666666665,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 1.8189894035458565e-12
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-04 04:00:00+00:00",
+          "hours": 817.995,
+          "n_recenters": 1,
+          "lp_fees_usd": 148.1446068234335,
+          "funding_usd": 54.91765146164066,
+          "onchain_cost_usd": 9.209452570947377,
+          "rehedge_notional_usd": 113204.32083491138,
+          "net_usd": 60.274031514552846,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-13 20:00:00+00:00",
+          "end_utc": "2026-06-25 16:00:00+00:00",
+          "hours": 283.7627777777778,
+          "n_recenters": 0,
+          "lp_fees_usd": 42.673611393269084,
+          "funding_usd": 19.64316015600829,
+          "onchain_cost_usd": 7.568495355887309,
+          "rehedge_notional_usd": 38541.538760432646,
+          "net_usd": 23.311461953868687,
+          "lp_value_abs_gap_usd": 1.1368683772161603e-13
+        },
+        {
+          "start_utc": "2026-06-29 16:00:00+00:00",
+          "end_utc": "2026-08-21 08:00:00+00:00",
+          "hours": 1262.763888888889,
+          "n_recenters": 4,
+          "lp_fees_usd": 240.8430446724093,
+          "funding_usd": 99.7399479781887,
+          "onchain_cost_usd": 17.886686989542554,
+          "rehedge_notional_usd": 186382.08244527207,
+          "net_usd": -20.323835632864828,
+          "lp_value_abs_gap_usd": 5.002220859751105e-12
+        }
+      ]
+    },
+    "V6|arm_0.1pct_0.2pct_0.5pct": {
+      "candidate": "V6",
+      "arm": "arm_0.1pct_0.2pct_0.5pct",
+      "cfg": {
+        "n": 72,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.005351893674325228,
+        "thr_out": 0.01079376427206607
+      },
+      "tune": {
+        "net_usd": 323.8489607173533,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1918.1216666666664,
+        "n_recenters": 145.0,
+        "max_lp_value_abs_gap_usd": 4.547473508864641e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1919,
+        "per_day_usd": 3.5203214936411924
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2423,
+      "held_frac_mask": 0.8486865148861646,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 71.27819258603779,
+          "per_day_usd": 0.5990073444146387,
+          "august_net_usd": -624.7933049388075,
+          "months_net_usd": {
+            "2026-05": 58.7143305153821,
+            "2026-06": 251.18174041245956,
+            "2026-07": 386.1754265970034,
+            "2026-08": -624.7933049388075
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2422.1194444444445,
+          "n_recenters": 233.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "central": {
+          "net_usd": -451.092919003888,
+          "per_day_usd": -3.790892581494777,
+          "august_net_usd": -780.8257240259379,
+          "months_net_usd": {
+            "2026-05": -104.93913801358161,
+            "2026-06": 150.70142999661692,
+            "2026-07": 283.9705130390142,
+            "2026-08": -780.8257240259379
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2422.1194444444445,
+          "n_recenters": 233.0,
+          "max_lp_value_abs_gap_usd": 1.3642420526593924e-12
+        },
+        "pessimistic": {
+          "net_usd": -2494.83871701206,
+          "per_day_usd": -20.966114044156495,
+          "august_net_usd": -1403.01043984318,
+          "months_net_usd": {
+            "2026-05": -750.3046924373477,
+            "2026-06": -237.9381438140282,
+            "2026-07": -103.58544091750593,
+            "2026-08": -1403.01043984318
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2422.1194444444445,
+          "n_recenters": 233.0,
+          "max_lp_value_abs_gap_usd": 4.547473508864641e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-06 00:00:00+00:00",
+          "hours": 862.98,
+          "n_recenters": 96,
+          "lp_fees_usd": 1631.1543001779578,
+          "funding_usd": 59.803102439018424,
+          "onchain_cost_usd": 215.50872810654425,
+          "rehedge_notional_usd": 1399980.583335008,
+          "net_usd": -43.948969703205364,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-15 00:00:00+00:00",
+          "end_utc": "2026-06-27 00:00:00+00:00",
+          "hours": 287.2077777777778,
+          "n_recenters": 21,
+          "lp_fees_usd": 466.69276603452556,
+          "funding_usd": 14.200337092602263,
+          "onchain_cost_usd": 58.38581055057755,
+          "rehedge_notional_usd": 371228.5392486299,
+          "net_usd": 86.27615532618817,
+          "lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        {
+          "start_utc": "2026-06-30 00:00:00+00:00",
+          "end_utc": "2026-08-22 00:00:00+00:00",
+          "hours": 1271.9316666666666,
+          "n_recenters": 116,
+          "lp_fees_usd": 2304.0539432977275,
+          "funding_usd": 95.83088032425366,
+          "onchain_cost_usd": 270.80947436959775,
+          "rehedge_notional_usd": 1777198.5135784731,
+          "net_usd": -493.42010462687136,
+          "lp_value_abs_gap_usd": 1.3642420526593924e-12
+        }
+      ]
+    },
+    "V6|arm_8.3pct": {
+      "candidate": "V6",
+      "arm": "arm_8.3pct",
+      "cfg": {
+        "n": 48,
+        "q_in": 0.5,
+        "q_out": 0.95
+      },
+      "thresholds_abs": {
+        "thr_in": 0.005335475768309775,
+        "thr_out": 0.011436327625003994
+      },
+      "tune": {
+        "net_usd": 178.397756620216,
+        "n_streaks_simulated": 3,
+        "held_hours_simulated": 1942.6655555555558,
+        "n_recenters": 1.0,
+        "max_lp_value_abs_gap_usd": 4.547473508864641e-13,
+        "n_streaks_selected": 3,
+        "held_hours_mask_tune": 1943,
+        "per_day_usd": 1.939229496541857
+      },
+      "days": 118.99385416666667,
+      "held_hours_mask": 2471,
+      "held_frac_mask": 0.8654991243432575,
+      "n_streaks": 3,
+      "points": {
+        "optimistic": {
+          "net_usd": 115.53317771517851,
+          "per_day_usd": 0.9709171832803986,
+          "august_net_usd": -101.97888844025722,
+          "months_net_usd": {
+            "2026-05": 63.51562285462283,
+            "2026-06": 43.77498594546781,
+            "2026-07": 110.22145735534373,
+            "2026-08": -101.97888844025722
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2470.717777777778,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        "central": {
+          "net_usd": 62.78782929544438,
+          "per_day_usd": 0.5276560687537838,
+          "august_net_usd": -122.70894283806018,
+          "months_net_usd": {
+            "2026-05": 49.824032119633365,
+            "2026-06": 33.45309270363303,
+            "2026-07": 102.21964731023728,
+            "2026-08": -122.70894283806018
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2470.717777777778,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 1.8189894035458565e-12
+        },
+        "pessimistic": {
+          "net_usd": -133.8704153451995,
+          "per_day_usd": -1.125019575865626,
+          "august_net_usd": -200.51291607803427,
+          "months_net_usd": {
+            "2026-05": -0.9234468891958727,
+            "2026-06": -5.769810632930152,
+            "2026-07": 73.33575825495886,
+            "2026-08": -200.51291607803427
+          },
+          "n_streaks_simulated": 3,
+          "held_hours_simulated": 2470.717777777778,
+          "n_recenters": 5.0,
+          "max_lp_value_abs_gap_usd": 9.094947017729282e-13
+        }
+      },
+      "streak_rows": [
+        {
+          "start_utc": "2026-05-01 01:00:00+00:00",
+          "end_utc": "2026-06-06 00:00:00+00:00",
+          "hours": 862.98,
+          "n_recenters": 1,
+          "lp_fees_usd": 161.24769362963025,
+          "funding_usd": 56.589267405286556,
+          "onchain_cost_usd": 8.948497289414632,
+          "rehedge_notional_usd": 120225.47569728881,
+          "net_usd": 63.848453762192975,
+          "lp_value_abs_gap_usd": 4.547473508864641e-13
+        },
+        {
+          "start_utc": "2026-06-14 00:00:00+00:00",
+          "end_utc": "2026-06-26 00:00:00+00:00",
+          "hours": 287.7936111111111,
+          "n_recenters": 0,
+          "lp_fees_usd": 43.49395019671044,
+          "funding_usd": 19.248701910745385,
+          "onchain_cost_usd": 7.580233165934651,
+          "rehedge_notional_usd": 39257.29797743984,
+          "net_usd": 22.895327993126845,
+          "lp_value_abs_gap_usd": 2.2737367544323206e-13
+        },
+        {
+          "start_utc": "2026-06-29 00:00:00+00:00",
+          "end_utc": "2026-08-23 00:00:00+00:00",
+          "hours": 1319.9441666666667,
+          "n_recenters": 4,
+          "lp_fees_usd": 292.4877377072708,
+          "funding_usd": 114.3942954846163,
+          "onchain_cost_usd": 17.953029074038625,
+          "rehedge_notional_usd": 214195.96957361986,
+          "net_usd": -23.95595245987579,
+          "lp_value_abs_gap_usd": 1.8189894035458565e-12
+        }
+      ]
+    }
+  },
+  "baselines": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "optimistic": {
+        "net_usd": 93.82083448719277,
+        "per_day_usd": 0.7884510939177098,
+        "august_net_usd": -730.0011672256046,
+        "months_net_usd": {
+          "2026-05": 58.978318756087845,
+          "2026-06": 378.40096794522833,
+          "2026-07": 386.44271501148523,
+          "2026-08": -730.0011672256046
+        }
+      },
+      "central": {
+        "net_usd": -530.2397972560047,
+        "per_day_usd": -4.456026750031423,
+        "august_net_usd": -941.4803865828817,
+        "months_net_usd": {
+          "2026-05": -104.70269168807789,
+          "2026-06": 231.76734988967422,
+          "2026-07": 284.1759311252854,
+          "2026-08": -941.4803865828817
+        }
+      },
+      "pessimistic": {
+        "net_usd": -2974.3977785782113,
+        "per_day_usd": -24.9962302625493,
+        "august_net_usd": -1785.1342979566084,
+        "months_net_usd": {
+          "2026-05": -750.1676523132235,
+          "2026-06": -335.49122401274417,
+          "2026-07": -103.60460429562858,
+          "2026-08": -1785.1342979566084
+        }
+      }
+    },
+    "arm_8.3pct": {
+      "optimistic": {
+        "net_usd": 164.74436534137374,
+        "per_day_usd": 1.3844779337143531,
+        "august_net_usd": -88.55190804857267,
+        "months_net_usd": {
+          "2026-05": 63.631454240439915,
+          "2026-06": 85.45697667152804,
+          "2026-07": 104.20784247797455,
+          "2026-08": -88.55190804857267
+        }
+      },
+      "central": {
+        "net_usd": 108.8324526128965,
+        "per_day_usd": 0.9146056607298577,
+        "august_net_usd": -111.27015253907493,
+        "months_net_usd": {
+          "2026-05": 49.93386941751988,
+          "2026-06": 75.13647865393548,
+          "2026-07": 95.03225708051241,
+          "2026-08": -111.27015253907493
+        }
+      },
+      "pessimistic": {
+        "net_usd": -97.94959205007805,
+        "per_day_usd": -0.8231483275841008,
+        "august_net_usd": -195.58415281395654,
+        "months_net_usd": {
+          "2026-05": -0.8352493737372129,
+          "2026-06": 37.22093337437,
+          "2026-07": 61.248876763241974,
+          "2026-08": -195.58415281395654
+        }
+      }
+    }
+  }
+}
