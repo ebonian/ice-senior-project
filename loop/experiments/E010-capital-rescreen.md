@@ -2,7 +2,7 @@
 id: E010
 family: H-pool (capital-parameterized)
 date: 2026-09-03
-verdict: RUNNING
+verdict: INCONCLUSIVE
 ---
 
 # E010 — At $10k reference capital, some HL-hedgeable venue (mainnet now in scope) clears the gates the $1,420 menu could not
@@ -136,16 +136,94 @@ fixed/proportional decomposition).
 
 ## Result
 
-_(after the run)_
+Eleven venues resolved (9 screen + 2 probes); LINK/WETH 0.05% mainnet probe
+sampled eligible (654 swaps/day) and raced; wstETH/WETH 0.05% mainnet
+INELIGIBLE-thin (~1 swap/day, recorded). All validity gates passed before
+any candidate number was read: control reproduction at 0.00% error on all
+three matching arms (and < 1e-9 vs E005's committed control), two-provider
+feeProtocol reads all matched, measured gas envelopes (mainnet $0.049 /
+$0.083 / $0.368 per tx from 860 window basefee anchors, ETH mean $1,943.76;
+Base $0.017–0.056), coverage T1/T2/T3/T5 clean on all 40 pool-months.
+38/38 contract tests. Full numbers: `backtest_model_server/e010/REPORT.md`,
+`out/decision.json`, `out/tables.md`.
+
+**feeProtocol hypothesis: measured DEAD.** Every mainnet and Base pool
+reads 0x44 (LPs keep 3/4; 0.01%/0.05% tiers) or 0x66 (5/6; 0.30%) —
+Arbitrum's own haircuts — with zero in-window SetFeeProtocol events. The
+×1.33 multiplier is 1.0; E005's near-misses stay.
+
+**Part C.** Every USD-quoted major on mainnet and Base posts best-arm f/g
+0.503–0.780 — the K3 venue property is chain-invariant. Honest f/g ≥ 1.0
+exists at two venues: **mainnet LINK/WETH 0.30%** (f/g 1.337/1.208/1.099
+across all arms at shares ≤ 0.876%, genuinely negative gamma, clean fee
+flow; best net +$0.915/day central = +3.3% APR) and **mainnet wstETH/WETH
+0.01%** (+$4.55/day, +16.6% APR at ±8.3% — but the fee line is carried 97%
+by one month and 99.97% by ten depeg-wick swaps through near-empty ticks;
+the durable residue is the ~5.5% APR carry package; REPORT §3).
+
+**Part A.** No sign flips: E003 best −$0.844 → −$5.91/day at $10k; E006
+ceiling +$6.06 → +$44.8 (upper bound; fee credit is share-aware concave —
+measured in contract §8); E007 best −$0.074 → −$0.46; E008 best S5 −$0.025
+→ −$0.121, August cells all still negative. All four verdicts unchanged.
+
+**Part B.** The ×7.0423 linear share scaling kills 14 E005 arms including
+both watchlist honest arms; measured re-races agree (wstETH ±0.1% 1.47%,
+±0.2% 1.01%; LINK ±8.3% 6.03% — all > 1%). The wstETH carry survives
+size-invariant: +$1.47–1.64/day (5.4–6.0% APR) at $10k, still under the
+10% bar. Scaling law measured at $1.42k/$10k/$50k for every venue: USD
+majors rate-invariant; thin-pool positives decay with size (Arbitrum LINK
+flips negative at $50k).
 
 ## Verdict
 
-_(after the run)_
+**INCONCLUSIVE** — no venue × arm passes all five SUPPORTED gates; REFUTED
+is excluded (honest f/g ≥ 1.0 exists — the pre-registered clause fires on
+mainnet LINK/WETH 0.30% and wstETH/WETH 0.01%). Watchlist, with failed
+gates: mainnet LINK/WETH 0.30% ±8.1% [a,b,c], ±1.8% [a,b,c], ±0.6%
+[a,b,c]; mainnet wstETH/WETH 0.01% ±8.3% [b] (and §3's per-swap honesty
+failure, which the aggregate gate cannot see). Disambiguation: (i) an
+E006-style timing-ceiling measurement on mainnet LINK/WETH 0.30% — the
+only venue where a model has honest headroom to buy; (ii) a per-swap
+share-cap fee-credit rule for peg pools (the wick artifact is a
+measurement-honesty gap, not a venue property); (iii) per-venue perp cost
+calibration for LINK (envelope slippage is ETH-calibrated).
 
 ## Critique
 
-_(after the run — all five questions)_
+1. *Proxy or goal?* Goal — net $/day through the frozen stack at the
+   reference capital; but the single number that would have cleared the
+   target (wstETH mainnet +16.6% APR) is a fee-credit artifact at
+   dislocation wicks, and we said so rather than reporting the headline.
+2. *Would it survive Gate 2?* The LINK 0.30% wide arm survives sign at
+   +3.3% APR but not the target; the wstETH carry survives at ~5–6% APR
+   (E009's caveats travel). Nothing else survives sign.
+3. *Environment faithful enough?* The K9 full-share fee credit is the
+   binding idealization and E010 both quantified its failure mode (§3) and
+   showed the honest-share gate is insufficient at per-swap granularity.
+   Hedge ratio still idealized; LINK/UNI perp slippage ETH-calibrated.
+4. *Exactly one variable?* The capital parameterization and the menu it
+   reopens — engine, costs, HPL envelope, window, arms all frozen;
+   verified by exact control reproduction. Chain gas is part of the venue,
+   measured under a pre-registered construction, not tuned.
+5. *Symptom-fix of the previous iteration?* No — E008 closed the timing
+   family on the old venue; this re-asked the venue question under the
+   operator's amended constraint.
 
 ## What this changes
 
-_(after the run)_
+G-pool reopens and closes again, now chain-invariantly: **no USD-quoted
+major on Arbitrum, mainnet, or Base pays its gamma at any width or any
+capital**; capital was not the binding constraint the fee thesis needed.
+The model thesis gets exactly one candidate venue (mainnet LINK/WETH
+0.30%) and its ceiling is unmeasured. The B2 wstETH decision (on hold per
+GOAL) gains: carry is size-invariant to $10k+ but its LP-leg share gates
+die above ~$7k LP notional on Arbitrum at widths below ±0.5%; the mainnet
+twin is the deeper home for the same carry (share 0.2–0.3% at ±0.5–2%)
+once the K8 margin pass exists. Escalation to the operator per PROTOCOL
+§7: the structural options are (a) accept carry at ~5–6% APR (B2, either
+chain's wstETH pool, sized by the K8 pass), (b) fund a timing-ceiling
+measurement on mainnet LINK/WETH 0.30% (new memo + experiment), or
+(c) close the strategy family at the 10% bar. Harvest: K3 extended
+chain-invariant; new K13 (fee switch universal), K14 (LINK mainnet
+headroom), K15 (per-swap fee-credit honesty gap). No capital moves from
+this repo (bot ADR 0008).
