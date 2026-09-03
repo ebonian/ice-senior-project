@@ -41,7 +41,7 @@
 ## B5 — The LINK/WETH 0.30% mainnet timing/width ceiling
 
 - **Claim:** a perfect-foresight in/out+width policy on mainnet LINK/WETH 0.30% — the program's first honest fee-edge venue (E010: f/g 1.10–1.34 at every width, +$0.915/day static best at $10k) — clears the 10–20% APR band ($2.74–5.48/day at $10k) with modelable margin, reviving the range/timing-model thesis on a venue where fees actually beat gamma.
-- **From:** [E010 §2](../loop/experiments/E010-capital-rescreen.md) (model-headroom YES; "an E006-style ceiling measurement on THIS pool is the natural next question"); memo **M005** (written by the E011 cycle).
+- **From:** [E010 §2](../loop/experiments/E010-capital-rescreen.md) (model-headroom YES; "an E006-style ceiling measurement on THIS pool is the natural next question"); memo [**M005**](memos/M005-link-ceiling-and-two-leg-funding.md) (committed 2026-09-03: constraints, two-leg hedge read from the engine, LINK floor-pin pre-work, four pre-named measurements C1–C4).
 - **Why it might work:** the static wide arm already nets +3.3% APR; E006 showed hour-picking on a *losing* pool found +$6.06/day of structure — on a pool whose every width is fee-positive, the held-hours surface starts above water; worst-month f/g 0.70 means timing has real winter to dodge.
 - **Why it might not:** E007/E008's lesson — a ceiling without a causal key is a museum piece; LINK's two-leg hedge (LINK-PERP + ETH-PERP) doubles funding/execution surfaces; mainnet gas prices out narrow/frequent switching (E010 §6).
 - **Status:** **STAGED → E011** (operator go 2026-09-03, part of the (iii) parallel decision).
