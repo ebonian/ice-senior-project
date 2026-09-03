@@ -178,9 +178,8 @@ else:
         hours[f"held_{pn}"] = held
     buf = io.StringIO()
     hours.to_csv(buf, index=False)
-    disk_buf = io.StringIO()
-    pd.read_csv(csv_p).to_csv(disk_buf, index=False)
-    check("determinism-wide-arm", buf.getvalue() == disk_buf.getvalue())
+    check("determinism-wide-arm", buf.getvalue() == csv_p.read_text(),
+          "recomputed to_csv bytes vs raw checkpoint bytes")
 
 print()
 if FAILS:

@@ -1,0 +1,171 @@
+{
+  "experiment": "E011",
+  "stage": 1,
+  "cost_model_version": "gate1-2026-08-29",
+  "envelope_version": "e003-2026-08-29",
+  "gas_source": "e010 measured mainnet envelope, coupled by point name",
+  "window": {
+    "start": "2026-05-01",
+    "end": "2026-08-28",
+    "days": 118.99385416666667,
+    "n_swaps": 41194,
+    "n_hours": 2855
+  },
+  "lp_capital_usd": 7147.8873239436625,
+  "total_capital_usd": 10000.0,
+  "target_usd_per_day": 2.73972602739726,
+  "arms": {
+    "arm_0.1pct_0.2pct_0.5pct": {
+      "label": "arm_0.1pct_0.2pct_0.5pct",
+      "half_ticks": 60,
+      "width_pct": 0.006017734268817465,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 5285.62291893423,
+      "sum_funding_usd": 188.890933614509,
+      "sum_gamma_pnl_usd": -3891.0930928196794,
+      "points": {
+        "optimistic": {
+          "value_usd": 2473.572141769709,
+          "per_day_usd": 20.787394097724942,
+          "held_hours": 2763,
+          "held_frac": 0.9677758318739055,
+          "n_streaks": 18,
+          "streak_len_median_h": 76.5,
+          "streak_len_p90_h": 267.2000000000001,
+          "alwaysin_stage1_usd": 1572.9135030210755,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 10.527726396018803
+        },
+        "central": {
+          "value_usd": 2439.3928901722416,
+          "per_day_usd": 20.500158661602377,
+          "held_hours": 2768,
+          "held_frac": 0.9695271453590193,
+          "n_streaks": 14,
+          "streak_len_median_h": 93.0,
+          "streak_len_p90_h": 336.8000000000002,
+          "alwaysin_stage1_usd": 1570.7330239919072,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 12.713277735371063
+        },
+        "pessimistic": {
+          "value_usd": 2323.8336431825696,
+          "per_day_usd": 19.529022397473845,
+          "held_hours": 2777,
+          "held_frac": 0.9726795096322242,
+          "n_streaks": 12,
+          "streak_len_median_h": 93.0,
+          "streak_len_p90_h": 394.4,
+          "alwaysin_stage1_usd": 1561.8775393278102,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 21.581397323673823
+        }
+      }
+    },
+    "arm_2pct": {
+      "label": "arm_2pct",
+      "half_ticks": 180,
+      "width_pct": 0.01816206010461041,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 2296.0782020115485,
+      "sum_funding_usd": 201.58913214727033,
+      "sum_gamma_pnl_usd": -1942.4608180859827,
+      "points": {
+        "optimistic": {
+          "value_usd": 1074.8183059546984,
+          "per_day_usd": 9.032553096811814,
+          "held_hours": 2789,
+          "held_frac": 0.9768826619964974,
+          "n_streaks": 10,
+          "streak_len_median_h": 94.5,
+          "streak_len_p90_h": 728.5999999999998,
+          "alwaysin_stage1_usd": 544.6991187640791,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 10.508745354370657
+        },
+        "central": {
+          "value_usd": 1056.062188440704,
+          "per_day_usd": 8.874930523399543,
+          "held_hours": 2796,
+          "held_frac": 0.9793345008756568,
+          "n_streaks": 8,
+          "streak_len_median_h": 86.0,
+          "streak_len_p90_h": 768.1999999999996,
+          "alwaysin_stage1_usd": 542.5186126614138,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 12.683713495017077
+        },
+        "pessimistic": {
+          "value_usd": 992.7114695057534,
+          "per_day_usd": 8.342544045302787,
+          "held_hours": 2807,
+          "held_frac": 0.9831873905429072,
+          "n_streaks": 6,
+          "streak_len_median_h": 86.0,
+          "streak_len_p90_h": 1289.5,
+          "alwaysin_stage1_usd": 533.66303028492,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 21.538700667141608
+        }
+      }
+    },
+    "arm_8.3pct": {
+      "label": "arm_8.3pct",
+      "half_ticks": 780,
+      "width_pct": 0.08111844258099676,
+      "n_missing_funding_rates": 0,
+      "sum_fees_usd": 560.5570324460111,
+      "sum_funding_usd": 206.46945116767137,
+      "sum_gamma_pnl_usd": -510.295668209015,
+      "points": {
+        "optimistic": {
+          "value_usd": 363.4819900837463,
+          "per_day_usd": 3.0546282631928334,
+          "held_hours": 2823,
+          "held_frac": 0.9887915936952715,
+          "n_streaks": 5,
+          "streak_len_median_h": 86.0,
+          "streak_len_p90_h": 1581.0000000000002,
+          "alwaysin_stage1_usd": 246.22336402538718,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 10.503000824640818
+        },
+        "central": {
+          "value_usd": 352.5836924134435,
+          "per_day_usd": 2.9630411997547648,
+          "held_hours": 2823,
+          "held_frac": 0.9887915936952715,
+          "n_streaks": 5,
+          "streak_len_median_h": 86.0,
+          "streak_len_p90_h": 1581.0000000000002,
+          "alwaysin_stage1_usd": 244.04284751112795,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 12.682660358701344
+        },
+        "pessimistic": {
+          "value_usd": 329.07836811123866,
+          "per_day_usd": 2.765507264352668,
+          "held_hours": 2702,
+          "held_frac": 0.9464098073555166,
+          "n_streaks": 2,
+          "streak_len_median_h": 1351.0,
+          "streak_len_p90_h": 2304.6,
+          "alwaysin_stage1_usd": 235.1872275575976,
+          "dominates_alwaysin": true,
+          "dominates_alwayscash": true,
+          "mean_roundtrip_cost_usd": 21.55294660636176
+        }
+      }
+    }
+  },
+  "best_arm_central": "arm_0.1pct_0.2pct_0.5pct",
+  "refuted_clause_fires": false
+}
