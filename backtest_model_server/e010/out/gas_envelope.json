@@ -1,0 +1,59 @@
+{
+  "generated_utc": "2026-09-03T07:08:38Z",
+  "construction": "E010 pre-registration validity gate (iii): (basefee pctile + tip) x 250k gas x window-mean ETH USD",
+  "gas_units_per_tx": 250000,
+  "eth_usd_window_mean": 1943.76,
+  "arbitrum_frozen_usd_per_tx": 0.0101,
+  "mainnet": {
+    "n_basefee_samples": 860,
+    "basefee_gwei": {
+      "p25": 0.080062,
+      "p50": 0.121604,
+      "p95": 0.657546,
+      "mean": 0.247603,
+      "max": 8.865031
+    },
+    "tips_gwei": {
+      "optimistic": 0.02,
+      "central": 0.05,
+      "pessimistic": 0.1
+    },
+    "l1_data_adder_usd": 0.0,
+    "usd_per_tx": {
+      "optimistic": 0.048624,
+      "central": 0.08339,
+      "pessimistic": 0.368123
+    },
+    "usd_per_recenter_4tx": {
+      "optimistic": 0.194496,
+      "central": 0.33356,
+      "pessimistic": 1.472492
+    }
+  },
+  "base": {
+    "n_basefee_samples": 1034,
+    "basefee_gwei": {
+      "p25": 0.005,
+      "p50": 0.005,
+      "p95": 0.005,
+      "mean": 0.005363,
+      "max": 0.248931
+    },
+    "tips_gwei": {
+      "optimistic": 0.02,
+      "central": 0.05,
+      "pessimistic": 0.1
+    },
+    "l1_data_adder_usd": 0.005,
+    "usd_per_tx": {
+      "optimistic": 0.017149,
+      "central": 0.031727,
+      "pessimistic": 0.056024
+    },
+    "usd_per_recenter_4tx": {
+      "optimistic": 0.068596,
+      "central": 0.126908,
+      "pessimistic": 0.224096
+    }
+  }
+}

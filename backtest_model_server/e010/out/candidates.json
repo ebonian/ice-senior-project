@@ -1,0 +1,787 @@
+{
+  "generated_utc": "2026-09-03T07:09:58Z",
+  "experiment": "E010",
+  "window": [
+    "2026-05-01",
+    "2026-08-28"
+  ],
+  "chains": {
+    "mainnet": {
+      "factory": "0x1f98431c8ad98523631ae4a59f267346ea31f984",
+      "month_blocks": {
+        "2026-05": [
+          24996368,
+          25218797
+        ],
+        "2026-06": [
+          25218798,
+          25433938
+        ],
+        "2026-07": [
+          25433939,
+          25656292
+        ],
+        "2026-08": [
+          25656293,
+          25850009
+        ]
+      },
+      "window_blocks": [
+        24996368,
+        25850009
+      ],
+      "state_rpc": [
+        "https://ethereum-rpc.publicnode.com",
+        "https://mainnet.gateway.tenderly.co"
+      ],
+      "logs_rpc": "https://mainnet.gateway.tenderly.co",
+      "head_at_discovery": 25895194
+    },
+    "base": {
+      "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+      "month_blocks": {
+        "2026-05": [
+          45402127,
+          46741326
+        ],
+        "2026-06": [
+          46741327,
+          48037326
+        ],
+        "2026-07": [
+          48037327,
+          49376526
+        ],
+        "2026-08": [
+          49376527,
+          50542926
+        ]
+      },
+      "window_blocks": [
+        45402127,
+        50542926
+      ],
+      "state_rpc": [
+        "https://base-rpc.publicnode.com",
+        "https://base.gateway.tenderly.co"
+      ],
+      "logs_rpc": "https://base.gateway.tenderly.co",
+      "head_at_discovery": 50815026
+    }
+  },
+  "candidates": [
+    {
+      "slug": "m_wsteth_weth_0p01",
+      "chain": "mainnet",
+      "family": "F3-twin",
+      "role": "screen",
+      "pair": "wstETH/WETH",
+      "fee": 100,
+      "status": "RESOLVED",
+      "address": "0x109830a1aaad605bbf02a9dfa7b0b92ec2fb7daa",
+      "token0_symbol": "wstETH",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 100,
+        "tick_spacing": 1,
+        "liquidity_now": 4862884923019493560839650,
+        "slot0_tick_now": 2174,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "wstETH",
+          "hedge": "eth-beta",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_weth_usdc_0p05",
+      "chain": "mainnet",
+      "family": "control-twin",
+      "role": "screen",
+      "pair": "WETH/USDC",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+      "token0_symbol": "USDC",
+      "token1_symbol": "WETH",
+      "decimals0": 6,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 4511553469611179668,
+        "slot0_tick_now": 198435,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "USDC",
+          "hedge": "stable-unhedged"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_weth_usdc_0p30",
+      "chain": "mainnet",
+      "family": "F1",
+      "role": "screen",
+      "pair": "WETH/USDC",
+      "fee": 3000,
+      "status": "RESOLVED",
+      "address": "0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8",
+      "token0_symbol": "USDC",
+      "token1_symbol": "WETH",
+      "decimals0": 6,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 2721904531470675987,
+        "slot0_tick_now": 198441,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 102,
+        "fee_protocol_b": 102,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "USDC",
+          "hedge": "stable-unhedged"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_weth_usdt_0p05",
+      "chain": "mainnet",
+      "family": "F4-flow",
+      "role": "screen",
+      "pair": "WETH/USDT",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0x11b815efb8f581194ae79006d24e0d814b7697f6",
+      "token0_symbol": "WETH",
+      "token1_symbol": "USDT",
+      "decimals0": 18,
+      "decimals1": 6,
+      "pool_state": {
+        "token0": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "token1": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 462390070343292039,
+        "slot0_tick_now": -198443,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "USDT",
+          "hedge": "stable-unhedged"
+        }
+      }
+    },
+    {
+      "slug": "m_wbtc_weth_0p05",
+      "chain": "mainnet",
+      "family": "F2",
+      "role": "screen",
+      "pair": "WBTC/WETH",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0x4585fe77225b41b697c938b018e2ac67ac5a20c0",
+      "token0_symbol": "WBTC",
+      "token1_symbol": "WETH",
+      "decimals0": 8,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 131643353719011463,
+        "slot0_tick_now": 265020,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WBTC",
+          "hedge": "perp",
+          "hl_coin": "BTC"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_link_weth_0p30",
+      "chain": "mainnet",
+      "family": "F4-signal",
+      "role": "screen",
+      "pair": "LINK/WETH",
+      "fee": 3000,
+      "status": "RESOLVED",
+      "address": "0xa6cc3c2531fdaa6ae1a3ca84c2855806728693e8",
+      "token0_symbol": "LINK",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x514910771af9ca656af840dff83e8264ecf986ca",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 433744363733008493185124,
+        "slot0_tick_now": -53688,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 102,
+        "fee_protocol_b": 102,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "LINK",
+          "hedge": "perp",
+          "hl_coin": "LINK"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_wbtc_weth_0p30",
+      "chain": "mainnet",
+      "family": "F2b",
+      "role": "screen",
+      "pair": "WBTC/WETH",
+      "fee": 3000,
+      "status": "RESOLVED",
+      "address": "0xcbcdf9626bc03e24f779434178a73a0b4bad62ed",
+      "token0_symbol": "WBTC",
+      "token1_symbol": "WETH",
+      "decimals0": 8,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 41199511097654682,
+        "slot0_tick_now": 265029,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 102,
+        "fee_protocol_b": 102,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WBTC",
+          "hedge": "perp",
+          "hl_coin": "BTC"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "m_uni_weth_0p30",
+      "chain": "mainnet",
+      "family": "F4",
+      "role": "screen",
+      "pair": "UNI/WETH",
+      "fee": 3000,
+      "status": "RESOLVED",
+      "address": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+      "token0_symbol": "UNI",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 3000,
+        "tick_spacing": 60,
+        "liquidity_now": 91146178634756838636259,
+        "slot0_tick_now": -60413,
+        "fee_protocol_now": 102,
+        "fee_protocol0_now": 6,
+        "fee_protocol1_now": 6
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 102,
+        "fee_protocol_b": 102,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 6,
+          "fp1": 6,
+          "lp_fee_share": 0.8333333333333334
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "UNI",
+          "hedge": "perp",
+          "hl_coin": "UNI"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      }
+    },
+    {
+      "slug": "b_weth_usdc_0p05",
+      "chain": "base",
+      "family": "B3",
+      "role": "screen",
+      "pair": "WETH/USDC",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0xd0b53d9277642d899df5c87a3966a349a798f224",
+      "token0_symbol": "WETH",
+      "token1_symbol": "USDC",
+      "decimals0": 18,
+      "decimals1": 6,
+      "pool_state": {
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 926949969048354236,
+        "slot0_tick_now": -198447,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://base-rpc.publicnode.com",
+        "provider_b": "https://base.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 45402127,
+          "to_block": 50542926,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "USDC",
+          "hedge": "stable-unhedged"
+        }
+      }
+    },
+    {
+      "slug": "m_link_weth_0p05",
+      "chain": "mainnet",
+      "family": "probe",
+      "role": "probe",
+      "pair": "LINK/WETH",
+      "fee": 500,
+      "status": "RESOLVED",
+      "address": "0x5d4f3c6fa16908609bac31ff148bd002aa6b8c83",
+      "token0_symbol": "LINK",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x514910771af9ca656af840dff83e8264ecf986ca",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 14498505400845158279023,
+        "slot0_tick_now": -53676,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "LINK",
+          "hedge": "perp",
+          "hl_coin": "LINK"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      },
+      "sampled_day_counts": [
+        908,
+        646,
+        692,
+        596,
+        569,
+        488,
+        654,
+        618,
+        1039,
+        2662
+      ],
+      "sampled_median_per_day": 654
+    },
+    {
+      "slug": "m_wsteth_weth_0p05",
+      "chain": "mainnet",
+      "family": "probe",
+      "role": "probe",
+      "pair": "wstETH/WETH",
+      "fee": 500,
+      "status": "INELIGIBLE-thin",
+      "address": "0xd340b57aacdd10f96fc1cf10e15921936f41e29c",
+      "token0_symbol": "wstETH",
+      "token1_symbol": "WETH",
+      "decimals0": 18,
+      "decimals1": 18,
+      "pool_state": {
+        "token0": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+        "token1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "fee": 500,
+        "tick_spacing": 10,
+        "liquidity_now": 365159282271841523,
+        "slot0_tick_now": 2179,
+        "fee_protocol_now": 68,
+        "fee_protocol0_now": 4,
+        "fee_protocol1_now": 4
+      },
+      "fee_protocol_crosscheck": {
+        "provider_a": "https://ethereum-rpc.publicnode.com",
+        "provider_b": "https://mainnet.gateway.tenderly.co",
+        "fee_protocol_a": 68,
+        "fee_protocol_b": 68,
+        "match": true
+      },
+      "set_fee_protocol_events": [],
+      "lp_fee_share_schedule": [
+        {
+          "from_block": 24996368,
+          "to_block": 25850009,
+          "fp0": 4,
+          "fp1": 4,
+          "lp_fee_share": 0.75
+        }
+      ],
+      "legs": {
+        "token0": {
+          "symbol": "wstETH",
+          "hedge": "eth-beta",
+          "hl_coin": "ETH"
+        },
+        "token1": {
+          "symbol": "WETH",
+          "hedge": "perp",
+          "hl_coin": "ETH"
+        }
+      },
+      "sampled_day_counts": [
+        0,
+        1,
+        0,
+        0,
+        6,
+        6,
+        0,
+        1,
+        1,
+        10
+      ],
+      "sampled_median_per_day": 1
+    }
+  ],
+  "hl_perps": {
+    "BTC": {
+      "delisted": false
+    },
+    "ETH": {
+      "delisted": false
+    },
+    "LINK": {
+      "delisted": false
+    },
+    "UNI": {
+      "delisted": false
+    }
+  },
+  "tokens": {
+    "mainnet:WETH": {
+      "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "symbol_onchain": "WETH",
+      "decimals_onchain": 18,
+      "chain": "mainnet",
+      "expected_symbol": "WETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "mainnet:USDC": {
+      "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      "symbol_onchain": "USDC",
+      "decimals_onchain": 6,
+      "chain": "mainnet",
+      "expected_symbol": "USDC",
+      "expected_decimals": 6,
+      "ok": true
+    },
+    "mainnet:USDT": {
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "symbol_onchain": "USDT",
+      "decimals_onchain": 6,
+      "chain": "mainnet",
+      "expected_symbol": "USDT",
+      "expected_decimals": 6,
+      "ok": true
+    },
+    "mainnet:WBTC": {
+      "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+      "symbol_onchain": "WBTC",
+      "decimals_onchain": 8,
+      "chain": "mainnet",
+      "expected_symbol": "WBTC",
+      "expected_decimals": 8,
+      "ok": true
+    },
+    "mainnet:wstETH": {
+      "address": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+      "symbol_onchain": "wstETH",
+      "decimals_onchain": 18,
+      "chain": "mainnet",
+      "expected_symbol": "wstETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "mainnet:LINK": {
+      "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+      "symbol_onchain": "LINK",
+      "decimals_onchain": 18,
+      "chain": "mainnet",
+      "expected_symbol": "LINK",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "mainnet:UNI": {
+      "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+      "symbol_onchain": "UNI",
+      "decimals_onchain": 18,
+      "chain": "mainnet",
+      "expected_symbol": "UNI",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "base:WETH": {
+      "address": "0x4200000000000000000000000000000000000006",
+      "symbol_onchain": "WETH",
+      "decimals_onchain": 18,
+      "chain": "base",
+      "expected_symbol": "WETH",
+      "expected_decimals": 18,
+      "ok": true
+    },
+    "base:USDC": {
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "symbol_onchain": "USDC",
+      "decimals_onchain": 6,
+      "chain": "base",
+      "expected_symbol": "USDC",
+      "expected_decimals": 6,
+      "ok": true
+    }
+  }
+}
